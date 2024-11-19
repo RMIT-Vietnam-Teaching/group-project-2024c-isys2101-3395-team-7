@@ -1,8 +1,8 @@
 
-const Home = () => {
+const Login = () => {
     return (
-        <div>Home Page</div>
+        <div>Login Page at Root !!</div>
     )
 }
 
-export default Home
+export default Login

@@ -1,7 +1,7 @@
 
 const NavBar = () => {
     return (
-        <div>Nav Bar of VIEGO</div>
+        <div>Nav Bar of VIEGO - left-hand side</div>
     )
 }
 
