@@ -39,8 +39,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# Jetbrains
 .idea
-
-# eslint
-.eslintrc.json
