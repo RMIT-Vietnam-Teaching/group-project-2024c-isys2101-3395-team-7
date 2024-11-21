@@ -1,8 +1,15 @@
-
-
 const Header = () => {
     return (
-        <div>Header</div>
+        <>
+            <div>sidebar icon</div>
+            <div>Logo icon</div>
+            <div>
+                <div>history</div>
+                <div>saved</div>
+                <div>setting</div>
+                <div>profile</div>
+            </div>
+        </>
     )
 }
 
