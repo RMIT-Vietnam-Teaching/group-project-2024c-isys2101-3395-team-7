@@ -9,7 +9,6 @@ const RootLayout = ({ children }) => (
     <html lang='en'>
         <body>
             <main className=''>
-                <Header />
                 {children}
             </main>
         </body>
