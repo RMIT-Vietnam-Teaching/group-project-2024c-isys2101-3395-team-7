@@ -15,32 +15,32 @@ const Header = () => {
 
     return (
         <>
-            <div className='bg-pink text-center h-[64px] border-b-1 border-white flex flex-row items-center justify-center content-center'>
+            <div className='bg-pink text-center h-18 border-b-1 border-white flex flex-row items-center justify-center m-0 p-0'>
                 {/*menu icon*/}
-                <div className='basis-1/3 items-center justify-center'>
-                    <img src={'Menu.svg'} alt={'Menu'} className={'h-6 w-6'}/>
+                <div className='basis-1/3 items-center justify-center h-full pl-7'>
+                    <img src={'Menu.svg'} alt={'Menu'} className={'h-10 w-10'}/>
                 </div>
 
                 {/*app logo*/}
-                <div className='basis-1/3 items-center justify-center'>
+                <div className='basis-1/3 flex items-center justify-center '>
                     <Link href="/home">
-                        <img src={'vietgo_logo.svg'} alt={'vietgo-logo'} className={'h-6 w-6'} />
+                        <img src={'vietgo_logo.svg'} alt={'vietgo-logo'} className={'h-16 w-16'} />
                     </Link>
                 </div>
                 {/*right panel*/}
-                    <div className='basis-1/3'>
-                        <div className='flex items-center justify-center'>
-                            <button className='basis-1/4 self-center'>
-                                <img src={'Bookmark_black.svg'} alt="Favorite Icon" className="h-6 w-6"/>
+                    <div className='basis-1/3 h-full'>
+                        <div className='flex items-center justify-end pr-5 mx-2 h-full'>
+                            <button className="hover:bg-orange mx-5">
+                                <img src={'Bookmark_black.svg'} alt="Favorite Icon" className={'h-10 w-10 '}/>
                             </button>
-                            <button className='basis-1/4'>
-                                <img src={'History.svg'} alt="History Icon" className="h-6 w-6"/>
+                            <button className="mx-5">
+                                <img src={'History.svg'} alt="History Icon" className={'h-10 w-10'}/>
                             </button>
-                            <button className='basis-1/4'>
-                                <img src={'Setting_fill.svg'} alt="Setting Icon" className="h-6 w-6"/>
+                            <button className="mx-5">
+                                <img src={'Setting_fill.svg'} alt="Setting Icon" className={'h-10 w-10'}/>
                             </button>
-                            <button className='basis-1/4'>
-                                <img src={'User_circle.svg'} alt="User" className="h-10 w-10"/>
+                            <button className="mx-2">
+                                <img src={'User_circle.svg'} alt="User" className={'h-10 w-10'}/>
                             </button>
                         </div>
                     </div>
