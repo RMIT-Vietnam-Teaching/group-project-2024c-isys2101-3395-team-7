@@ -7,11 +7,11 @@ const layout = ({ children }) => {
     return (
         <>
             <div>
-                <div className='flex flex-col bg-pink h-[100vh]'>
-                    <div className='h-auto'>
+                <div>
+                    <div>
                         <Header />
                     </div>
-                    <div className='flex flex-row w-[100%] overflow-hidden' style={{minHeight: "calc(100vh - 50px)"}}>
+                    <div>
                         <NavBar />
                         {children}
                         {/* <Footer /> */}

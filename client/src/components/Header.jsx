@@ -1,49 +1,52 @@
-import React from "react"
+'use client'
+import React, {useState} from "react"
 import Link from "next/link";
-import bookmark from '../assets/Bookmark_fill.svg';
-import menu from '../assets/Menu.svg'
-import history from '../assets/History.svg';
-import logo from '../assets/vietgo_logo.svg'
 
 const Header = () => {
+
+    const height = 40;
+    const width = 40;
+
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const toggleExpanded = () => {
+        setIsExpanded(!isExpanded);
+    };
+
     return (
         <>
-            <div
-            >
-                {/*sidebar*/}
-                <div>
-                    testing
-                    <svg
-                        src={menu} alt="menu Icon" className= "h-6 w-6"
-                    />
-                    sidebar icon
+            <div className='bg-pink text-center h-[64px] border-b-1 border-white flex items-center justify-center'>
+                {/*menu icon*/}
+                <div className='flex-1'>
+                    <img src={'Menu.svg'} alt={'Menu'} className={'h-6 w-6'} />
                 </div>
+
                 {/*app logo*/}
-                <div>
+                <div className='flex-1'>
                     <Link href="/home">
-                        <svg src={logo} alt="Viego Icon" className= "h-6 w-6"/>
+                        <img src={'vietgo_logo.svg'} alt={'vietgo-logo'} className={'h-6 w-6'} />
                     </Link>
                 </div>
                 {/*right panel*/}
-                <div className='basis-2/3 flex flex-nowrap justify-end mr-4'>
-                    <nav>
-                        <ul>
-                            <svg src={bookmark} alt="Favorite Icon" className= "h-6 w-6"/>
-                            <li>Favorite item</li>
-                        </ul>
-                        <ul>
-                            <svg src={history} alt="History Icon" className= "h-6 w-6"/>
-                            <li>History item</li>
-                        </ul>
-                        <ul>
-                            {/*<svg src="client/src/assets/History.svg" alt="History Icon"/>*/}
-                            <li>user Profile</li>
-                        </ul>
-                    </nav>
-                </div>
+                    <div className='flex-none'>
+                        <div className='flex'>
+                            <button className='flex-1'>
+                                <img src={'Bookmark_black.svg'} alt="Favorite Icon" className="h-6 w-6"/>
+                            </button>
+                            <button className='flex-1'>
+                                <img src={'History.svg'} alt="History Icon" className="h-6 w-6"/>
+                            </button>
+                            <button className='flex-1'>
+                                <img src={'Setting_fill.svg'} alt="Setting Icon" className="h-6 w-6"/>
+                            </button>
+                            <button className='flex-1'>
+                                <img src={'User_circle.svg'} alt="User" className="h-10 w-10"/>
+                            </button>
+                        </div>
+                    </div>
             </div>
         </>
-    )
+)
 }
 
 export default Header
