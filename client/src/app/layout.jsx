@@ -1,18 +1,13 @@
-import Header from "@/components/Header";
-
+import "../styles/globals.css"
 
 export const metadata = {
     title: "Viego",
 }
 
-const RootLayout = ({ children }) => (
-    <html lang='en'>
-        <body>
-            <main className=''>
-                {children}
-            </main>
-        </body>
-    </html>
-);
-
-export default RootLayout
+export default function RootLayout({ children }) {
+    return (
+        <html lang="en" >
+            <body >{children}</body>
+        </html>
+    )
+}
