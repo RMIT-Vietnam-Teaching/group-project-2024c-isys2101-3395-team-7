@@ -15,31 +15,31 @@ const Header = () => {
 
     return (
         <>
-            <div className='bg-pink text-center h-[64px] border-b-1 border-white flex items-center justify-center'>
+            <div className='bg-pink text-center h-[64px] border-b-1 border-white flex flex-row items-center justify-center content-center'>
                 {/*menu icon*/}
-                <div className='flex-1'>
-                    <img src={'Menu.svg'} alt={'Menu'} className={'h-6 w-6'} />
+                <div className='basis-1/3 items-center justify-center'>
+                    <img src={'Menu.svg'} alt={'Menu'} className={'h-6 w-6'}/>
                 </div>
 
                 {/*app logo*/}
-                <div className='flex-1'>
+                <div className='basis-1/3 items-center justify-center'>
                     <Link href="/home">
                         <img src={'vietgo_logo.svg'} alt={'vietgo-logo'} className={'h-6 w-6'} />
                     </Link>
                 </div>
                 {/*right panel*/}
-                    <div className='flex-none'>
-                        <div className='flex'>
-                            <button className='flex-1'>
+                    <div className='basis-1/3'>
+                        <div className='flex items-center justify-center'>
+                            <button className='basis-1/4 self-center'>
                                 <img src={'Bookmark_black.svg'} alt="Favorite Icon" className="h-6 w-6"/>
                             </button>
-                            <button className='flex-1'>
+                            <button className='basis-1/4'>
                                 <img src={'History.svg'} alt="History Icon" className="h-6 w-6"/>
                             </button>
-                            <button className='flex-1'>
+                            <button className='basis-1/4'>
                                 <img src={'Setting_fill.svg'} alt="Setting Icon" className="h-6 w-6"/>
                             </button>
-                            <button className='flex-1'>
+                            <button className='basis-1/4'>
                                 <img src={'User_circle.svg'} alt="User" className="h-10 w-10"/>
                             </button>
                         </div>
