@@ -2,17 +2,11 @@
 import React, {useState} from "react"
 import Link from "next/link";
 
-const Header = () => {
+function Header () {
+    const [isOpenHistory, setIsOpenHistory] = useState(false);
 
-    const height = 40;
-    const width = 40;
 
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const toggleExpanded = () => {
-        setIsExpanded(!isExpanded);
-    };
-
+    // TODO: fix history toggle open bug and favorite toggle
     return (
         <>
             <div className='bg-pink text-center h-18 border-b-1 border-white flex flex-row items-center justify-center m-0 p-0'>
@@ -30,11 +24,15 @@ const Header = () => {
                 {/*right panel*/}
                     <div className='basis-1/3 h-full'>
                         <div className='flex items-center justify-end pr-5 mx-2 h-full'>
-                            <button className="hover:bg-orange mx-5">
-                                <img src={'Bookmark_black.svg'} alt="Favorite Icon" className={'h-10 w-10 '}/>
-                            </button>
-                            <button className="mx-5">
+                            <button
+                                onClick={() => setIsOpenHistory(!isOpenHistory)}
+                                className={`hover:bg-orange mx-5`}>
                                 <img src={'History.svg'} alt="History Icon" className={'h-10 w-10'}/>
+                            </button>
+                            {/* Conditionally render History */}
+                            {isOpenHistory && <History />}
+                            <button className="mx-5">
+                                <img src={'Bookmark_black.svg'} alt="Favorite Icon" className={'h-10 w-10'}/>
                             </button>
                             <button className="mx-5">
                                 <img src={'Setting_fill.svg'} alt="Setting Icon" className={'h-10 w-10'}/>
