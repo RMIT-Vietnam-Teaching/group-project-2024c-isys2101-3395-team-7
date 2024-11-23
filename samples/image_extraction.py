@@ -3,54 +3,54 @@ import base64
 from flask import Flask, request, jsonify
 from openai import OpenAI
 from dotenv import load_dotenv
-from PIL import Image
-from io import BytesIO
 
-# Load the API key from environment variables
 load_dotenv(override=True)
 
-api_key = os.getenv("OPENAI_API_KEY")
-MODEL = "gpt-4o"
-client = OpenAI(api_key=api_key)
-
-# Function to resize and compress the image
-def resize_and_compress_image(image):
-    MAX_WIDTH = 128 
-    MAX_HEIGHT = 128
-    image.thumbnail((MAX_WIDTH, MAX_HEIGHT))
-    
-    img_byte_arr = BytesIO()
-    image.save(img_byte_arr, format='JPEG')  # Save as JPEG with reduced quality
-    img_byte_arr.seek(0)
-    return base64.b64encode(img_byte_arr.read()).decode("utf-8")
-
-# Create Flask app
 app = Flask(__name__)
 
-@app.route('/extract', methods=['POST'])
-def extract_text_from_image():
+# Load the API key from an environment variable
+api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=api_key)
+MODEL = "gpt-4o"
+
+def encode_image(image_path):
+    """Encode an image file to a Base64 string."""
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode("utf-8")
+
+@app.route('/recognize-handwriting', methods=['POST'])
+def recognize_handwriting():
     try:
         if 'image' not in request.files:
-            return jsonify({"error": "No image file provided"}), 400
+            return jsonify({"error": "No image file provided."}), 400
 
-        # Get the uploaded image
-        image_file = request.files['image']
+        # Save the uploaded image temporarily
+        image = request.files['image']
+        temp_image_path = f"temp_{image.filename}"
+        image.save(temp_image_path)
 
-        # Open the image with Pillow (PIL)
-        image = Image.open(image_file)
+        # Encode the image to Base64
+        base64_image = encode_image(temp_image_path)
 
-        # Resize and compress image
-        base64_image = resize_and_compress_image(image)
-
+        # Send the Base64 image to OpenAI API
         response = client.chat.completions.create(
             model=MODEL,
             messages=[
                 {"role": "system", "content": "You are an expert in recognizing Vietnamese handwritten text."},
-                {"role": "user", "content": f"The image below contains Vietnamese handwritten text. Please read it and provide only the recognized text as output: \n\nBase64-encoded image:\n{base64_image}"}
+                {"role": "user", "content": [
+                    {"type": "text", "text": "The image below contains Vietnamese handwritten text. Please read it, provide only the recognized text as output: \n\nBase64-encoded image:\n{base64_image}"},
+                    {"type": "image_url", "image_url": {
+                        "url": f"data:image/png;base64,{base64_image}"}
+                    }
+                ]}
             ],
             temperature=0.0,
         )
 
+        # Clean up temporary file
+        os.remove(temp_image_path)
+
+        # Extract recognized text and usage information
         recognized_text = response.choices[0].message.content.strip()
         usage = response.usage.to_dict()
 
