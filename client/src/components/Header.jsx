@@ -34,7 +34,7 @@ function Header () {
                                 <img src={'History.svg'} alt="History Icon" className={'h-10 w-10'}/>
                             </button>
                             {/* Conditionally render History */}
-                            {isOpenHistory && <History />}
+                            {isOpenHistory && (<History />)}
                             <button
                                 onClick={() => setIsOpenFavorite(!isOpenFavorite)}
                                 className="mx-5">
@@ -54,7 +54,7 @@ function Header () {
                                 >
                                     <ul className="py-1">
                                         <li>
-                                            consideration for toggl switch to change language
+                                            consideration for toggle switch to change language
                                         </li>
                                         <li>
                                             consideration for voice speed
