@@ -21,9 +21,9 @@ def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
     
-def is_heic_by_extension(file_path):
+def is_valid(file_path):
     _, ext = os.path.splitext(file_path)
-    return ext.lower() == ".heic"
+    return ext.lower() not in ['.png', '.jpeg', '.gif', '.webp']
 
 @app.route('/recognize-handwriting', methods=['POST'])
 def recognize_handwriting():
@@ -35,7 +35,8 @@ def recognize_handwriting():
         image = request.files['image']
         temp_image_path = f"temp_{image.filename}"
         image.save(temp_image_path)
-        if is_heic_by_extension(temp_image_path):
+        
+        if is_valid(temp_image_path):
             image = Image.open(temp_image_path)
             image.convert("RGB").save(temp_image_path, "jpeg")
 
