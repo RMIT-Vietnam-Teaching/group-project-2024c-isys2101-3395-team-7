@@ -5,12 +5,21 @@ import Header from "@/components/Header";
 
 const layout = ({ children }) => {
     return (
-        <div>
-            <Header />
-            <NavBar />
-            {children}
-            {/* <Footer /> */}
-        </div>
+        <>
+            <div>
+                <div>
+                    <div>
+                        <Header />
+                    </div>
+                    <div>
+                        <NavBar />
+                        {children}
+                        {/* <Footer /> */}
+                    </div>
+
+                </div>
+            </div>
+        </>
     )
 }
 

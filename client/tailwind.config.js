@@ -6,11 +6,6 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
-    screens: {
-      'phone': '360px',
-      'desktop': '1920px',
-      // => desktop@media (min-width: 1920px) { ... }
-    },
     colors: {
       'white': '#FCF5ED',
       'black': '#1F1717',
