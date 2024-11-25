@@ -9,7 +9,7 @@ import {usePathname} from "next/navigation";
 
 const iconWidth = 30, iconHeight = 30;
 
-const NavBar = ({isOpenMenu, setIsOpenMenu}) => {
+const NavBar = ({isOpen, setIsOpen}) => {
     // const [isOpen, setIsOpen] = useState(true);
     //
     // const toggleNavBar = () => {
@@ -31,7 +31,7 @@ const NavBar = ({isOpenMenu, setIsOpenMenu}) => {
             {/*</button>*/}
             <div
                 // onClick={() => setIsOpen(!isOpen)}
-                className={`flex flex-1 relative left-0 z-10 md:h-full md:max-w-16 w-full bg-[#CE5A67] content-center md:block ${isOpenMenu ? 'block' : 'hidden'}`}>
+                className={`flex flex-1 relative left-0 z-10 md:h-full md:max-w-16 w-full bg-[#CE5A67] content-center md:block ${isOpen ? 'block' : 'hidden'}`}>
                 {/*className={`flex flex-1 relative left-0 z-10 md:h-full md:max-w-16 w-full bg-[#CE5A67] content-center md:block`}>*/}
                 <div className="grid grid-cols-1">
                     <div>

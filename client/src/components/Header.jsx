@@ -13,8 +13,6 @@ function Header() {
     const [isOpenSetting, setIsOpenSetting] = useState(false);
     const [isOpenMenu, setIsOpenMenu] = useState(false)
 
-
-    // TODO: fix history toggle open bug and favorite toggle
     return (
         <>
             <div className='bg-pink text-center h-18 border-b-1 border-white flex flex-row items-center justify-center'>
@@ -23,7 +21,8 @@ function Header() {
                     <div className={'block pr-5 mx-2 h-full'}>
                         <div
                             onClick={() => setIsOpenMenu(!isOpenMenu)}
-                            className={'hover:bg-orange md:hidden flex px-5 items-center justify-center'}>
+                            className={`hover:bg-orange md:hidden flex px-5 items-center justify-center ${isOpenMenu ? 'bg-orange' : ''}`}
+                            >
                             <img src={'Menu.svg'} alt={'Menu'} className={'h-16 w-10'}/>
                         </div>
                     </div>
