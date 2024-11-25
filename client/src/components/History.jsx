@@ -1,11 +1,11 @@
 'use client'
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 // import {HistoryContext} from "@/components/HistoryContext";
 
 // TODO: need to resolve TypeError: Illegal constructor
 
 
-export default function History() {
+const History = () => {
     // get history data, markAsFavorite function, and open state from HistoryContext
     // const {history, markAsFavorite, open} = useContext(HistoryContext);
     //
@@ -14,9 +14,10 @@ export default function History() {
     //     await markAsFavorite(historyId);
     // };
 
-    return (<>
+    return (
+        <>
             <div className={`bg-pink h-[100vh] w-[250px] pb-[50px] right-0 border-white border-l-1 overflow-y-auto`}
-                // style={{display: open ? '' : 'none'}}
+            // style={{display: open ? '' : 'none'}}
             >
                 <nav>
                     <ul>
@@ -43,5 +44,7 @@ export default function History() {
                     </ul>
                 </nav>
             </div>
-        </>)
+        </>
+    )
 }
+export default History
