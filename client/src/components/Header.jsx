@@ -18,7 +18,7 @@ function Header() {
             <div className='bg-pink text-center h-18 border-b-1 border-white flex flex-row items-center justify-center'>
                 {/*menu icon*/}
                 <div className={`basis-1/3 items-start justify-start h-full w-4 left-0 pr-5 mx-2`}>
-                    <div className={`block  h-full justify-start items-start w-16 left-0 hover:bg-orange ${isOpenMenu ? 'bg-orange' : ' '} `}>
+                    <div className={`block h-full justify-start items-start w-16 left-0 hover:bg-orange ${isOpenMenu ? 'bg-orange' : ' '} `}>
                         <div
                             onClick={() => setIsOpenMenu(!isOpenMenu)}
                             className={`md:hidden flex px-5 items-start justify-start `}
@@ -29,13 +29,13 @@ function Header() {
                 </div>
 
                 {/*app logo*/}
-                <div className='basis-1/3 flex items-center justify-center '>
+                <div className='basis-1/3 flex items-center justify-center'>
                     <Link href="/home">
                         <img src={'vietgo_logo.svg'} alt={'vietgo-logo'} className={'h-16 w-16'} />
                     </Link>
                 </div>
                 {/*right panel*/}
-                <div className='basis-1/3 flex items-center justify-center'>
+                <div className='basis-1/3 flex items-center justify-end'>
                     <div className='flex items-center justify-end pr-5 mx-2 h-full'>
                         <button
                             onClick={() => setIsOpenHistory(!isOpenHistory)}
