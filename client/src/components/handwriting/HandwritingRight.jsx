@@ -26,8 +26,9 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
                         <label
                             className="appearance-none cursor-pointer hover:border-gray-400 focus:outline-none justify-items-center">
                             <DragDropIcon width={50} height={50} />
+                            <div>{selectedFile?.name}</div>
                             <input type="file" name="image" onChange={handleFileChange} className="hidden" />
-                            <div className="py-2 px-4 mb-3 rounded bg-black text-white hover:bg-orange">Browse your file</div>
+                            <div className="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange">{selectedFile ? "Choose another file" : "Browse your file"}</div>
                         </label>
                         {selectedFile && <Button type="submit" text="Submit file" style="bg-black text-white hover:bg-orange py-2 px-4 mb-3" />}
                     </form>
@@ -39,11 +40,11 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
 
             {state == "process" && (
                 <>
-                    <div className="mb-5">
-                        <h3 className="text-lg font-bold">Fixed / Bản sửa</h3>
+                    <div className="mb-5 w-full">
+                        <h3 className="text-lg font-bold text-center mb-3 md:absolute top-10 right-1/3">Fixed / Bản sửa</h3>
                         <p className="text-gray-700">{correctText.text || "No text available"}</p>
                     </div>
-                    <div className="flex items-center my-10">
+                    <div className="flex items-center mt-10">
                         <p className="text-gray-700">Total Errors: {correctText.errors || "0"}, Errors:</p>
                         <ul className="list-disc list-inside ml-4">
                             {errors?.map((error, index) => (
@@ -51,7 +52,7 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
                             ))}
                         </ul>
                     </div>
-                    <p className="text-gray-700 block">{correctText.comment || ""}</p>
+                    <p className="text-lg block mt-3">{correctText.comment || ""}</p>
                 </>
             )}
         </>
