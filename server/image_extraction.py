@@ -3,6 +3,7 @@ import base64
 from flask import Flask, request, jsonify
 from openai import OpenAI
 from dotenv import load_dotenv
+from PIL import Image
 
 load_dotenv(override=True)
 
@@ -17,6 +18,10 @@ def encode_image(image_path):
     """Encode an image file to a Base64 string."""
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode("utf-8")
+    
+def is_heic_by_extension(file_path):
+    _, ext = os.path.splitext(file_path)
+    return ext.lower() == ".heic"
 
 @app.route('/recognize-handwriting', methods=['POST'])
 def recognize_handwriting():
@@ -28,6 +33,9 @@ def recognize_handwriting():
         image = request.files['image']
         temp_image_path = f"temp_{image.filename}"
         image.save(temp_image_path)
+        if is_heic_by_extension(temp_image_path):
+            im = Image.open(temp_image_path)
+            im.convert("RGB").save(temp_image_path, "JPEG")
 
         # Encode the image to Base64
         base64_image = encode_image(temp_image_path)
