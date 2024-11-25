@@ -17,11 +17,11 @@ function Header() {
         <>
             <div className='bg-pink text-center h-18 border-b-1 border-white flex flex-row items-center justify-center'>
                 {/*menu icon*/}
-                <div className='basis-1/3 items-center justify-center h-full pl-7'>
-                    <div className={'block pr-5 mx-2 h-full'}>
+                <div className={`basis-1/3 items-start justify-start h-full w-4 left-0 pr-5 mx-2`}>
+                    <div className={`block  h-full justify-start items-start w-16 left-0 hover:bg-orange ${isOpenMenu ? 'bg-orange' : ' '} `}>
                         <div
                             onClick={() => setIsOpenMenu(!isOpenMenu)}
-                            className={`hover:bg-orange md:hidden flex px-5 items-center justify-center ${isOpenMenu ? 'bg-orange' : ''}`}
+                            className={`md:hidden flex px-5 items-start justify-start `}
                             >
                             <img src={'Menu.svg'} alt={'Menu'} className={'h-16 w-10'}/>
                         </div>
