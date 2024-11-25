@@ -37,8 +37,7 @@ def recognize_handwriting():
         image.save(temp_image_path)
         if is_heic_by_extension(temp_image_path):
             image = Image.open(temp_image_path)
-            temp_image_path = temp_image_path.replace(".heic", ".png")
-            image.convert("RGB").save(temp_image_path)
+            image.convert("RGB").save(temp_image_path, "jpeg")
 
         # Encode the image to Base64
         base64_image = encode_image(temp_image_path)
