@@ -30,3 +30,34 @@ export async function recognizeHandwriting(formData) {
     }, 1000);
   });
 }
+
+export async function correctRecognizedText(text) {
+  	// try {
+    //     const res = await axios.post("/correct", text);
+    //     return res.data;
+    // }
+    // catch (error) {
+    //     console.log(error)
+    // }
+
+    // Simulate a response object for UI testing
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve({
+        text: "This is the correction of your handwriting text",
+        errors: 3,
+        comment: "Well done! Almost there!",
+      });
+    }, 1000);
+  });
+}
+
+export async function addFavourite() {
+  // try {
+  //     const res = await axios.post("/correct", text);
+  //     return res.data;
+  // }
+  // catch (error) {
+  //     console.log(error)
+  // }
+}

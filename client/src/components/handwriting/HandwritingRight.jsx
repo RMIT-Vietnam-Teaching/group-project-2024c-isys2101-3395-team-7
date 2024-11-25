@@ -3,7 +3,7 @@ import { useState } from "react";
 import Button from "../ui/Button";
 import DragDropIcon from "../icons/DragDropIcon";
 
-const HandwritingRight = ({ state, handleState, handleForm }) => {
+const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
     const errors = [];
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -41,16 +41,17 @@ const HandwritingRight = ({ state, handleState, handleForm }) => {
                 <>
                     <div className="mb-5">
                         <h3 className="text-lg font-bold">Fixed / Bản sửa</h3>
-                        <p className="text-gray-700">{"No text available"}</p>
+                        <p className="text-gray-700">{correctText.text || "No text available"}</p>
                     </div>
                     <div className="flex items-center my-10">
-                        <p className="text-gray-700">Sửa: {"0"} từ, lỗi:</p>
+                        <p className="text-gray-700">Total Errors: {correctText.errors || "0"}, Errors:</p>
                         <ul className="list-disc list-inside ml-4">
                             {errors?.map((error, index) => (
-                                <li key={index} className="text-red-500">{error}</li>
+                                <li key={index} className="text-red-500">{error || "Detected Error"}</li>
                             ))}
                         </ul>
                     </div>
+                    <p className="text-gray-700 block">{correctText.comment || ""}</p>
                 </>
             )}
         </>

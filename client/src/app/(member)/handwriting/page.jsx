@@ -2,7 +2,7 @@ import HandwritingFrame from "@/components/handwriting/HandwritingFrame"
 
 const Handwriting = () => {
     return (
-        <div>Handwriting feature page
+        <div className="h-full">
             <HandwritingFrame />
         </div>
     )
