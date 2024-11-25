@@ -4,8 +4,10 @@ from flask import Flask, request, jsonify
 from openai import OpenAI
 from dotenv import load_dotenv
 from PIL import Image
+from pillow_heif import register_heif_opener
 
 load_dotenv(override=True)
+register_heif_opener()
 
 app = Flask(__name__)
 
@@ -34,8 +36,9 @@ def recognize_handwriting():
         temp_image_path = f"temp_{image.filename}"
         image.save(temp_image_path)
         if is_heic_by_extension(temp_image_path):
-            im = Image.open(temp_image_path)
-            im.convert("RGB").save(temp_image_path, "JPEG")
+            image = Image.open(temp_image_path)
+            temp_image_path = temp_image_path.replace(".heic", ".png")
+            image.convert("RGB").save(temp_image_path)
 
         # Encode the image to Base64
         base64_image = encode_image(temp_image_path)

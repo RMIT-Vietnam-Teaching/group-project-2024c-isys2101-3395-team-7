@@ -2,3 +2,4 @@ flask
 openai
 dotenv
 Pillow
+pillow_heif
