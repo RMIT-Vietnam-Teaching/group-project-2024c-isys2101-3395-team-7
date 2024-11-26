@@ -80,17 +80,23 @@ router.delete("/:id", getRecord, async (req, res) => {
 });
 
 async function getRecord(req, res, next) {
-  let record;
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+    return res.status(400).json({ message: "Invalid ID format" });
+  }
+
   try {
-    record = await Record.findById(req.params.id);
-    if (record == null) {
+    const record = await Record.findById(req.params.id);
+    if (!record) {
       return res.status(404).json({ message: "Cannot find record" });
     }
+
+    res.record = record;
+    next();
   } catch (error) {
     return res.status(500).json({ message: error.message });
   }
-  res.record = record;
-  next();
 }
 
 // Login user
