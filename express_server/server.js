@@ -19,7 +19,7 @@ db.on("error", (error) => console.error(error));
 
 db.once("open", () => console.log("Connected to database"));
 
-const recordRouter = require("./controllers/record");
+const recordRouter = require("./routes/record");
 app.use("/record", recordRouter);
 
 app.listen(PORT, () => {
