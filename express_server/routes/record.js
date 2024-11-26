@@ -40,16 +40,17 @@ router.get("/:id", getRecord, (req, res) => {
 // Create one
 router.post("/", upload.none(), async (req, res) => {
   const record = new Record({
-    username: { type: String, required: true },
-    type: { type: String, required: true },
-    image_path: { type: String, required: true },
-    favorite: { type: Boolean, required: true },
-    time: { type: Date, default: Date.now },
-    answer: { type: String },
+    username: req.body.username,
+    type: req.body.type,
+    image_path: req.body.image_path,
+    favorite: req.body.favorite,
+    time: req.body.time || Date.now(),
+    answer: req.body.answer,
   });
+
   try {
     const newRecord = await record.save();
-    res.status(201).json(newRecord);
+    res.status(201).json({ message: "User saved successfully", newRecord });
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
