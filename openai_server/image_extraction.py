@@ -94,4 +94,5 @@ def correct_text():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    port = int(os.getenv("PORT", 5000))  # Use the PORT environment variable if available
+    app.run(host="0.0.0.0", port=port, debug=True)  # Bind to 0.0.0.0 for external access
