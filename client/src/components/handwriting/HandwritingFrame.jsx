@@ -1,5 +1,5 @@
 'use client'
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import HandwritingLeft from "./HandwritingLeft";
 import HandwritingRight from "./HandwritingRight";
 import Button from "../ui/Button"
@@ -12,10 +12,22 @@ function HandwritingFrame({ }) {
     const formData = new FormData();
     const [recognizedText, setRecognizedText] = useState("");
     const [correctText, setCorrectText] = useState(null);
+    const [imageUrl, setImageUrl] = useState(null);
+
+    const handleFileChange = (file) => {
+        // console.log('receive file', file)
+        if (file instanceof File) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setImageUrl(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    }
 
     const handleTextScanning = async (newFileUpload) => {
         formData.append('file', newFileUpload)
-        console.log(formData.getAll('file')[0].name)
+        handleFileChange(formData.getAll('file')[0])
 
         try {
             const resTextRecognize = await recognizeHandwriting(formData);
@@ -52,16 +64,19 @@ function HandwritingFrame({ }) {
                 />
             </div>
 
-            <div className="h-full border border-black bg-gray-100 p-4 mx-20 rounded-lg grid grid-cols-2 relative place-items-center">
-                <div className="flex justify-between items-center">
+            <div
+                className="h-full border border-black bg-gray-100 p-4 mx-20 rounded-lg grid md:grid-cols-2 relative place-items-center">
+                <div className="flex justify-between relative h-full items-center overflow-y-auto">
                     {/* content */}
-                    <HandwritingLeft state={currState} handleState={setCurrState} originalText={recognizedText} />
+                    <HandwritingLeft state={currState} handleState={setCurrState} originalInput={imageUrl}/>
                 </div>
-                <span className="absolute border-l border-gray-300 py-8 h-3/4"></span>
+                <div className="absolute border-l border-gray-300 py-8 h-3/4 md:block hidden"/>
 
-                <div className="items-center mt-4 grid grid-cols-1">
+                <div
+                    className="flex flex-col items-center relative h-full grid place-content-center w-full overflow-y-auto">
                     {/* content */}
-                    <HandwritingRight state={currState} handleState={setCurrState} handleForm={handleTextScanning} correctText={correctText} />
+                    <HandwritingRight state={currState} handleState={setCurrState} handleForm={handleTextScanning}
+                                      correctText={correctText}/>
                 </div>
             </div>
         </div>
