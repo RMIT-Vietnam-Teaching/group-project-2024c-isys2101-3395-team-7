@@ -1,52 +1,60 @@
 'use client'
-import React, {useState} from "react"
+import React, { useState } from "react"
 import Link from "next/link";
 import Favorite from "@/components/Favorite";
+import History from "./History";
+import NavBar from "@/components/NavBar";
+import {usePathname} from "next/navigation";
 
-function Header () {
+function Header() {
     const [isOpenHistory, setIsOpenHistory] = useState(false);
     const [isOpenFavorite, setIsOpenFavorite] = useState(false);
     const [isOpenProfile, setIsOpenProfile] = useState(false);
     const [isOpenSetting, setIsOpenSetting] = useState(false);
+    const [isOpenMenu, setIsOpenMenu] = useState(false)
 
-
-    // TODO: fix history toggle open bug and favorite toggle
     return (
         <>
-            <div className='bg-pink text-center h-18 border-b-1 border-white flex flex-row items-center justify-center m-0 p-0'>
+            <div className='bg-pink text-center h-18 border-b-1 border-white flex flex-row items-center justify-center'>
                 {/*menu icon*/}
-                <div className='basis-1/3 items-center justify-center h-full pl-7'>
-                    <img src={'Menu.svg'} alt={'Menu'} className={'h-10 w-10'}/>
+                <div className={`basis-1/3 items-start justify-start h-full w-4 left-0 pr-5 mx-2`}>
+                    <div className={`block h-full justify-start items-start w-16 left-0 hover:bg-orange ${isOpenMenu ? 'bg-orange' : ' '} `}>
+                        <div
+                            onClick={() => setIsOpenMenu(!isOpenMenu)}
+                            className={`md:hidden flex px-5 items-start justify-start `}
+                            >
+                            <img src={'Menu.svg'} alt={'Menu'} className={'h-16 w-10'}/>
+                        </div>
+                    </div>
                 </div>
 
                 {/*app logo*/}
-                <div className='basis-1/3 flex items-center justify-center '>
+                <div className='basis-1/3 flex items-center justify-center'>
                     <Link href="/home">
                         <img src={'vietgo_logo.svg'} alt={'vietgo-logo'} className={'h-16 w-16'} />
                     </Link>
                 </div>
                 {/*right panel*/}
-                <div className='basis-1/3 h-full'>
-                    {/*<div className='grid grid-cols-4 items-center justify-end'>*/}
-                    <div className='flex items-center justify-end pr-5 mx-2'>
-                        <div
+                <div className='basis-1/3 flex items-center justify-end'>
+                    <div className='flex items-center justify-end pr-5 mx-2 h-full'>
+                        <button
                             onClick={() => setIsOpenHistory(!isOpenHistory)}
-                            className={`mx-5 hover:border-r-2 hover:border-l-2 hover:border-orange`}>
-                            <img src={'History.svg'} alt="History Icon" className={'h-10 w-10 items-center justify-end content-center'}/>
-                        </div>
+                            className={`hover:bg-orange px-5 ${isOpenHistory ? 'bg-orange' : ''}`}>
+                            <img src={'History.svg'} alt="History Icon" className='h-16 w-10' />
+                        </button>
                         {/* Conditionally render History */}
-                        {isOpenHistory && (<History />)}
+
                         <button
                             onClick={() => setIsOpenFavorite(!isOpenFavorite)}
-                            className="hover:border-r-2 hover:border-l-2 hover:border-orange mx-5">
-                            <img src={'Bookmark_black.svg'} alt="Favorite Icon" className={'h-10 w-10'}/>
+                            className={`hover:bg-orange px-5 ${isOpenFavorite ? 'bg-orange' : ''}`}>
+                            <img src={'Bookmark_black.svg'} alt="Favorite Icon" className='h-16 w-10' />
                         </button>
                         {/* Conditionally render Favorite */}
-                        {isOpenFavorite && <Favorite />}
+
                         <button
                             onClick={() => setIsOpenSetting(!isOpenSetting)}
-                            className="hover:border-r-2 hover:border-l-2 hover:border-orange mx-5 ">
-                            <img src={'Setting_fill.svg'} alt="Setting Icon" className={'h-10 w-10'}/>
+                            className={`hover:bg-orange px-5 ${isOpenSetting ? 'bg-orange' : ''}`}>
+                            <img src={'Setting_fill.svg'} alt="Setting Icon" className='h-16 w-10' />
                         </button>
                         {/*Drop down to show current setting*/}
                         {isOpenSetting && (
@@ -63,11 +71,11 @@ function Header () {
                                 </ul>
                             </div>
                         )}
-                        <div
+                        <button
                             onClick={() => setIsOpenProfile(!isOpenProfile)}
-                            className="hover:border-l-2 hover:border-orange mx-2">
-                            <img src={'User_circle.svg'} alt="User" className={'h-10 w-10'}/>
-                        </div>
+                            className={`hover:bg-orange px-2 ${isOpenProfile ? 'bg-orange' : ''}`}>
+                            <img src={'User_circle.svg'} alt="User" className='h-16 w-10' />
+                        </button>
                         {/* Dropdown Menu */}
                         {isOpenProfile && (
                             <div
@@ -96,8 +104,13 @@ function Header () {
                     </div>
                 </div>
             </div>
+            {isOpenHistory && (<History />)}
+            {isOpenFavorite && <Favorite />}
+            {isOpenMenu && <NavBar isOpen={isOpenMenu} setIsOpen={setIsOpenMenu} />}
+
+
         </>
-)
+    )
 }
 
 export default Header
