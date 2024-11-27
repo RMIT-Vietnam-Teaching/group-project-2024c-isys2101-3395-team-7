@@ -14,13 +14,13 @@ export default function Favorite() {
     // };
 
     return (<>
-        <div className={`bg-pink h-[100vh] w-[250px] pb-[50px] right-0 border-white border-l-1 overflow-y-auto`}
+        <div className={`absolute bg-pink h-[100vh] w-[250px] pb-[50px] right-0 border-white border-l-1 overflow-y-auto`}
             // style={{display: open ? '' : 'none'}}
         >
             <nav>
                 <ul>
                     <li>
-                        testing
+                        No Favorite Item available
                     </li>
                     {/*render history if any exists*/}
                     {/*{history.length ? history.map((h) => (*/}

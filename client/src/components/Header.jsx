@@ -5,6 +5,7 @@ import Favorite from "@/components/Favorite";
 import History from "./History";
 import NavBar from "@/components/NavBar";
 import {usePathname} from "next/navigation";
+import ToggleSwitch from "@/components/ToggleSwitch";
 
 function Header() {
     const [isOpenHistory, setIsOpenHistory] = useState(false);
@@ -12,6 +13,13 @@ function Header() {
     const [isOpenProfile, setIsOpenProfile] = useState(false);
     const [isOpenSetting, setIsOpenSetting] = useState(false);
     const [isOpenMenu, setIsOpenMenu] = useState(false)
+
+    const [isEnglish, setIsEnglish] = useState(true);
+
+    const toggleLanguage = () => {
+        setIsEnglish(!isEnglish);
+        // Add logic to switch language here (e.g., using i18next)
+    };
 
     return (
         <>
@@ -59,14 +67,18 @@ function Header() {
                         {/*Drop down to show current setting*/}
                         {isOpenSetting && (
                             <div
-                                className="absolute top-12 right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200"
+                                className="grid grid-cols-1 absolute top-14 right-0 mt-2 w-48 bg-pink shadow-lg border border-white divide-y divide-white"
                             >
                                 <ul className="py-1">
                                     <li>
-                                        consideration for toggle switch to change language
+                                        <div className="flex items-center px-5 py-2 hover:bg-orange">
+                                            <ToggleSwitch isChecked={isEnglish} onChange={toggleLanguage}/>
+                                            <span className={'px-5'}>{isEnglish ? 'ENG' : 'VIE'}</span>
+                                        </div>
                                     </li>
+                                    <span className="absolute left-0 border-t border-black w-full"></span>
                                     <li>
-                                        consideration for voice speed
+                                        Change Voice Speed:
                                     </li>
                                 </ul>
                             </div>
@@ -79,20 +91,21 @@ function Header() {
                         {/* Dropdown Menu */}
                         {isOpenProfile && (
                             <div
-                                className="absolute top-12 right-0 mt-2 w-48 bg-white shadow-lg rounded-lg border border-gray-200"
+                                className="grid grid-cols-1 absolute top-14 right-0 mt-2 w-48 bg-pink shadow-lg border border-white divide-y divide-white"
                             >
                                 <ul className="py-1">
                                     <li>
                                         <button
-                                            className="block px-4 py-2 text-gray-700 hover:bg-gray-100 w-full text-left"
+                                            className="block px-5 py-2 text-black hover:bg-orange w-full text-left "
                                             onClick={() => console.log("Profile Clicked")}
                                         >
                                             View Profile
                                         </button>
                                     </li>
+                                    <span className="absolute left-0 border-t border-black w-full"></span>
                                     <li>
                                         <button
-                                            className="block px-4 py-2 text-red-600 hover:bg-gray-100 w-full text-left"
+                                            className="block px-5 py-2 text-black hover:bg-orange w-full text-left"
                                             onClick={() => console.log("Logout Clicked")}
                                         >
                                             Logout

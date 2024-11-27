@@ -2,8 +2,6 @@
 import React, { useContext } from 'react'
 // import {HistoryContext} from "@/components/HistoryContext";
 
-// TODO: need to resolve TypeError: Illegal constructor
-
 
 const History = () => {
     // get history data, markAsFavorite function, and open state from HistoryContext
@@ -16,15 +14,19 @@ const History = () => {
 
     return (
         <>
-            <div className={`bg-pink h-[100vh] w-[250px] pb-[50px] right-0 border-white border-l-1 overflow-y-auto`}
+            <div className={`bg-pink h-[100vh] w-[250px] pb-[50px] right-0 border-white border-l-1 overflow-y-auto absolute`}
             // style={{display: open ? '' : 'none'}}
             >
                 <nav>
                     <ul>
-                        <li>
-                            testing
+                        <li className='p-2 cursor-pointer border-b border-white text-white '>
+                            No History Available
                         </li>
-                        {/*render history if any exists*/}
+
+
+
+                        {/*/!*=========================*!/*/}
+                        {/*/!*render history if any exists*!/*/}
                         {/*{history.length ? history.map((h) => (*/}
                         {/*    <li key={h._id}*/}
                         {/*        // className={`p-2 cursor-pointer border-b border-white text-white*/}
