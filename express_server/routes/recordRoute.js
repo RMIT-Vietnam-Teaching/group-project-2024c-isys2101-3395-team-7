@@ -1,7 +1,7 @@
 const express = require("express");
 const { model, default: mongoose } = require("mongoose");
 const router = express.Router();
-const Record = require("../controllers/record");
+const Record = require("../models/record");
 const db = mongoose.connection;
 const multer = require("multer");
 const bcrypt = require("bcrypt");
