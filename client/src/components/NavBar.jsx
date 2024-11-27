@@ -1,15 +1,14 @@
 'use client'
-import {useEffect, useState} from "react"
 import Link from "next/link"
 import GuidelineIcon from "./icons/GuidelineIcon"
 import HandwritingIcon from "./icons/HandwritingIcon"
 import VoiceIcon from "./icons/VoiceIcon"
 import LessonIcon from "./icons/LessonIcon"
-import {usePathname} from "next/navigation";
+import { usePathname } from "next/navigation";
 
 const iconWidth = 30, iconHeight = 30;
 
-const NavBar = ({isOpen, setIsOpen}) => {
+const NavBar = ({ isOpen, setIsOpen }) => {
     // const [isOpen, setIsOpen] = useState(true);
     //
     // const toggleNavBar = () => {
@@ -29,9 +28,8 @@ const NavBar = ({isOpen, setIsOpen}) => {
                 <div className="grid grid-cols-1 w-full">
                     <div>
                         <Link href="/home"
-                              >
-                              {/*// onClick={() => setIsOpen(!isOpen)}>*/}
-                              {/*onClick={() => { setIsOpen(false) }}>*/}
+                            onClick={() => window.location.replace("/home")}
+                        >
                             <div className={`p-3 hover:bg-orange grid grid-cols-3 ${pathname === '/home' ? 'bg-orange' : ''}`}>
                                 <GuidelineIcon width={iconWidth} height={iconHeight} />
                                 <div className="md:hidden col-span-2">Home</div>
@@ -40,8 +38,8 @@ const NavBar = ({isOpen, setIsOpen}) => {
                     </div>
                     <div>
                         <Link href="/handwriting"
-                              // onClick={() => { setIsOpen(false) }}
-                            >
+                            onClick={() => window.location.replace("/handwriting")}
+                        >
                             <div className={`p-3 hover:bg-orange border border-x-0 border-black grid grid-cols-3 ${pathname === '/handwriting' ? 'bg-orange' : ''}`}>
                                 <HandwritingIcon width={iconWidth} height={iconHeight} />
                                 <div className="md:hidden col-span-2">Handwriting Correction</div>
@@ -49,7 +47,7 @@ const NavBar = ({isOpen, setIsOpen}) => {
                         </Link>
                     </div>
                     <div><Link href="/voice"
-                               // onClick={() => { setIsOpen(false) }}
+                        onClick={() => window.location.replace("/voice")}
                     >
                         <div className={`p-3 hover:bg-orange border-b border-black grid grid-cols-3 ${pathname === '/voice' ? 'bg-orange' : ''}`}>
                             <VoiceIcon width={iconWidth} height={iconHeight} />
@@ -58,7 +56,7 @@ const NavBar = ({isOpen, setIsOpen}) => {
                     </Link></div>
                     <div>
                         <Link href="/home"
-                              // onClick={() => { setIsOpen(false) }}
+                            onClick={() => window.location.replace("/home")}
                         >
                             <div className={`p-3 hover:bg-orange grid grid-cols-3 ${pathname === '#' ? 'bg-orange' : ''}`}>
                                 <LessonIcon width={iconWidth} height={iconHeight} />

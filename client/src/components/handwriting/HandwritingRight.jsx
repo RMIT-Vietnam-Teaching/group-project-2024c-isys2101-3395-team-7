@@ -21,7 +21,7 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
     return (
         <>
             {state == "begin" && (
-                <>
+                <div className="md:h-full h-2/3 grid content-center">
                     <form onSubmit={handleFileUpload} className="grid justify-items-center">
                         <label
                             className="grid appearance-none cursor-pointer hover:border-gray-400 focus:outline-none justify-items-center">
@@ -37,16 +37,16 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
                     <p className="text-gray-600">
                         Try out our wonderful service now!
                     </p>
-                </>
+                </div>
             )}
 
             {state == "process" && (
                 <>
-                    <div className="mb-5 w-full">
-                        <h3 className="text-lg font-bold text-center mb-3 md:absolute top-10 right-1/3">Fixed / Bản sửa</h3>
-                        <p className="text-gray-700">{correctText.text || "No text available"}</p>
+                    <div className="w-full md:h-28 grid content-center md:pb-0 pb-5">
+                        <h3 className="text-lg font-bold text-center">Fixed / Bản sửa</h3>
                     </div>
-                    <div className="flex items-center mt-10">
+                    <div className="overflow-y-auto md:px-8">
+                        <p className="text-gray-700 mb-10 leading-loose">{correctText.text || "No text available"}</p>
                         <p className="text-gray-700">Total Errors: {correctText.errors || "0"}, Errors:</p>
                         <ul className="list-disc list-inside ml-4">
                             {errors?.map((error, index) => (
