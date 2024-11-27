@@ -24,8 +24,10 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
                 <>
                     <form onSubmit={handleFileUpload} className="grid justify-items-center">
                         <label
-                            className="appearance-none cursor-pointer hover:border-gray-400 focus:outline-none justify-items-center">
-                            <DragDropIcon width={50} height={50} />
+                            className="grid appearance-none cursor-pointer hover:border-gray-400 focus:outline-none justify-items-center">
+                            <div className={'justify-center'}>
+                                <DragDropIcon width={50} height={50} />
+                            </div>
                             <div>{selectedFile?.name}</div>
                             <input type="file" name="image" onChange={handleFileChange} className="hidden" />
                             <div className="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange">{selectedFile ? "Choose another file" : "Browse your file"}</div>

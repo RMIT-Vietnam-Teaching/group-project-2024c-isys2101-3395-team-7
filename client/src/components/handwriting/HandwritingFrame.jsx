@@ -64,16 +64,19 @@ function HandwritingFrame({ }) {
                 />
             </div>
 
-            <div className="h-full border border-black bg-gray-100 p-4 mx-20 rounded-lg grid md:grid-cols-2 relative place-items-center">
-                <div className="flex justify-between relative h-full items-center">
+            <div
+                className="h-full border border-black bg-gray-100 p-4 mx-20 rounded-lg grid md:grid-cols-2 relative place-items-center">
+                <div className="flex justify-between relative h-full items-center overflow-y-auto">
                     {/* content */}
-                    <HandwritingLeft state={currState} handleState={setCurrState} originalInput={imageUrl} />
+                    <HandwritingLeft state={currState} handleState={setCurrState} originalInput={imageUrl}/>
                 </div>
-                <div className="absolute border-l border-gray-300 py-8 h-3/4 md:block hidden" />
+                <div className="absolute border-l border-gray-300 py-8 h-3/4 md:block hidden"/>
 
-                <div className="flex flex-col items-center relative h-full grid place-content-center w-full">
+                <div
+                    className="flex flex-col items-center relative h-full grid place-content-center w-full overflow-y-auto">
                     {/* content */}
-                    <HandwritingRight state={currState} handleState={setCurrState} handleForm={handleTextScanning} correctText={correctText} />
+                    <HandwritingRight state={currState} handleState={setCurrState} handleForm={handleTextScanning}
+                                      correctText={correctText}/>
                 </div>
             </div>
         </div>
