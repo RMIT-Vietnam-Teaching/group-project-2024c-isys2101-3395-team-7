@@ -11,7 +11,7 @@ load_dotenv(override=True)
 register_heif_opener()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}})
 
 # Load the API key from an environment variable
 api_key = os.getenv("OPENAI_API_KEY")
