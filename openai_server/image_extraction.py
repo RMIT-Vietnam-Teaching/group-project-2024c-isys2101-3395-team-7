@@ -12,6 +12,7 @@ register_heif_opener()
 
 app = Flask(__name__)
 CORS(app)
+
 # Load the API key from an environment variable
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key) 
@@ -93,7 +94,16 @@ def correct_text():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
-    
+
+@app.after_request
+def after_request(response):
+    # Allow access from a specific origin and include credentials
+    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')  # Replace with your frontend's URL
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
+    response.headers.add('Access-Control-Allow-Credentials', 'true')  # Enable credentials support
+    return response
+
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5000))  # Use the PORT environment variable if available
