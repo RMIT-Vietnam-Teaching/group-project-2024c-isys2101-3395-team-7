@@ -1,20 +1,21 @@
 import os
-import openai
 import base64
 from flask import Flask, request, jsonify
 from openai import OpenAI
 from dotenv import load_dotenv
 from PIL import Image
 from pillow_heif import register_heif_opener
+from flask_cors import CORS
 
 load_dotenv(override=True)
 register_heif_opener()
 
 app = Flask(__name__)
+CORS(app)
 
 # Load the API key from an environment variable
 api_key = os.getenv("OPENAI_API_KEY")
-client = OpenAI(api_key=api_key)
+client = OpenAI(api_key=api_key) 
 MODEL = "gpt-4o"
 
 def encode_image(image_path):
