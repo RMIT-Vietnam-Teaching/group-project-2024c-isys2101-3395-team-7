@@ -3,4 +3,3 @@ openai
 python-dotenv
 Pillow
 pillow_heif
-flask-cors
