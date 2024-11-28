@@ -2,6 +2,7 @@ import os
 import openai
 import base64
 from flask import Flask, request, jsonify
+from openai import OpenAI
 from dotenv import load_dotenv
 from PIL import Image
 from pillow_heif import register_heif_opener
@@ -12,11 +13,14 @@ register_heif_opener()
 
 app = Flask(__name__)
 CORS(app)
+openai.proxies = {
+    "http": os.getenv("HTTP_PROXY"),
+    "https": os.getenv("HTTPS_PROXY")
+}
 
 # Load the API key from an environment variable
 api_key = os.getenv("OPENAI_API_KEY")
-openai.api_key = api_key  # Correct way to set the API key
-
+client = OpenAI(api_key=api_key)
 MODEL = "gpt-4o"
 
 def encode_image(image_path):
@@ -47,11 +51,16 @@ def recognize_handwriting():
         base64_image = encode_image(temp_image_path)
 
         # Send the Base64 image to OpenAI API
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=MODEL,
             messages=[
                 {"role": "system", "content": "You are an expert in recognizing Vietnamese handwritten text."},
-                {"role": "user", "content": f"The image below contains Vietnamese handwritten text. Please read it, provide only the recognized text as output: \n\nBase64-encoded image:\n{base64_image}"}
+                {"role": "user", "content": [
+                    {"type": "text", "text": "The image below contains Vietnamese handwritten text. Please read it, provide only the recognized text as output: \n\nBase64-encoded image:\n{base64_image}"},
+                    {"type": "image_url", "image_url": {
+                        "url": f"data:image/png;base64,{base64_image}"}
+                    }
+                ]}
             ],
             temperature=0.0,
         )
@@ -74,7 +83,7 @@ def correct_text():
         data = request.json
         input_text = data.get("text")
 
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model=MODEL,
             messages=[
                 {"role": "system", "content": "You are an expert in Vietnamese spelling and grammar."},
