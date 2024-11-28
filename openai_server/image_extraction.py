@@ -66,7 +66,7 @@ def recognize_handwriting():
         recognized_text = response.choices[0].message.content.strip()
         usage = response.usage.to_dict()
 
-        return jsonify({"recognized_text": recognized_text, "usage": usage})
+        return jsonify({"recognized_text": "recognized_text", "usage": "usage"})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
