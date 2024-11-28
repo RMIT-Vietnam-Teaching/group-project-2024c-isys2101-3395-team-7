@@ -11,8 +11,7 @@ load_dotenv(override=True)
 register_heif_opener()
 
 app = Flask(__name__)
-CORS(app)
-
+CORS(app, resources={r"/foo": {"origins": "http://localhost:3000"}})
 # Load the API key from an environment variable
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key) 
@@ -95,13 +94,6 @@ def correct_text():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
     
-@app.after_request
-def after_request(response):
-    # Allow access from any origin
-    response.headers.add('Access-Control-Allow-Origin', '*')  # Allows all domains to access the backend
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
-    return response
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5000))  # Use the PORT environment variable if available
