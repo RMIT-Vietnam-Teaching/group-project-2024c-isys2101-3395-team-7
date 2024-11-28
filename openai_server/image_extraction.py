@@ -1,4 +1,5 @@
 import os
+import openai
 import base64
 from flask import Flask, request, jsonify
 from openai import OpenAI
@@ -11,7 +12,11 @@ load_dotenv(override=True)
 register_heif_opener()
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["http://localhost:3000"]}})
+CORS(app)
+openai.proxies = {
+    "http": os.getenv("HTTP_PROXY"),
+    "https": os.getenv("HTTPS_PROXY")
+}
 
 # Load the API key from an environment variable
 api_key = os.getenv("OPENAI_API_KEY")
