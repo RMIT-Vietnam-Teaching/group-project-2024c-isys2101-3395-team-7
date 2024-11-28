@@ -1,5 +1,5 @@
 'use client'
-import React, {useContext} from 'react'
+import React, { useContext } from 'react'
 // import {HistoryContext} from "@/components/HistoryContext";
 
 // TODO: adjust this after done with history, untick on favorite item
@@ -14,12 +14,12 @@ export default function Favorite() {
     // };
 
     return (<>
-        <div className={`absolute bg-pink h-[100vh] w-[250px] pb-[50px] right-0 border-white border-l-1 overflow-y-auto`}
-            // style={{display: open ? '' : 'none'}}
+        <div className={`z-10 bg-pink h-2/3 md:w-1/5 w-1/2 pb-[50px] right-6 border-white border-l-1 overflow-y-auto absolute`}
+        // style={{display: open ? '' : 'none'}}
         >
             <nav>
                 <ul>
-                    <li>
+                    <li className='p-2 cursor-pointer border-y border-t-white'>
                         No Favorite Item available
                     </li>
                     {/*render history if any exists*/}
