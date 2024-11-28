@@ -11,7 +11,7 @@ load_dotenv(override=True)
 register_heif_opener()
 
 app = Flask(__name__)
-CORS(app, resources={r"/foo": {"origins": "http://localhost:3000"}})
+CORS(app)
 # Load the API key from an environment variable
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key) 
@@ -66,7 +66,7 @@ def recognize_handwriting():
         recognized_text = response.choices[0].message.content.strip()
         usage = response.usage.to_dict()
 
-        return jsonify({"recognized_text": "recognized_text", "usage": "usage"})
+        return jsonify({"recognized_text": recognized_text, "usage": usage})
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
