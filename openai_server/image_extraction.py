@@ -6,17 +6,11 @@ from openai import OpenAI
 from dotenv import load_dotenv
 from PIL import Image
 from pillow_heif import register_heif_opener
-from flask_cors import CORS
 
 load_dotenv(override=True)
 register_heif_opener()
 
 app = Flask(__name__)
-CORS(app)
-openai.proxies = {
-    "http": os.getenv("HTTP_PROXY"),
-    "https": os.getenv("HTTPS_PROXY")
-}
 
 # Load the API key from an environment variable
 api_key = os.getenv("OPENAI_API_KEY")
