@@ -94,6 +94,14 @@ def correct_text():
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.after_request
+def after_request(response):
+    # Allow access from any origin
+    response.headers.add('Access-Control-Allow-Origin', '*')  # Allows all domains to access the backend
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
+    return response
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5000))  # Use the PORT environment variable if available
