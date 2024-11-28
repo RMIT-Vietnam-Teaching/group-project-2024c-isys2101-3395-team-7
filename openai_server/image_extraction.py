@@ -9,6 +9,8 @@ from pillow_heif import register_heif_opener
 load_dotenv(override=True)
 register_heif_opener()
 
+os.environ.pop("HTTP_PROXY", None)
+os.environ.pop("HTTPS_PROXY", None)
 app = Flask(__name__)
 
 # Load the API key from an environment variable
