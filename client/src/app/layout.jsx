@@ -1,4 +1,5 @@
 import "../styles/globals.css"
+import { ToastContainer } from 'react-toastify';
 
 export const metadata = {
     title: "Viego",
@@ -10,7 +11,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
     return (
         <html lang="en" >
-            <body >{children}</body>
+            <body >
+                {children}
+                <ToastContainer />
+            </body>
         </html>
     )
 }
