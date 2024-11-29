@@ -6,9 +6,8 @@ const options = {
 
 export async function recognizeHandwriting(formData) {
   try {
-    // Send the request using axios
     const res = await axios.post(
-      "https://viego-api.onrender.com/recognize-handwriting",
+      "/recognize-handwriting",
       formData,
       {
         headers: {
@@ -29,7 +28,7 @@ export async function correctRecognizedText(text) {
   console.log("correctRecognizedText", text);
   try {
     const res = await axios.post(
-      "https://viego-api.onrender.com/correct",
+      "/correct",
       {
         text: text,
       },
@@ -37,7 +36,7 @@ export async function correctRecognizedText(text) {
         headers: {
           "Content-Type": "application/json",
         },
-        withCredentials: true, // Include this if authentication credentials are required
+        withCredentials: true,
       }
     );
 
