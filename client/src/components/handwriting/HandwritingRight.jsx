@@ -12,7 +12,7 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
     event.preventDefault();
     const file = event.target.files[0];
     if (!isValidImageFile(file)) {
-      // console.error("Error: Only image files are allowed!");
+      setSelectedFile(null)
       pushError("Invalid file type!");
       pushWarning("Allowable file formats: .png, .jpeg, .jpg, .HEIC")
       return;
