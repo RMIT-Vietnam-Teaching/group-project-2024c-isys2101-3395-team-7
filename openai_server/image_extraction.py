@@ -98,7 +98,7 @@ def correct_text():
 @app.after_request
 def after_request(response):
     # Allow access from a specific origin and include credentials
-    response.headers.add('Access-Control-Allow-Origin', 'http://localhost:3000')  # Replace with your frontend's URL
+    response.headers.add('Access-Control-Allow-Origin', '*')  # Replace with your frontend's URL
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
     response.headers.add('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
     response.headers.add('Access-Control-Allow-Credentials', 'true')  # Enable credentials support
