@@ -4,7 +4,7 @@ const recordSchema = new mongoose.Schema(
   {
     username: { type: String, required: true },
     type: { type: String, required: true },
-    image_path: { type: String, required: true },
+    image_path: { type: [mongoose.Types.ObjectId], ref: "images" },
     favorite: { type: Boolean, required: true },
     time: { type: Date, default: Date.now },
     answer: { type: String },
