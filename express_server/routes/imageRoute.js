@@ -4,6 +4,7 @@ const heicConvert = require("heic-convert");
 const Image = require("../models/image");
 const Record = require("../models/record");
 const { default: mongoose } = require("mongoose");
+const image = require("../models/image");
 
 const router = express.Router();
 const storage = multer.memoryStorage();
@@ -62,7 +63,9 @@ router.post("/upload", upload.single("hw-image"), async (req, res, next) => {
 
   try {
     await newImage.save();
-    res.status(200).json({ message: "Upload image successfully" });
+    res
+      .status(200)
+      .json({ message: "Upload image successfully", imageUrl: newImage.name });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
