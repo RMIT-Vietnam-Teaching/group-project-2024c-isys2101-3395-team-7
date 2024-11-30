@@ -67,10 +67,19 @@ export async function recordHistory(formData) {
 
 export async function uploadImage(image) {
   try {
+    // Create a FormData object and append the image file
+    const formData = new FormData();
+    formData.append("hw-image", image);
+
+    // Send the request with the correct headers
     const res = await axios.post(
       "https://viego-mongo-api.onrender.com/image/upload",
+      formData, // Use FormData as the request body
       {
-        "hw-image": image,
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure the correct content type
+        },
       }
     );
     return res.data;

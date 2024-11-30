@@ -37,8 +37,8 @@ function HandwritingFrame({}) {
     try {
       var text = await handleTextScanning(newFileUpload);
       if (text !== null) {
-        imageUrl = await handleUploadImage(newFileUpload);
-        await handleRecordHistory(imageUrl, "handwriting", text);
+        var imagePath = await handleUploadImage(newFileUpload);
+        await handleRecordHistory(imagePath, "handwriting", text);
       } else console.log("correctText is null");
     } catch (error) {
       console.error("Error submitting image:", error);
@@ -47,12 +47,13 @@ function HandwritingFrame({}) {
 
   const handleRecordHistory = async (image, type, answer) => {
     console.log("handleRecordHistory");
+    const formData = new FormData();
     // Change this to current username when authentication is implemented
     formData.append("username", "test");
     formData.append("time", new Date().toISOString());
     formData.append("type", type);
-    formData.append("favorite", true);
-    formData.append("image_path", "handwriting");
+    formData.append("favorite", "true");
+    formData.append("image_path", image);
     formData.append("answer", answer);
 
     try {
