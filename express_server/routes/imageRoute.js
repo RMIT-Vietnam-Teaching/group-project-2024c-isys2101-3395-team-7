@@ -39,50 +39,33 @@ async function convertHEIC(heicBuffer) {
 }
 
 // Upload image
-router.post(
-  "/upload/:recordId",
-  upload.single("hw-image"),
-  async (req, res, next) => {
-    if (!req.file) {
-      return res.status(404).json({ message: "No image found to upload" });
-    }
-
-    const { recordId } = req.params;
-
-    if (!mongoose.Types.ObjectId.isValid(recordId)) {
-      return res.status(400).json({ message: "Invalid ID format" });
-    }
-
-    const currentRecord = await Record.findById(recordId);
-
-    if (!currentRecord) {
-      return res.status(404).json({ message: "Record not found" });
-    }
-
-    let imageBuffer = req.file.buffer;
-    let contentType = req.file.mimetype;
-
-    // Check if the image is in HEIC format
-    if (req.file.mimetype === "image/heic") {
-      imageBuffer = await convertHEIC(imageBuffer);
-      contentType = "image/jpeg";
-    }
-
-    const newImage = new Image({
-      name: req.file.originalname + "-" + Date.now(),
-      data: {
-        data: imageBuffer,
-        contentType: contentType,
-      },
-    });
-
-    const image = await newImage.save();
-
-    currentRecord.image_path.push(image._id);
-    await currentRecord.save();
-
-    res.status(200).json({ message: "Upload image successfully" });
+router.post("/upload", upload.single("hw-image"), async (req, res, next) => {
+  if (!req.file) {
+    return res.status(404).json({ message: "No image found to upload" });
   }
-);
+  let imageBuffer = req.file.buffer;
+  let contentType = req.file.mimetype;
+
+  // Check if the image is in HEIC format
+  if (req.file.mimetype === "image/heic") {
+    imageBuffer = await convertHEIC(imageBuffer);
+    contentType = "image/jpeg";
+  }
+
+  const newImage = new Image({
+    name: req.file.originalname + "-" + Date.now(),
+    data: {
+      data: imageBuffer,
+      contentType: contentType,
+    },
+  });
+
+  try {
+    await newImage.save();
+    res.status(200).json({ message: "Upload image successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 module.exports = router;
