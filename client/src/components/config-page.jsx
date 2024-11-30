@@ -3,7 +3,6 @@ import React from 'react';
 import CircularProgress from "@/components/CircularProgress";
 import Button from "@/components/button"
 import {pushError, pushSuccess} from "@/components/Toast";
-import {ToastifyContainer } from "react-toastify";
 
 export default function ConfigPage() {
     return (
@@ -35,7 +34,6 @@ export default function ConfigPage() {
                     Push error
                 </Button>
             </div>
-            <ToastifyContainer /> {/* Add ToastifyContainer at the end */}
         </div>
     );
 }
