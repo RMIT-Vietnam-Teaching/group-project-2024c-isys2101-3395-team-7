@@ -1,5 +1,6 @@
+"use client"
 import { toast } from "react-toastify";
-import { SuccessIcon } from "./icons/SuccessIcon";
+import { SuccessIcon } from "./icons/SuccessIcon"
 import { ErrorIcon } from "./icons/ErrorIcon";
 import { WarningIcon } from "./icons/WarningIcon";
 import 'react-toastify/dist/ReactToastify.css';
