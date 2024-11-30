@@ -2,6 +2,7 @@
 import { useState } from "react";
 import Button from "../ui/Button";
 import DragDropIcon from "../icons/DragDropIcon";
+import { pushError, pushWarning } from "../Toast";
 
 const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
   const errors = [];
@@ -9,13 +10,24 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
 
   const handleFileChange = (event) => {
     event.preventDefault();
-    setSelectedFile(event.target.files[0]);
-    console.log(event.target.files[0].name); // Check if the file object is logged
+    const file = event.target.files[0];
+    if (!isValidImageFile(file)) {
+      setSelectedFile(null)
+      pushError("Invalid file type!");
+      pushWarning("Allowable file formats: .png, .jpeg, .jpg, .HEIC")
+      return;
+    }
+    setSelectedFile(file);
   };
 
   const handleFileUpload = async (event) => {
     event.preventDefault();
     handleForm(selectedFile);
+  };
+
+  const isValidImageFile = (file) => {
+    const acceptedImageTypes = ["image/jpeg", "image/png", "image/jpg", "image/heic"];
+    return acceptedImageTypes.includes(file.type);
   };
 
   return (
@@ -37,6 +49,7 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
                 onChange={handleFileChange}
                 className="hidden"
               />
+              <pushError message={"Invalid file type!"} />
               <div className="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange">
                 {selectedFile ? "Choose another file" : "Browse your file"}
               </div>
@@ -63,7 +76,8 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
               {correctText || "No text available"}
             </p>
             <p className="text-gray-700">
-              Total Errors: {correctText.errors || "0"}, Errors:
+              Total Errors: {correctText.errors || "0"}. Errors:
+              {errors.length == 0 && (<span className="text-red-500"> None</span>)}
             </p>
             <ul className="list-disc list-inside ml-4">
               {errors?.map((error, index) => (
