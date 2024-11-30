@@ -12,9 +12,9 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
     event.preventDefault();
     const file = event.target.files[0];
     if (!isValidImageFile(file)) {
-      setSelectedFile(null)
+      setSelectedFile(null);
       pushError("Invalid file type!");
-      pushWarning("Allowable file formats: .png, .jpeg, .jpg, .HEIC")
+      pushWarning("Allowable file formats: .png, .jpeg, .jpg, .HEIC");
       return;
     }
     setSelectedFile(file);
@@ -26,7 +26,12 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
   };
 
   const isValidImageFile = (file) => {
-    const acceptedImageTypes = ["image/jpeg", "image/png", "image/jpg", "image/heic"];
+    const acceptedImageTypes = [
+      "image/jpeg",
+      "image/png",
+      "image/jpg",
+      "image/heic",
+    ];
     return acceptedImageTypes.includes(file.type);
   };
 
@@ -77,7 +82,9 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
             </p>
             <p className="text-gray-700">
               Total Errors: {correctText.errors || "0"}. Errors:
-              {errors.length == 0 && (<span className="text-red-500"> None</span>)}
+              {errors.length == 0 && (
+                <span className="text-red-500"> None</span>
+              )}
             </p>
             <ul className="list-disc list-inside ml-4">
               {errors?.map((error, index) => (

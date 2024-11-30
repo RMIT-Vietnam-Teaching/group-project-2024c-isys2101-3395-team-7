@@ -4,11 +4,16 @@ import HandwritingLeft from "./HandwritingLeft";
 import HandwritingRight from "./HandwritingRight";
 import Button from "../ui/Button";
 import StarIcon from "../icons/StarIcon";
-import { recognizeHandwriting, correctRecognizedText } from "@/api";
+import {
+  recognizeHandwriting,
+  correctRecognizedText,
+  recordHistory,
+  uploadImage,
+} from "@/api";
 import CircularProgress from "@/components/CircularProgress";
 import { pushSuccess } from "../Toast";
 
-function HandwritingFrame({ }) {
+function HandwritingFrame({}) {
   const [currState, setCurrState] = useState("begin");
   const [isSaved, setSave] = useState(false);
   const formData = new FormData();
@@ -28,12 +33,53 @@ function HandwritingFrame({ }) {
     }
   };
 
+  const handleSubmitImage = async (newFileUpload) => {
+    try {
+      var text = await handleTextScanning(newFileUpload);
+      if (text !== null) {
+        imageUrl = await handleUploadImage(newFileUpload);
+        await handleRecordHistory(imageUrl, "handwriting", text);
+      } else console.log("correctText is null");
+    } catch (error) {
+      console.error("Error submitting image:", error);
+    }
+  };
+
+  const handleRecordHistory = async (image, type, answer) => {
+    console.log("handleRecordHistory");
+    // Change this to current username when authentication is implemented
+    formData.append("username", "test");
+    formData.append("time", new Date().toISOString());
+    formData.append("type", type);
+    formData.append("favorite", true);
+    formData.append("image_path", "handwriting");
+    formData.append("answer", answer);
+
+    try {
+      const res = await recordHistory(formData);
+      console.log("API response:", res);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
+
+  const handleUploadImage = async (newFileUpload) => {
+    console.log("handleUploadImage", newFileUpload);
+    try {
+      const res = await uploadImage(newFileUpload);
+      console.log("API response:", res);
+      return res.imageUrl;
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
+
   const handleTextScanning = async (newFileUpload) => {
     console.log("handleTextScanning", newFileUpload);
     formData.append("image", newFileUpload);
     handleFileChange(formData.getAll("image")[0]);
     setLoading(true); // Set loading to true before API requests
-    pushSuccess("Successfully submitted!")
+    pushSuccess("Successfully submitted!");
     try {
       const resTextRecognize = await recognizeHandwriting(formData);
       console.log("API response:", resTextRecognize);
@@ -45,12 +91,14 @@ function HandwritingFrame({ }) {
         if (resCorrect) {
           setCorrectText(resCorrect);
           setCurrState("process");
+          return resCorrect;
         }
       }
+      return null;
     } catch (error) {
       console.error("Error uploading file:", error);
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   };
 
@@ -72,18 +120,19 @@ function HandwritingFrame({ }) {
               {"Star this answer"}
             </span>
           }
-          style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${currState != "process" && "hidden"
-            }`}
+          style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${
+            currState != "process" && "hidden"
+          }`}
           onClick={() => setSave(!isSaved)}
         />
       </div>
 
-      <div
-        className="h-full border border-black bg-gray-100 py-4 mx-20 rounded-lg grid md:grid-cols-2 relative place-items-center"
-      >
+      <div className="h-full border border-black bg-gray-100 py-4 mx-20 rounded-lg grid md:grid-cols-2 relative place-items-center">
         {loading ? (
           <div className="col-span-2 flex flex-col items-center justify-center">
-            <h4 className="text-lg font-bold mt-8 mb-4">We have received your request!</h4>
+            <h4 className="text-lg font-bold mt-8 mb-4">
+              We have received your request!
+            </h4>
             <div className="space-y-4" style={{ maxWidth: "300px" }}>
               <div className="flex items-center justify-between">
                 <div className="flex flex-col items-center">
@@ -93,7 +142,6 @@ function HandwritingFrame({ }) {
               </div>
             </div>
           </div>
-
         ) : (
           <>
             <div className="flex flex-col justify-between relative h-full w-full items-center px-4">
@@ -110,15 +158,13 @@ function HandwritingFrame({ }) {
               <HandwritingRight
                 state={currState}
                 handleState={setCurrState}
-                handleForm={handleTextScanning}
+                handleForm={handleSubmitImage}
                 correctText={correctText}
               />
             </div>
           </>
         )}
-
       </div>
-
     </div>
   );
 }

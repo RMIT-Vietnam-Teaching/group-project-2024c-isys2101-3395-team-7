@@ -6,16 +6,12 @@ const options = {
 
 export async function recognizeHandwriting(formData) {
   try {
-    const res = await axios.post(
-      "/recognize-handwriting",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true, // Ensure this is included if credentials are required
-      }
-    );
+    const res = await axios.post("/recognize-handwriting", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+      withCredentials: true, // Ensure this is included if credentials are required
+    });
 
     console.log("API response:", res.data);
     return res.data.recognized_text;
@@ -45,6 +41,41 @@ export async function correctRecognizedText(text) {
   } catch (error) {
     console.error("Error during API call:", error);
     throw error;
+  }
+}
+
+export async function recordHistory(formData) {
+  try {
+    const res = await axios.post(
+      "https://viego-mongo-api.onrender.com/record",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      }
+    );
+
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
+
+export async function uploadImage(image) {
+  try {
+    const res = await axios.post(
+      "https://viego-mongo-api.onrender.com/image/upload",
+      {
+        "hw-image": image,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
   }
 }
 export async function addFavourite() {
