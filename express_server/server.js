@@ -7,7 +7,25 @@ const recordRouter = require("./routes/recordRoute");
 const imageRouter = require("./routes/imageRoute");
 
 const app = express();
-app.use(cors());
+const frontendUrl = process.env.FRONTEND_URL;
+const allowedOrigins = [
+  frontendUrl,
+  "http://localhost:3000", // For local development
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    // Check if the origin is in the allowedOrigins list or allow requests with no origin (like from Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true); // Allow the request
+    } else {
+      callback(new Error("Not allowed by CORS")); // Block the request
+    }
+  },
+  credentials: true, // Allow credentials
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
