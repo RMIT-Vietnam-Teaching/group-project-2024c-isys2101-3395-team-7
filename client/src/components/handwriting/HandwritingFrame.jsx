@@ -63,7 +63,7 @@ function HandwritingFrame({ }) {
             setCurrState("begin");
             window.location.reload();
           }}
-          style="bg-pink px-4 md:py-2 md:text-base text-sm ml-20 hover:bg-orange"
+          style="bg-pink md:py-2 p-2 md:text-base text-sm ml-20 hover:bg-orange"
         />
         <Button
           text={
