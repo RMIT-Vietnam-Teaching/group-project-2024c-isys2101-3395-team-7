@@ -65,7 +65,7 @@ router.post("/upload", upload.single("hw-image"), async (req, res, next) => {
     await newImage.save();
     res
       .status(200)
-      .json({ message: "Upload image successfully", imageUrl: newImage.name });
+      .json({ message: "Upload image successfully", imageId: newImage.id });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
