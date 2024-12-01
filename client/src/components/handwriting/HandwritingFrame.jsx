@@ -37,8 +37,8 @@ function HandwritingFrame({}) {
     try {
       var text = await handleTextScanning(newFileUpload);
       if (text !== null) {
-        var imagePath = await handleUploadImage(newFileUpload);
-        await handleRecordHistory(imagePath, "handwriting", text);
+        var imageId = await handleUploadImage(newFileUpload);
+        await handleRecordHistory(imageId, "handwriting", text);
       } else console.log("correctText is null");
     } catch (error) {
       console.error("Error submitting image:", error);
@@ -53,7 +53,7 @@ function HandwritingFrame({}) {
     formData.append("time", new Date().toISOString());
     formData.append("type", type);
     formData.append("favorite", "false");
-    formData.append("image_path", image);
+    formData.append("image_id", image);
     formData.append("answer", answer);
 
     try {
@@ -69,7 +69,7 @@ function HandwritingFrame({}) {
     try {
       const res = await uploadImage(newFileUpload);
       console.log("API response:", res);
-      return res.imageUrl;
+      return res.imageId;
     } catch (error) {
       console.error("Error uploading file:", error);
     }
