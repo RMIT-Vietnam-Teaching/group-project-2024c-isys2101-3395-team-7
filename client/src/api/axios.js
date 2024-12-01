@@ -1,9 +1,8 @@
 import axios from 'axios';
-// const BASE_URL = 'hosted/be/url';
-const BASE_URL = 'https://viego-api.onrender.com';
+// const BASE_URL = 'localhost:3000';
 
 export default axios.create({
-    baseURL: BASE_URL,
+    // baseURL: BASE_URL,
     withCredentials: true,
     headers: {
         'Content-Type': 'application/json',
