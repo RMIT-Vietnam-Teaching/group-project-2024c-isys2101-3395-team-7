@@ -53,7 +53,7 @@ function HandwritingFrame({}) {
     formData.append("time", new Date().toISOString());
     formData.append("type", type);
     formData.append("favorite", "false");
-    formData.append("image_id", image);
+    formData.append("imageId", image);
     formData.append("answer", answer);
 
     try {
