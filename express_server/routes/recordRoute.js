@@ -42,7 +42,7 @@ router.post("/", upload.none(), async (req, res) => {
   const record = new Record({
     username: req.body.username,
     type: req.body.type,
-    image_id: req.body.image_path,
+    image_id: req.body.imageId,
     favorite: req.body.favorite,
     time: req.body.time || Date.now(),
     answer: req.body.answer,
