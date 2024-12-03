@@ -145,7 +145,7 @@ function HandwritingFrame({}) {
           </div>
         ) : (
           <>
-            <div className="flex flex-col justify-between relative h-full w-full items-center px-4">
+            <div className="flex flex-col justify-between relative h-full w-full items-center px-4 overflow-y-auto">
               {/* content */}
               <HandwritingLeft
                 state={currState}
@@ -154,7 +154,7 @@ function HandwritingFrame({}) {
               />
             </div>
             <div className="absolute border-l border-gray-300 py-8 h-3/4 md:block hidden" />
-            <div className="flex flex-col items-center relative h-full w-full px-8 min-h-60">
+            <div className="flex flex-col items-center relative h-full w-full px-8 min-h-60 overflow-y-auto">
               {/* content */}
               <HandwritingRight
                 state={currState}
