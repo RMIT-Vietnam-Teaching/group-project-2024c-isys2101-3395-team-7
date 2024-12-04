@@ -1,0 +1,93 @@
+import os
+import base64
+from flask import Flask, request, jsonify
+from openai import OpenAI
+from dotenv import load_dotenv
+from PIL import Image
+from pillow_heif import register_heif_opener
+from flask_cors import CORS
+import io
+
+load_dotenv(override=True)
+register_heif_opener()
+frontend_url = os.getenv("FRONTEND_URL")
+allowed_access_origins = ['http://localhost:3000', frontend_url]
+
+app = Flask(__name__)
+CORS(app)
+
+# Load the API key from an environment variable
+api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=api_key) 
+
+@app.route('/transcribe-audio', methods=['POST'])
+def transcribe_audio():
+    try:
+        # Check if an audio file is provided
+        if 'audio' not in request.files:
+            return jsonify({"error": "No audio file provided."}), 400
+
+        # Get the uploaded audio file
+        audio_file = request.files['audio']
+
+        # Convert the file to a file-like object
+        audio_file_content = audio_file.read()
+        file_like_audio = io.BytesIO(audio_file_content)
+        file_like_audio.name = audio_file.filename  # Add a name attribute for context
+
+        # Call the OpenAI API to transcribe the audio
+        transcription = client.audio.transcriptions.create(
+            model="whisper-1",
+            file=file_like_audio
+        )
+
+       # Convert the transcription object to a dictionary (or extract relevant fields)
+        transcription_dict = transcription.to_dict() if hasattr(transcription, 'to_dict') else transcription
+
+        # Return the transcription result as JSON
+        return jsonify(transcription_dict)
+
+    except Exception as e:
+        # Handle exceptions and return error response
+        return jsonify({"error": str(e)}), 500
+
+    
+# @app.route('/correct', methods=['POST'])
+# def correct_text():
+#     try:
+#         data = request.json
+#         input_text = data.get("text")
+
+#         response = client.chat.completions.create(
+#             model=MODEL,
+#             messages=[
+#                 {"role": "system", "content": "You are an expert in Vietnamese spelling and grammar."},
+#                 {"role": "user", "content": f"Sửa ngữ pháp hoặc chính tả: '{input_text}' return only corrected text."}
+#             ],
+#             temperature=0.0,
+#         )
+
+#         corrected_text = response.choices[0].message.content.strip()
+#         usage = response.usage.to_dict()
+
+#         return jsonify({"corrected_text": corrected_text, "usage": usage})
+
+#     except Exception as e:
+#         return jsonify({"error": str(e)}), 500
+
+@app.after_request
+def after_request(response):
+    # Allow access from a specific origin and include credentials
+    origin = request.headers.get('Origin')
+    if origin in allowed_access_origins:
+        response.headers.add('Access-Control-Allow-Origin', origin)  
+        response.headers.add('Access-Control-Allow-Credentials', 'true')  # Enable credentials support
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
+    
+    return response
+
+
+if __name__ == '__main__':
+    port = int(os.getenv("PORT", 5000))  # Use the PORT environment variable if available
+    app.run(host="0.0.0.0", port=port, debug=True)  # Bind to 0.0.0.0 for external access
