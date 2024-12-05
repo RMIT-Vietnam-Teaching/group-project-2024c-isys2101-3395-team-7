@@ -8,7 +8,7 @@ import { correctRecognizedTextTemp, recognizeVoice, recordHistory, uploadAudio }
 import { pushSuccess } from "@/components/Toast";
 import VoiceLeft from "@/components/voice/VoiceLeft";
 import VoiceRight from "@/components/voice/VoiceRight";
-import SpeechToTextInterface from "@/components/voice/SpeechToTextInterface";
+// import SpeechToTextInterface from "@/components/voice/SpeechToTextInterface";
 
 const VoiceFrame = ({ }) => {
     const [currState, setCurrState] = useState("begin");
@@ -21,7 +21,7 @@ const VoiceFrame = ({ }) => {
 
     const handleFileChange = (file) => {
         console.log('receive file', file)
-        if (file instanceof File) {
+        if (file instanceof File || file instanceof Blob) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 setAudioUrl(e.target.result);

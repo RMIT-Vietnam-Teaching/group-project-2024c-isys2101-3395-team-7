@@ -5,8 +5,7 @@ import { pushError, pushWarning } from "@/components/Toast";
 import Button from "@/components/ui/Button";
 import { useState } from "react";
 import VoiceIcon from "@/components/icons/VoiceIcon";
-import SpeechToTextInterface from "@/components/voice/SpeechToTextInterface";
-import { ReactMediaRecorder } from "react-media-recorder";
+import VoiceRecorder from "../VoiceRecorder";
 
 const VoiceRight = ({ state, handleState, handleForm, correctText }) => {
     const errors = [];
@@ -18,13 +17,11 @@ const VoiceRight = ({ state, handleState, handleForm, correctText }) => {
         setSelectedFile(file);
     };
 
-    const handleRecord = async (e, recordFunction) => {
-        e.preventDefault();
-        await recordFunction();
+    const handleRecord = (recordFile) => {
+        setSelectedFile(recordFile)
     }
 
-    const handleFileUpload = async (event) => {
-        event.preventDefault();
+    const handleFileUpload = () => {
         handleForm(selectedFile);
     };
 
@@ -68,32 +65,12 @@ const VoiceRight = ({ state, handleState, handleForm, correctText }) => {
                                     {selectedFile ? "Choose another file" : "Browse your file"}
                                 </div>
                                 <p>Or</p>
-                                <div
+                                {/* <div
                                     onClick={handleMicrophoneClick}
                                     className="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange">
                                     Start Recording
-                                </div>
-                                <ReactMediaRecorder
-                                    audio
-                                    onStop={(blobUrl, blob) => {
-                                        setSelectedFile(blobUrl);
-                                    }}
-                                    render={({ startRecording, stopRecording, mediaBlobUrl }) => (
-                                        <div>
-                                            <Button
-                                                style="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange"
-                                                onClick={(e) => handleRecord(e, startRecording)}
-                                                text={"Start Recording"}
-                                            />
-                                            <Button
-                                                style="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange"
-                                                onClick={(e) => handleRecord(e, stopRecording)}
-                                                text={"Stop Recording"}
-                                            />
-                                            <audio className="hidden" src={mediaBlobUrl} controls />
-                                        </div>
-                                    )}
-                                />
+                                </div> */}
+                                <VoiceRecorder setFile={handleRecord} />
                             </div>
                         </label>
                         {selectedFile && (
@@ -134,14 +111,6 @@ const VoiceRight = ({ state, handleState, handleForm, correctText }) => {
                     <p className="text-lg block mt-3">{correctText.comment || ""}</p>
                 </>
             )}
-
-            {/*TODO: Speech-to-text mode couldn't appear alongside VoiceLeft*/}
-            {/* {state === "microphone" && (
-                <SpeechToTextInterface
-                    handleState={handleState}
-                    handleForm={handleFileRecord}
-                />
-            )} */}
         </>
     )
 }

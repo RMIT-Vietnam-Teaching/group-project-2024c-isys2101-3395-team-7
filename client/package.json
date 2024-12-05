@@ -13,10 +13,10 @@
     "next": "15.0.3",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
-    "react-media-recorder": "^1.7.1",
+    "react-dom": "^18.2.0",
+    "react-mic": "^12.4.6",
     "react-player": "^2.16.0",
-    "react-toastify": "^10.0.6",
-    "workerize": "^0.1.8"
+    "react-toastify": "^10.0.6"
   },
   "devDependencies": {
     "eslint": "9.15.0",
