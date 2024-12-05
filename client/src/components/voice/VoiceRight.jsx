@@ -1,45 +1,37 @@
 "use client";
 
 import DragDropIcon from "@/components/icons/DragDropIcon";
-import {pushError, pushWarning} from "@/components/Toast";
+import { pushError, pushWarning } from "@/components/Toast";
 import Button from "@/components/ui/Button";
-import {useState} from "react";
+import { useState } from "react";
 import VoiceIcon from "@/components/icons/VoiceIcon";
 import SpeechToTextInterface from "@/components/voice/SpeechToTextInterface";
+import { ReactMediaRecorder } from "react-media-recorder";
 
-const VoiceRight = ({state, handleState, handleForm, correctText}) => {
+const VoiceRight = ({ state, handleState, handleForm, correctText }) => {
     const errors = [];
     const [selectedFile, setSelectedFile] = useState(null);
 
-    const handleFileChange = (event) => {
+    const handleFileInput = (event) => {
         event.preventDefault();
         const file = event.target.files[0];
-        if (!isValidAudioFile(file)) {
-            setSelectedFile(null);
-            pushError("Invalid file type!");
-            pushWarning("Allowable file formats: .WAV, .mp3, .FLAC, .AAC, .AIFF");
-            return;
-        }
         setSelectedFile(file);
     };
+
+    const handleRecord = async (e, recordFunction) => {
+        e.preventDefault();
+        await recordFunction();
+    }
 
     const handleFileUpload = async (event) => {
         event.preventDefault();
         handleForm(selectedFile);
     };
 
-    const isValidAudioFile = (file) => {
-        const acceptedAudioTypes = [
-            "audio/WAV",
-            "audio/MP3",
-        ];
-        return acceptedAudioTypes.includes(file.type);
-    };
-
     const handleMicrophoneClick = (event) => {
         event.preventDefault(); // Prevent default form submission
         console.log("Microphone button clicked!");
-        handleState("microphone");
+        // handleState("microphone");
     }
 
     return (
@@ -54,23 +46,23 @@ const VoiceRight = ({state, handleState, handleForm, correctText}) => {
                             className="grid appearance-none cursor-pointer hover:border-gray-400 focus:outline-none justify-items-center">
                             <div className={"flex gap-4 justify-center"}>
                                 <div>
-                                    <DragDropIcon width={50} height={50}/>
+                                    <DragDropIcon width={50} height={50} />
                                 </div>
                                 <div>
                                     <p> / </p>
                                 </div>
                                 <div onClick={handleMicrophoneClick}>
-                                    <VoiceIcon width={50} height={50}/>
+                                    <VoiceIcon width={50} height={50} />
                                 </div>
                             </div>
                             <div>{selectedFile?.name}</div>
                             <input
                                 type="file"
                                 name="audio"
-                                onChange={handleFileChange}
+                                accept="audio/*"
+                                onChange={(e) => handleFileInput(e)}
                                 className="hidden"
                             />
-                            <pushError message={"Invalid file type!"}/>
                             <div className={"flex gap-4 justify-center"}>
                                 <div className="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange">
                                     {selectedFile ? "Choose another file" : "Browse your file"}
@@ -81,6 +73,27 @@ const VoiceRight = ({state, handleState, handleForm, correctText}) => {
                                     className="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange">
                                     Start Recording
                                 </div>
+                                <ReactMediaRecorder
+                                    audio
+                                    onStop={(blobUrl, blob) => {
+                                        setSelectedFile(blobUrl);
+                                    }}
+                                    render={({ startRecording, stopRecording, mediaBlobUrl }) => (
+                                        <div>
+                                            <Button
+                                                style="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange"
+                                                onClick={(e) => handleRecord(e, startRecording)}
+                                                text={"Start Recording"}
+                                            />
+                                            <Button
+                                                style="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange"
+                                                onClick={(e) => handleRecord(e, stopRecording)}
+                                                text={"Stop Recording"}
+                                            />
+                                            <audio className="hidden" src={mediaBlobUrl} controls />
+                                        </div>
+                                    )}
+                                />
                             </div>
                         </label>
                         {selectedFile && (
@@ -123,11 +136,12 @@ const VoiceRight = ({state, handleState, handleForm, correctText}) => {
             )}
 
             {/*TODO: Speech-to-text mode couldn't appear alongside VoiceLeft*/}
-            {state === "microphone" && (
+            {/* {state === "microphone" && (
                 <SpeechToTextInterface
                     handleState={handleState}
+                    handleForm={handleFileRecord}
                 />
-            )}
+            )} */}
         </>
     )
 }

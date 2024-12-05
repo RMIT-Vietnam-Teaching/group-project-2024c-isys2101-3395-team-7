@@ -20,6 +20,7 @@ export async function recognizeHandwriting(formData) {
     throw error;
   }
 }
+
 export async function correctRecognizedText(text) {
   console.log("correctRecognizedText", text);
   try {
@@ -35,13 +36,18 @@ export async function correctRecognizedText(text) {
         withCredentials: true,
       }
     );
-
     console.log("API response:", res.data);
     return res.data.corrected_text;
   } catch (error) {
     console.error("Error during API call:", error);
     throw error;
   }
+}
+
+// temp function for testing ui
+export async function correctRecognizedTextTemp(text) {
+  const recognizedText = Math.random().toString(36).substring(2, 15);
+  return new Promise((resolve) => setTimeout(() => resolve(recognizedText), 2000)); // Return only the recognized text
 }
 
 export async function recordHistory(formData) {
@@ -87,6 +93,20 @@ export async function uploadImage(image) {
     console.log(error);
   }
 }
+
+export async function uploadAudio(file) {
+  console.log("Uploading audio file:", file.name);
+  // Simulate a successful upload with a delay
+  return new Promise((resolve) => setTimeout(() => resolve({ audioId: 1 ,message: "Audio uploaded successfully!" }), 1000));
+}
+
+export async function recognizeVoice() {
+  console.log("Voice recognition in progress...");
+  // Simulate voice recognition with a random recognized text
+  const recognizedText = Math.random().toString(36).substring(2, 15);
+  return new Promise((resolve) => setTimeout(() => resolve({ recognized_text: recognizedText }), 2000));
+}
+
 export async function addFavourite() {
   // try {
   //     const res = await axios.post("/correct", text);
