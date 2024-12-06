@@ -51,29 +51,57 @@ def transcribe_audio():
         # Handle exceptions and return error response
         return jsonify({"error": str(e)}), 500
 
-    
-# @app.route('/correct', methods=['POST'])
-# def correct_text():
-#     try:
-#         data = request.json
-#         input_text = data.get("text")
+@app.route('/correct-audio', methods=['POST'])
+def correct_text():
+    try:
+        # Get input text from request
+        data = request.json
+        input_text = data.get("text")
 
-#         response = client.chat.completions.create(
-#             model=MODEL,
-#             messages=[
-#                 {"role": "system", "content": "You are an expert in Vietnamese spelling and grammar."},
-#                 {"role": "user", "content": f"Sửa ngữ pháp hoặc chính tả: '{input_text}' return only corrected text."}
-#             ],
-#             temperature=0.0,
-#         )
+        if not input_text:
+            return jsonify({"error": "No text provided."}), 400
 
-#         corrected_text = response.choices[0].message.content.strip()
-#         usage = response.usage.to_dict()
+        # Adjust prompt to identify grammar or pronunciation mistakes and correct them
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are an expert in Vietnamese spelling, grammar, and pronunciation analysis."},
+                {
+                    "role": "user",
+                    "content": f"""
+                    Đoạn văn sau được lấy từ giọng nói: '{input_text}'.
+                    Hãy phân tích và:
+                    1. Chỉ ra lỗi ngữ pháp hoặc phát âm trong đoạn văn, bao gồm mô tả ngắn gọn tại sao nó sai.
+                    2. Đưa ra đoạn văn đã được sửa chính xác hoàn toàn.
+                    
+                    Trả lời dưới dạng JSON với cấu trúc:
+                    {{
+                        "errors": [
+                            {{
+                                "mistake": "<original_text_with_error>",
+                                "correction": "<corrected_text>",
+                                "description": "<why_it_is_wrong>"
+                            }},
+                            ...
+                        ],
+                        "corrected_text": "<text_with_all_corrections_applied>"
+                    }}
+                    """
+                }
+            ],
+            temperature=0.0,
+        )
 
-#         return jsonify({"corrected_text": corrected_text, "usage": usage})
+        # Parse AI response
+        ai_response = response.choices[0].message.content.strip()
+        usage = response.usage.to_dict()
 
-#     except Exception as e:
-#         return jsonify({"error": str(e)}), 500
+        # Return the corrected and detailed response
+        return jsonify({"result": ai_response, "usage": usage})
+
+    except Exception as e:
+        # Handle exceptions
+        return jsonify({"error": str(e)}), 500
 
 @app.after_request
 def after_request(response):
