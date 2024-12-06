@@ -1,11 +1,12 @@
 import os
 import base64
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file, after_this_request
 from openai import OpenAI
 from dotenv import load_dotenv
 from PIL import Image
 from pillow_heif import register_heif_opener
 from flask_cors import CORS
+from pathlib import Path
 import io
 
 load_dotenv(override=True)
@@ -115,6 +116,48 @@ def after_request(response):
     
     return response
 
+@app.route('/generate-speech', methods=['POST'])
+def generate_speech():
+    try:
+        # Check if the input text is provided in the request
+        input_text = request.json.get('text', None)
+        if not input_text:
+            return jsonify({"error": "No input text provided."}), 400
+
+        # Optional: Check if a specific voice is provided
+        voice = request.json.get('voice', 'alloy')  # Default to 'alloy'
+
+        # Generate the speech using the OpenAI API
+        speech_file_path = Path(__file__).parent / "speech.mp3"
+        response = client.audio.speech.create(
+            model="tts-1",
+            voice=voice,
+            input=input_text,
+        )
+        print(response)
+        response.stream_to_file(speech_file_path)
+        
+        # # Prepare the speech file for return
+        # Schedule file deletion after the response is sent
+        @after_this_request
+        def cleanup_file(response):
+            try:
+                if os.path.exists(speech_file_path):
+                    os.remove(speech_file_path)
+            except Exception as e:
+                print(f"Error deleting file: {e}")
+            return response
+
+        return send_file(
+            speech_file_path,
+            mimetype='audio/mpeg',
+            as_attachment=True,
+            download_name="generated_speech.mp3",
+        )
+
+    except Exception as e:
+        # Handle exceptions and return an error response
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5000))  # Use the PORT environment variable if available
