@@ -87,7 +87,7 @@ const VoiceFrame = ({ }) => {
                 setRecognizedText(resTextRecognize);
                 console.log("has response");
                 const resCorrect = await correctRecognizedTextTemp(resTextRecognize);
-                console.log("respons text", resCorrect)
+                console.log("response text", resCorrect)
                 if (resCorrect) {
                     setCorrectText(resCorrect);
                     setCurrState("process");

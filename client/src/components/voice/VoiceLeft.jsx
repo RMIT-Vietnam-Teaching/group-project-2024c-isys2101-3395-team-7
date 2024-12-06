@@ -1,10 +1,22 @@
 import Image from "next/image";
 import ReactPlayer from "react-player";
+import {useEffect, useState} from "react";
 
-const VoiceLeft = ({ state, handleState, originalInput }) => {
+const VoiceLeft = ({ state, handleState, correctText, originalInput }) => {
+
+    const [transcript, setTranscript] = useState('Your speech will appear here...');
+
+    // Update transcript with the correctText when available
+    useEffect(() => {
+        if (correctText) {
+            setTranscript(correctText.comment); // Update the transcript state
+        }
+    }, [correctText]); // Runs whenever correctText is updated
+
+
     return (
         <>
-            <div className="mb-10 text-center md:border-b-0 border-b pb-5 h-full">
+            <div className="mb-10 text-center md:border-b-0 border-b pb-5 h-full w-full">
                 {(state === "begin") && (
                     <div className="h-full">
                         <p className="md:absolute top-20">Upload your Vietnamese voice recording to get feedback!</p>
@@ -14,13 +26,27 @@ const VoiceLeft = ({ state, handleState, originalInput }) => {
                     </div>
                 )}
                 {state === "process" && (
-                    <>
-                        <h3 className="text-lg font-bold h-20 grid content-center">Original / Bản gốc</h3>
-                        <ReactPlayer className="w-fit" url={originalInput} controls />
-                        <div className="h-4/5 grid content-center">
-
+                    <div className="h-full w-full flex flex-col justify-center items-center gap-6">
+                        <div className={"w-full"}>
+                            <h3 className="text-lg font-bold">Original / Bản gốc</h3>
                         </div>
-                    </>
+                        <div className={"flex flex-col gap-6 w-full"}>
+                            <div className={"w-full max-w-md"}>
+                                <ReactPlayer className="w-full" url={originalInput} controls
+                                             width="100%"
+                                             height="50px"
+                                />
+                            </div>
+                            <div className="">
+                                <textarea
+                                className="block w-full p-4 border border-gray-300 rounded-lg resize-x bg-gray-100 text-black overflow-y-auto"
+                                value={transcript}
+                                placeholder='Your speech will appear here...'
+                                readOnly
+                            />
+                            </div>
+                        </div>
+                    </div>
                 )}
             </div>
         </>
