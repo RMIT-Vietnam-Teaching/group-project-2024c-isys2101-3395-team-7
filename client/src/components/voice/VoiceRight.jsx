@@ -6,8 +6,9 @@ import Button from "@/components/ui/Button";
 import { useState } from "react";
 import VoiceIcon from "@/components/icons/VoiceIcon";
 import VoiceRecorder from "../VoiceRecorder";
+import ReactPlayer from "react-player";
 
-const VoiceRight = ({ state, handleState, handleForm, correctText }) => {
+const VoiceRight = ({ state, handleState, handleForm, correctText, resultAudio, testAudio }) => {
     const errors = [];
     const [selectedFile, setSelectedFile] = useState(null);
 
@@ -33,7 +34,7 @@ const VoiceRight = ({ state, handleState, handleForm, correctText }) => {
 
     const isPlainText = (event) => {
         event.preventDefault();
-        console.log ("You are clicking on a slash /")
+        console.log("You are clicking on a slash /")
     }
 
     const handleRefreshRecording = () => {
@@ -55,7 +56,7 @@ const VoiceRight = ({ state, handleState, handleForm, correctText }) => {
                                     <DragDropIcon width={50} height={50} />
                                 </div>
                                 <div className="flex justify-center items-center cursor-default"
-                                onClick={isPlainText}>
+                                    onClick={isPlainText}>
                                     <p className={"text-4xl"}> / </p>
                                 </div>
                                 <div onClick={handleMicrophoneClick}>
@@ -79,11 +80,11 @@ const VoiceRight = ({ state, handleState, handleForm, correctText }) => {
                                 <div className={"flex flex-row gap-2 items-center justify-center w-26"}>
                                     <div className={"flex items-center justify-center"}>
                                         <p className="text-lg font-semibold text-gray-600 cursor-default text-center"
-                                           onClick={isPlainText}>Or</p>
+                                            onClick={isPlainText}>Or</p>
                                     </div>
                                     {/*Voice Recorder*/}
                                     <div className={"flex justify-center flex-col"}>
-                                        <VoiceRecorder setFile={handleRecord}/>
+                                        <VoiceRecorder setFile={handleRecord} />
                                     </div>
                                 </div>
 
@@ -116,11 +117,19 @@ const VoiceRight = ({ state, handleState, handleForm, correctText }) => {
                         <h3 className="text-lg font-bold text-center">Fixed / Bản sửa</h3>
                     </div>
                     <div className="overflow-y-auto md:px-8">
+                        <div className="mb-5">
+                            <span className="font-bold">Corrected Version: </span><br />
+                            {/* replace with the responded audio from api */}
+                            <ReactPlayer className="w-full" url={testAudio} controls
+                                width="100%"
+                                height="50px"
+                            />
+                        </div>
                         <p className="text-gray-700 mb-10 leading-loose">
                             {correctText || "No text available"}
                         </p>
                         <p className="text-gray-700">
-                            Total Errors: {correctText.errors || "0"}. Errors:
+                            <span className="font-bold">Total Errors: {correctText.errors || "0"}. Description:</span><br />
                             {errors.length === 0 && (
                                 <span className="text-red-500"> None</span>
                             )}

@@ -169,6 +169,7 @@ const VoiceFrame = ({ }) => {
                                     handleState={setCurrState}
                                     handleForm={handleSubmitFile}
                                     correctText={correctText}
+                                    testAudio={audioUrl}
                                 />
                             )}
                         </div>
