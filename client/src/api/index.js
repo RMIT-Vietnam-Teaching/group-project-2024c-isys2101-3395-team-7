@@ -44,12 +44,6 @@ export async function correctRecognizedText(text) {
   }
 }
 
-// temp function for testing ui
-export async function correctRecognizedTextTemp(text) {
-  const recognizedText = Math.random().toString(36).substring(2, 15);
-  return new Promise((resolve) => setTimeout(() => resolve(recognizedText), 2000)); // Return only the recognized text
-}
-
 export async function recordHistory(formData) {
   try {
     const res = await axios.post(
@@ -100,11 +94,24 @@ export async function uploadAudio(file) {
   return new Promise((resolve) => setTimeout(() => resolve({ audioId: 1 ,message: "Audio uploaded successfully!" }), 1000));
 }
 
-export async function recognizeVoice() {
+// receive formData -> send audio file
+export async function recognizeVoice(formData) {
   console.log("Voice recognition in progress...");
   // Simulate voice recognition with a random recognized text
   const recognizedText = Math.random().toString(36).substring(2, 15);
   return new Promise((resolve) => setTimeout(() => resolve({ recognized_text: recognizedText }), 2000));
+}
+
+// receive recognized voice's text -> send to ai's voice reading
+export async function correctRecognizedTextVoice(text) {
+  const recognizedText = Math.random().toString(36).substring(2, 15);
+  return new Promise((resolve) => setTimeout(() => resolve(recognizedText), 2000)); // Return only the recognized text
+}
+
+// receive corrected voice's text -> return audio file of ai voice
+export async function createAiVoice(text) {
+  const recognizedText = Math.random().toString(36).substring(2, 15);
+  return new Promise((resolve) => setTimeout(() => resolve(recognizedText), 2000)); // Return only the recognized text
 }
 
 export async function addFavourite() {

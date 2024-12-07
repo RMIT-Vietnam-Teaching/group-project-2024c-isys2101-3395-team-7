@@ -1,8 +1,8 @@
 import Image from "next/image";
 import ReactPlayer from "react-player";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 
-const VoiceLeft = ({ state, handleState, correctText, originalInput }) => {
+const VoiceLeft = ({ state, handleState, correctText, originalInput, originalVoiceRecognize }) => {
 
     const [transcript, setTranscript] = useState('Your speech will appear here...');
 
@@ -33,18 +33,19 @@ const VoiceLeft = ({ state, handleState, correctText, originalInput }) => {
                         <div className={"flex flex-col gap-6 w-full"}>
                             <div className={"w-full max-w-md"}>
                                 <ReactPlayer className="w-full" url={originalInput} controls
-                                             width="100%"
-                                             height="50px"
+                                    width="100%"
+                                    height="50px"
                                 />
                             </div>
                             {/*Insert Transcript text from API (before correction) here*/}
                             <div className="">
+                                <p>What we hear from you...</p>
                                 <textarea
-                                className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
-                                value={transcript}
-                                placeholder='Your speech will appear here...'
-                                readOnly
-                            />
+                                    className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
+                                    value={originalVoiceRecognize | transcript}
+                                    placeholder='Your speech will appear here...'
+                                    readOnly
+                                />
                             </div>
                         </div>
                     </div>

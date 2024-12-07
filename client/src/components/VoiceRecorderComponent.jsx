@@ -13,8 +13,14 @@ const VoiceRecorderComponent = ({ setFile }) => {
     };
 
     const onStop = async (recordedBlob) => {
-        console.log('recordedBlob is: ', recordedBlob.blobURL);
-        await setFile(recordedBlob.blobURL);
+        console.log('recordedBlob is: ', recordedBlob);
+        // haven't handled file name -> maybe name follow user's info + datetime?
+        const userId = "user_id";
+        const timestamp = Date.now();
+        const filename = `${userId}_${timestamp}.wav`;
+
+        const file = new File([recordedBlob.blob], filename, { type: 'audio/wav' });
+        await setFile(file);
     };
 
     return (

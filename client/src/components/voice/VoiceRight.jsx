@@ -94,7 +94,7 @@ const VoiceRight = ({ state, handleState, handleForm, correctText, resultAudio, 
                         </label>
                         {selectedFile && (
                             <>
-                                <div className={"italic"}>real_time_Recorded_file.mp3</div>
+                                <div className={"italic"}>{selectedFile.name}</div>
                                 {/* Refresh button */}
                                 <Button
                                     onClick={handleRefreshRecording}
@@ -123,7 +123,7 @@ const VoiceRight = ({ state, handleState, handleForm, correctText, resultAudio, 
                         <div className="mb-5">
                             <span className="font-bold">Corrected Audio Version In AI Voice: </span><br />
                             {/* replace with the responded audio from api */}
-                            <ReactPlayer className="w-full" url={testAudio} controls
+                            <ReactPlayer className="w-full" url={resultAudio || testAudio} controls
                                 width="100%"
                                 height="50px"
                             />
@@ -140,7 +140,7 @@ const VoiceRight = ({ state, handleState, handleForm, correctText, resultAudio, 
                         </div>
                         {/*============ERROR DETAILED DESCRIPTION HERE==============*/}
                         <p className="text-gray-700">
-                            <span>Total Errors: <b>{correctText.errors || "0"}</b>. <strong>Description:</strong></span><br/>
+                            <span>Total Errors: <b>{correctText.errors || "0"}</b>. <strong>Description:</strong></span><br />
                             {errors.length === 0 && (
                                 <span className="text-red-500"> None</span>
                             )}
