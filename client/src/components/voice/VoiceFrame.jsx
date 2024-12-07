@@ -4,11 +4,10 @@ import Button from "@/components/ui/Button";
 import StarIcon from "@/components/icons/StarIcon";
 import CircularProgress from "@/components/CircularProgress";
 import { useState } from "react";
-import { correctRecognizedTextTemp, recognizeVoice, recordHistory, uploadAudio } from "@/api";
+import { correctRecognizedTextVoice, recognizeVoice, recordHistory, uploadAudio, createAiVoice } from "@/api";
 import { pushSuccess } from "@/components/Toast";
 import VoiceLeft from "@/components/voice/VoiceLeft";
 import VoiceRight from "@/components/voice/VoiceRight";
-// import SpeechToTextInterface from "@/components/voice/SpeechToTextInterface";
 
 const VoiceFrame = ({ }) => {
     const [currState, setCurrState] = useState("begin");
@@ -17,17 +16,18 @@ const VoiceFrame = ({ }) => {
     const [recognizedText, setRecognizedText] = useState("");
     const [correctText, setCorrectText] = useState(null);
     const [audioUrl, setAudioUrl] = useState(null);
+    const [resultAudio, setResultAudio] = useState(null);
     const [loading, setLoading] = useState(false); // State to manage loading status
 
     const handleFileChange = (file) => {
         console.log('receive file', file)
-        if (file instanceof File || file instanceof Blob) {
+        if (file instanceof File) {
             const reader = new FileReader();
             reader.onload = (e) => {
                 setAudioUrl(e.target.result);
             };
             reader.readAsDataURL(file);
-        } else setAudioUrl(file);
+        }
     };
 
     const handleSubmitFile = async (newFileUpload) => {
@@ -86,12 +86,17 @@ const VoiceFrame = ({ }) => {
                 // Assuming success check
                 setRecognizedText(resTextRecognize);
                 console.log("has response");
-                const resCorrect = await correctRecognizedTextTemp(resTextRecognize);
+                const resCorrect = await correctRecognizedTextVoice(resTextRecognize);
                 console.log("response text", resCorrect)
-                if (resCorrect) {
+                if (resCorrect) {   // after get correct text
                     setCorrectText(resCorrect);
-                    setCurrState("process");
-                    return resCorrect;
+                    // send correct text for ai voice reading
+                    const resAudio = await createAiVoice(resCorrect);
+                    if (resAudio) {
+                        setResultAudio(resAudio);
+                        setCurrState("process");
+                        return resCorrect;
+                    }
                 }
             }
             return null;
@@ -150,6 +155,7 @@ const VoiceFrame = ({ }) => {
                                 state={currState}
                                 handleState={setCurrState}
                                 originalInput={audioUrl}
+                                originalVoiceRecognize={recognizedText}
                             />
                         </div>
                         <div className="absolute border-l border-gray-300 py-8 h-3/4 md:block hidden" />
@@ -169,7 +175,8 @@ const VoiceFrame = ({ }) => {
                                     handleState={setCurrState}
                                     handleForm={handleSubmitFile}
                                     correctText={correctText}
-                                    testAudio={audioUrl}
+                                    resultAudio={audioUrl}      // replace with resultAudio after handle api response
+                                    testAudio={audioUrl}        // can delete this line after handle api response
                                 />
                             )}
                         </div>
