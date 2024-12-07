@@ -41,6 +41,8 @@ const VoiceRight = ({ state, handleState, handleForm, correctText, resultAudio, 
         setSelectedFile(null); // Clears the current recording, allowing a new recording to start
     };
 
+    const [transcript, setTranscript] = useState('Transcript Texts From Fixed Audio will be displayed here');
+
     return (
         <>
             {state === "begin" && (
@@ -112,24 +114,33 @@ const VoiceRight = ({ state, handleState, handleForm, correctText, resultAudio, 
             )}
 
             {state === "process" && (
-                <>
+                <div className={"h-full w-full flex flex-col justify-center items-center gap-6"}>
                     <div className="w-full md:h-28 grid content-center md:pb-0 pb-5">
                         <h3 className="text-lg font-bold text-center">Fixed / Bản sửa</h3>
                     </div>
-                    <div className="overflow-y-auto md:px-8">
+                    <div className="overflow-y-auto md:px-8 w-full">
+                        {/*===================AI AUDIO====================*/}
                         <div className="mb-5">
-                            <span className="font-bold">Corrected Version: </span><br />
+                            <span className="font-bold">Corrected Audio Version In AI Voice: </span><br />
                             {/* replace with the responded audio from api */}
                             <ReactPlayer className="w-full" url={testAudio} controls
                                 width="100%"
                                 height="50px"
                             />
                         </div>
-                        <p className="text-gray-700 mb-10 leading-loose">
-                            {correctText || "No text available"}
-                        </p>
+                        {/*=======TRANSCRIPT TEXT FROM AI AUDIO HERE:==========*/}
+                        <div>
+                            <span className="font-bold">Transcript Texts from the audio above:</span>
+                            <textarea
+                                className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
+                                value={transcript}
+                                placeholder='Transcript Texts From Fixed Audio will be displayed here.'
+                                readOnly
+                            />
+                        </div>
+                        {/*============ERROR DETAILED DESCRIPTION HERE==============*/}
                         <p className="text-gray-700">
-                            <span className="font-bold">Total Errors: {correctText.errors || "0"}. Description:</span><br />
+                            <span>Total Errors: <b>{correctText.errors || "0"}</b>. <strong>Description:</strong></span><br/>
                             {errors.length === 0 && (
                                 <span className="text-red-500"> None</span>
                             )}
@@ -143,7 +154,7 @@ const VoiceRight = ({ state, handleState, handleForm, correctText, resultAudio, 
                         </ul>
                     </div>
                     <p className="text-lg block mt-3">{correctText.comment || ""}</p>
-                </>
+                </div>
             )}
         </>
     )

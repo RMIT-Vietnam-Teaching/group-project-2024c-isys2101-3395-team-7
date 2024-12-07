@@ -37,9 +37,10 @@ const VoiceLeft = ({ state, handleState, correctText, originalInput }) => {
                                              height="50px"
                                 />
                             </div>
+                            {/*Insert Transcript text from API (before correction) here*/}
                             <div className="">
                                 <textarea
-                                className="block w-full p-4 border border-gray-300 rounded-lg resize-x bg-gray-100 text-black overflow-y-auto"
+                                className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
                                 value={transcript}
                                 placeholder='Your speech will appear here...'
                                 readOnly
