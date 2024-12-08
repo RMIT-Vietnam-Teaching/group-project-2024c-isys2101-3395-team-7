@@ -1,6 +1,6 @@
 import os
 import base64
-from flask import Flask, request, jsonify, send_file, after_this_request
+from flask import Flask, request, jsonify, send_file, after_this_request, Response
 from openai import OpenAI
 from dotenv import load_dotenv
 from PIL import Image
@@ -137,27 +137,22 @@ def generate_speech():
         print(response)
         response.stream_to_file(speech_file_path)
         
-        # # Prepare the speech file for return
-        # Schedule file deletion after the response is sent
-        @after_this_request
-        def cleanup_file(response):
-            try:
-                if os.path.exists(speech_file_path):
-                    os.remove(speech_file_path)
-            except Exception as e:
-                print(f"Error deleting file: {e}")
-            return response
+        # Read the audio file as binary data
+        with open(speech_file_path, "rb") as audio_file:
+            audio_data = audio_file.read()
 
-        return send_file(
-            speech_file_path,
-            mimetype='audio/mpeg',
-            as_attachment=True,
-            download_name="generated_speech.mp3",
+        # Return the binary data directly as the response
+        return Response(
+            audio_data,
+            mimetype="audio/mpeg",
         )
-
     except Exception as e:
         # Handle exceptions and return an error response
         return jsonify({"error": str(e)}), 500
+    finally:
+        # Ensure the temporary file is cleaned up
+        if os.path.exists(speech_file_path):
+            os.remove(speech_file_path)
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5000))  # Use the PORT environment variable if available
