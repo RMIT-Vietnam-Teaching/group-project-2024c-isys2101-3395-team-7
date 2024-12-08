@@ -24,6 +24,7 @@ const VoiceFrame = ({}) => {
   const [audioUrl, setAudioUrl] = useState(null);
   const [resultAudio, setResultAudio] = useState(null);
   const [loading, setLoading] = useState(false); // State to manage loading status
+  const [comments, setComments] = useState([]);
 
   const handleFileChange = (file) => {
     console.log("receive file", file);
@@ -39,7 +40,10 @@ const VoiceFrame = ({}) => {
   function extractText(response, content) {
     // Step 1: Get the `result` string and remove triple backticks
     const rawResult = response.result;
-    const jsonString = rawResult.replace(/```json\n|```/g, "").trim();
+    const jsonString = rawResult
+      .replace(/```json\n|```/g, "")
+      .split("\n\n")[0]
+      .trim();
 
     // Step 2: Parse the JSON string
     try {
@@ -47,12 +51,8 @@ const VoiceFrame = ({}) => {
       switch (content) {
         case "corrected_text":
           return parsedData.corrected_text;
-        case "description":
-          return parsedData.description;
-        case "mistake":
-          return parsedData.mistake;
-        case "correction":
-          return parsedData.correction;
+        case "errors":
+          return parsedData.errors;
         default:
           return null;
       }
@@ -117,10 +117,11 @@ const VoiceFrame = ({}) => {
       console.log("API response:", resTextRecognize);
       if (resTextRecognize) {
         // Assuming success check
-        setRecognizedText(resTextRecognize);
+        setRecognizedText(resTextRecognize.text);
         console.log("has response");
         const resCorrect = await correctRecognizedTextVoice(resTextRecognize);
         console.log("response text", resCorrect);
+        setComments(extractText(resCorrect, "errors"));
         if (resCorrect) {
           const correctedText = extractText(resCorrect, "corrected_text");
           // after get correct text
@@ -207,7 +208,9 @@ const VoiceFrame = ({}) => {
                   state={currState}
                   handleState={setCurrState}
                   handleForm={handleSubmitFile}
-                  correctText={correctText}
+                  comments={comments}
+                  rawText={recognizedText}
+                  correctedText={correctText}
                   resultAudio={resultAudio} // replace with resultAudio after handle api response
                 />
               )}
