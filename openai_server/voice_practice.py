@@ -129,32 +129,30 @@ def generate_speech():
 
         # Generate the speech using the OpenAI API
         speech_file_path = Path(__file__).parent / "speech.mp3"
-        response = client.audio.speech.create(
+        with client.audio.speech.with_streaming_response.create(
             model="tts-1",
             voice=voice,
             input=input_text,
-        )
-        print(response)
-        response.stream_to_file(speech_file_path)
+        ) as response:
+            response.stream_to_file(speech_file_path)
         
         # # Prepare the speech file for return
         # Schedule file deletion after the response is sent
-        @after_this_request
-        def cleanup_file(response):
-            try:
-                if os.path.exists(speech_file_path):
-                    os.remove(speech_file_path)
-            except Exception as e:
-                print(f"Error deleting file: {e}")
-            return response
+        # @after_this_request
+        # def cleanup_file(response):
+        #     try:
+        #         if os.path.exists(speech_file_path):
+        #             os.remove(speech_file_path)
+        #     except Exception as e:
+        #         print(f"Error deleting file: {e}")
+        #     return response
 
-        response = make_response(send_file(
+        return send_file(
             speech_file_path,
             mimetype="audio/mpeg",
             as_attachment=False,
-        ))
-        response.headers["Content-Type"] = "audio/mpeg"
-        return response
+            download_name="generated_speech.mp3",
+        )
 
     except Exception as e:
         # Handle exceptions and return an error response
