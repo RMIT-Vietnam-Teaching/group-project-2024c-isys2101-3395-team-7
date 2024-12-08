@@ -1,6 +1,6 @@
 import os
 import base64
-from flask import Flask, request, jsonify, send_file, after_this_request
+from flask import Flask, request, jsonify, send_file, after_this_request, make_response
 from openai import OpenAI
 from dotenv import load_dotenv
 from PIL import Image
@@ -148,12 +148,13 @@ def generate_speech():
                 print(f"Error deleting file: {e}")
             return response
 
-        return send_file(
+        response = make_response(send_file(
             speech_file_path,
-            mimetype='audio/mpeg',
+            mimetype="audio/mpeg",
             as_attachment=False,
-            download_name="generated_speech.mp3",
-        )
+        ))
+        response.headers["Content-Type"] = "audio/mpeg"
+        return response
 
     except Exception as e:
         # Handle exceptions and return an error response
