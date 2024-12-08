@@ -5,6 +5,7 @@ const recordSchema = new mongoose.Schema(
     username: { type: String, required: true },
     type: { type: String, required: true },
     image_id: { type: [mongoose.Types.ObjectId], ref: "images" },
+    audio_id: { type: [mongoose.Types.ObjectId], ref: "audios" },
     favorite: { type: Boolean, required: true },
     time: { type: Date, default: Date.now },
     answer: { type: String },
