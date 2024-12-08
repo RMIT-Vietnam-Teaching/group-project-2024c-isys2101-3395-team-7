@@ -151,7 +151,7 @@ def generate_speech():
         return send_file(
             speech_file_path,
             mimetype='audio/mpeg',
-            as_attachment=True,
+            as_attachment=False,
             download_name="generated_speech.mp3",
         )
 
