@@ -14,6 +14,7 @@ register_heif_opener()
 # Read and parse FRONTEND_URLS from the environment
 frontend_urls = os.getenv("FRONTEND_URLS", "")  # Default to an empty string if the variable is not set
 allowed_access_origins = [url.strip() for url in frontend_urls.split(",") if url.strip()]
+print(allowed_access_origins)
 
 app = Flask(__name__)
 CORS(app)
@@ -154,6 +155,10 @@ def generate_speech():
 
 @app.after_request
 def after_request(response):
+     # Check if response is None
+    if response is None:
+        return response  # Skip processing
+
     # Allow access from a specific origin and include credentials
     origin = request.headers.get('Origin')
     if origin in allowed_access_origins:
