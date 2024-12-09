@@ -38,13 +38,13 @@ def transcribe_audio():
         file_like_audio.name = audio_file.filename  # Add a name attribute for context
 
         # Call the OpenAI API to transcribe the audio
-        transcription = client.audio.transcriptions.create(
+        response = client.audio.transcriptions.create(
             model="whisper-1",
             file=file_like_audio
         )
 
        # Convert the transcription object to a dictionary (or extract relevant fields)
-        transcription_dict = transcription.to_dict() if hasattr(transcription, 'to_dict') else transcription
+        transcription_dict = response.to_dict() if hasattr(response, 'to_dict') else response
 
         # Return the transcription result as JSON
         return jsonify(transcription_dict)
