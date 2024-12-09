@@ -9,8 +9,11 @@ from flask_cors import CORS
 
 load_dotenv(override=True)
 register_heif_opener()
-frontend_url = os.getenv("FRONTEND_URL")
-allowed_access_origins = ['http://localhost:3000', frontend_url]
+# Allow Domains
+frontend_urls = os.getenv("FRONTEND_URLS")
+allowed_access_origins = []
+for frontend_url in frontend_urls.split(","):
+    allowed_access_origins.append(frontend_url)
 
 app = Flask(__name__)
 CORS(app)
