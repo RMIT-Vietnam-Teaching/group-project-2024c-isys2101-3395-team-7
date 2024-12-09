@@ -113,10 +113,10 @@ export async function recognizeVoice(formData) {
       "https://group-project-2024c-isys2101-3395-team-7-unfn.onrender.com/transcribe-audio",
       formData, // Use FormData as the request body
       {
-        withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data", // Ensure the correct content type
         },
+        withCredentials: true,
       }
     );
     return res.data;
