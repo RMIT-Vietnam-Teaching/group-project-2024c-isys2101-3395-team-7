@@ -106,15 +106,7 @@ def correct_text():
         # Handle exceptions
         return jsonify({"error": str(e)}), 500
 
-@app.after_request
-def after_request(response):
-    # Allow access from a specific origin and include credentials
-    origin = request.headers.get('Origin')
-    if origin in allowed_access_origins:
-        response.headers.add('Access-Control-Allow-Origin', origin)  
-        response.headers.add('Access-Control-Allow-Credentials', 'true')  # Enable credentials support
-    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-    response.headers.add('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
+
     
     return response
 
@@ -159,6 +151,17 @@ def generate_speech():
     except Exception as e:
         # Handle exceptions and return an error response
         return jsonify({"error": str(e)}), 500
+
+
+@app.after_request
+def after_request(response):
+    # Allow access from a specific origin and include credentials
+    origin = request.headers.get('Origin')
+    if origin in allowed_access_origins:
+        response.headers.add('Access-Control-Allow-Origin', origin)  
+        response.headers.add('Access-Control-Allow-Credentials', 'true')  # Enable credentials support
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'OPTIONS,POST,GET')
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5000))  # Use the PORT environment variable if available
