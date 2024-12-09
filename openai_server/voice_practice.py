@@ -108,6 +108,7 @@ def correct_text():
 def after_request(response):
     # Allow access from a specific origin and include credentials
     origin = request.headers.get('Origin')
+    print(origin)
     if origin in allowed_access_origins:
         response.headers.add('Access-Control-Allow-Origin', origin)  
         response.headers.add('Access-Control-Allow-Credentials', 'true')  # Enable credentials support
