@@ -10,9 +10,8 @@ const app = express();
 const frontendUrls = process.env.FRONTEND_URLS;
 const allowedOrigins = [];
 
-// Split the FRONTEND_URLS string and populate allowedOrigins
 for (const url of frontendUrls.split(",")) {
-  allowedOrigins.push(url.trim()); // Trim to remove any accidental spaces
+  allowedOrigins.push(url);
 }
 
 const corsOptions = {

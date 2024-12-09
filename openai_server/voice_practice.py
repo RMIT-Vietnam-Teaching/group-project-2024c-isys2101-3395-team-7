@@ -11,9 +11,10 @@ import io
 
 load_dotenv(override=True)
 register_heif_opener()
-# Read and parse FRONTEND_URLS from the environment
-frontend_urls = os.getenv("FRONTEND_URLS", "")  # Default to an empty string if the variable is not set
-allowed_access_origins = [url.strip() for url in frontend_urls.split(",") if url.strip()]
+frontend_urls = os.getenv("FRONTEND_URLS")
+allowed_access_origins = []
+for frontend_url in frontend_urls.split(","):
+    allowed_access_origins.append(frontend_url)
 
 app = Flask(__name__)
 CORS(app)
