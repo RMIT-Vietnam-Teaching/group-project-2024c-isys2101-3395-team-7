@@ -7,12 +7,11 @@ const recordRouter = require("./routes/recordRoute");
 const imageRouter = require("./routes/imageRoute");
 
 const app = express();
-const frontendUrls = process.env.FRONTEND_URLS;
-const allowedOrigins = [];
-
-for (const url of frontendUrls.split(",")) {
-  allowedOrigins.push(url);
-}
+const frontendUrl = process.env.FRONTEND_URL;
+const allowedOrigins = [
+  frontendUrl,
+  "http://localhost:3000", // For local development
+];
 
 const corsOptions = {
   origin: (origin, callback) => {
