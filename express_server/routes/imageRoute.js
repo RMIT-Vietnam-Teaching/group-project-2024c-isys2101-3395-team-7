@@ -4,7 +4,6 @@ const heicConvert = require("heic-convert");
 const Image = require("../models/image");
 const Record = require("../models/record");
 const { default: mongoose } = require("mongoose");
-const image = require("../models/image");
 
 const router = express.Router();
 const storage = multer.memoryStorage();

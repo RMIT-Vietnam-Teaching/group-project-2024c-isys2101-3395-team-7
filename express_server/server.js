@@ -5,6 +5,7 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const recordRouter = require("./routes/recordRoute");
 const imageRouter = require("./routes/imageRoute");
+const audioRouter = require("./routes/audioRoute");
 
 const app = express();
 const frontendUrl = process.env.FRONTEND_URL;
@@ -41,6 +42,8 @@ db.once("open", () => console.log("Connected to database"));
 app.use("/record", recordRouter);
 
 app.use("/image", imageRouter);
+
+app.use("/audio", audioRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
