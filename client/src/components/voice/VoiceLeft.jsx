@@ -2,7 +2,7 @@ import Image from "next/image";
 import ReactPlayer from "react-player";
 import { useEffect, useState } from "react";
 
-const VoiceLeft = ({ state, handleState, correctText, originalInput, originalVoiceRecognize }) => {
+const VoiceLeft = ({ state, handleState, correctText, originalInput, rawText }) => {
 
     const [transcript, setTranscript] = useState('Your speech will appear here...');
 
@@ -31,19 +31,27 @@ const VoiceLeft = ({ state, handleState, correctText, originalInput, originalVoi
                             <h3 className="text-lg font-bold">Original / Bản gốc</h3>
                         </div>
                         <div className={"flex flex-col gap-6 w-full"}>
-                            <div className={"w-full max-w-md"}>
-                                <ReactPlayer className="w-full" url={originalInput} controls
+                            <div className="mb-5">
+                                <br />
+                                {/* replace with the responded audio from api */}
+                                <ReactPlayer
+                                    className="w-full"
+                                    url={originalInput}
+                                    controls
                                     width="100%"
                                     height="50px"
                                 />
+                                <video preload="auto" controls src={originalInput} className="w-full" />
                             </div>
                             {/*Insert Transcript text from API (before correction) here*/}
-                            <div className="">
-                                <p>What we hear from you...</p>
+                            <div>
+                                <span className="font-bold text-left">
+                                    Recognized Text from your audio:
+                                </span>
                                 <textarea
                                     className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
-                                    value={originalVoiceRecognize | transcript}
-                                    placeholder='Your speech will appear here...'
+                                    value={rawText}
+                                    placeholder="Transcript Texts From Fixed Audio will be displayed here."
                                     readOnly
                                 />
                             </div>

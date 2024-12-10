@@ -15,7 +15,7 @@ import { pushSuccess } from "@/components/Toast";
 import VoiceLeft from "@/components/voice/VoiceLeft";
 import VoiceRight from "@/components/voice/VoiceRight";
 
-const VoiceFrame = ({}) => {
+const VoiceFrame = ({ }) => {
   const [currState, setCurrState] = useState("begin");
   const [isSaved, setSave] = useState(false);
   const formData = new FormData();
@@ -151,7 +151,7 @@ const VoiceFrame = ({}) => {
             setCurrState("begin");
             window.location.reload();
           }}
-          style="bg-pink md:py-2 p-2 md:text-base text-sm ml-20 hover:bg-orange"
+          style="bg-pink md:py-2 p-2 md:text-base text-sm md:ml-20 ml-8 hover:bg-orange"
         />
         <Button
           text={
@@ -160,14 +160,13 @@ const VoiceFrame = ({}) => {
               {"Star this answer"}
             </span>
           }
-          style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${
-            currState != "process" && "hidden"
-          }`}
+          style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${currState != "process" && "hidden"
+            }`}
           onClick={() => setSave(!isSaved)}
         />
       </div>
 
-      <div className="h-full border border-black bg-gray-100 py-4 mx-20 rounded-lg grid md:grid-cols-2 relative place-items-center">
+      <div className="h-full border border-black bg-gray-100 py-4 md:mx-20 mx-8 rounded-lg grid md:grid-cols-2 relative place-items-center">
         {loading ? (
           <div className="col-span-2 flex flex-col items-center justify-center">
             <h4 className="text-lg font-bold mt-8 mb-4">
@@ -190,7 +189,7 @@ const VoiceFrame = ({}) => {
                 state={currState}
                 handleState={setCurrState}
                 originalInput={audioUrl}
-                originalVoiceRecognize={recognizedText}
+                rawText={recognizedText}
               />
             </div>
             <div className="absolute border-l border-gray-300 py-8 h-3/4 md:block hidden" />

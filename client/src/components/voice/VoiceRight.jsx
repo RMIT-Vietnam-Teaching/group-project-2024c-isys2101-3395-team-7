@@ -165,17 +165,6 @@ const VoiceRight = ({
               />
             </div>
             {/*=======TRANSCRIPT TEXT FROM AI AUDIO HERE:==========*/}
-            <div>
-              <span className="font-bold">
-                Recognized Text from your audio:
-              </span>
-              <textarea
-                className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
-                value={rawText}
-                placeholder="Transcript Texts From Fixed Audio will be displayed here."
-                readOnly
-              />
-            </div>
             {/*============ERROR DETAILED DESCRIPTION HERE==============*/}
             <span className="text-gray-700">
               {comments.length == 0
@@ -194,7 +183,17 @@ const VoiceRight = ({
               ))}
               <br />
 
-              <p className="text-gray-700"> Correct Text: {correctedText}</p>
+              <div>
+                <span className="font-bold text-left">
+                  Correct Text:
+                </span>
+                <textarea
+                  className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
+                  value={correctedText}
+                  placeholder="Transcript Texts From Fixed Audio will be displayed here."
+                  readOnly
+                />
+              </div>
             </span>
           </div>
         </div>
