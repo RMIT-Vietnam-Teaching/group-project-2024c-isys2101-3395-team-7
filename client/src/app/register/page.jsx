@@ -1,8 +1,10 @@
-
+import RegisterPage from "@/components/register"
 
 const Register = () => {
     return (
-        <div>Register new account hereeee</div>
+        <>
+            <RegisterPage/>
+        </>
     )
 }
 
