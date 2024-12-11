@@ -20,11 +20,13 @@ const Login = () => {
         }
 
         try {
+            // TODO: adjusted the path below
             const response = await axios.post('http://localhost:3000/api/auth/login',
                 { username, password },
                 { withCredentials: true });
             if (response.status === 200) {
                 // Fetch the user info after successful login
+                // TODO: Adjusted the path below
                 const userResponse = await axios.get('http://localhost:3000/api/auth/user', { withCredentials: true });
                 // setUser(userResponse.data.user)
 
