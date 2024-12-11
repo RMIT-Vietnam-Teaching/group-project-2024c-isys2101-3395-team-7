@@ -70,7 +70,7 @@ export default function LandingPage() {
                             <div className={"flex justify-start w-full"}>
                                 <button
                                     onClick={() => router.push('/register')}
-                                    className="bg-orange-400 px-6 py-3 rounded text-black bg-pink font-medium hover:bg-orange">
+                                    className="bg-orange-400 px-6 py-3 rounded text-black bg-orange font-medium hover:text-bold hover:shadow-lg">
                                     Get Started
                                 </button>
                             </div>
