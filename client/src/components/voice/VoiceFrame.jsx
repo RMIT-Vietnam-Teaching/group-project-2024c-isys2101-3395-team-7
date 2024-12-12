@@ -82,7 +82,7 @@ const VoiceFrame = ({}) => {
     formData.append("time", new Date().toISOString());
     formData.append("type", type);
     formData.append("favorite", "false");
-    formData.append("audio_id", audio);
+    formData.append("audioId", audio);
     formData.append("answer", answer);
 
     try {
