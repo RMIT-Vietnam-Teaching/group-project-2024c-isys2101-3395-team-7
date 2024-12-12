@@ -43,6 +43,7 @@ router.post("/", upload.none(), async (req, res) => {
     username: req.body.username,
     type: req.body.type,
     image_id: req.body.imageId,
+    audio_id: req.body.audioId,
     favorite: req.body.favorite,
     time: req.body.time || Date.now(),
     answer: req.body.answer,
