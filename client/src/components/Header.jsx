@@ -1,8 +1,8 @@
 'use client'
 import React, { useState } from "react"
 import Link from "next/link";
-import Favorite from "@/components/Favorite";
-import History from "./History";
+import Favorite from "@/components/account-activity/Favorite";
+import History from "./account-activity/History";
 import NavBar from "@/components/NavBar";
 import { usePathname } from "next/navigation";
 import ToggleSwitch from "@/components/ToggleSwitch";
