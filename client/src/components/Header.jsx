@@ -4,7 +4,7 @@ import Link from "next/link";
 import Favorite from "@/components/Favorite";
 import History from "./History";
 import NavBar from "@/components/NavBar";
-import { usePathname } from "next/navigation";
+import {usePathname, useRouter} from "next/navigation";
 import ToggleSwitch from "@/components/ToggleSwitch";
 
 function Header() {
@@ -15,6 +15,7 @@ function Header() {
     const [isOpenMenu, setIsOpenMenu] = useState(false)
 
     const [isEnglish, setIsEnglish] = useState(true);
+    const router = useRouter()
 
     const toggleLanguage = () => {
         setIsEnglish(!isEnglish);
@@ -105,7 +106,7 @@ function Header() {
                                     <li>
                                         <button
                                             className="block px-5 py-2 text-black hover:bg-orange w-full text-left "
-                                            onClick={() => console.log("Profile Clicked")}
+                                            onClick={() => router.push('/user-profile')}
                                         >
                                             View Profile
                                         </button>
