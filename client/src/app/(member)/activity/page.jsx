@@ -3,7 +3,9 @@ import AccountActivity from "@/components/AccountActivity";
 const activity = () => {
     return (
         <>
-            <AccountActivity/>
+            <div className={"h-full"}>
+                <AccountActivity/>
+            </div>
         </>
     )
 }
