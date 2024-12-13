@@ -115,24 +115,4 @@ async function getRecord(req, res, next) {
   }
 }
 
-// Login user
-// router.post("/login", upload.none(), async (req, res) => {
-//   const { name, password } = req.body;
-//   try {
-//     const user = await Users.findOne({ name });
-
-//     if (user && password == user.password) {
-//       res.json({
-//         _id: user._id,
-//         message: "Login successful",
-//       });
-//     } else {
-//       res.status(401).json({ message: "Incorrect username or password" });
-//     }
-//   } catch (err) {
-//     console.log(err);
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
-
 module.exports = router;

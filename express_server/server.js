@@ -6,6 +6,7 @@ const cors = require("cors");
 const recordRouter = require("./routes/recordRoute");
 const imageRouter = require("./routes/imageRoute");
 const audioRouter = require("./routes/audioRoute");
+const userRouter = require("./routes/userRoute");
 
 const app = express();
 const frontendUrl = process.env.FRONTEND_URL;
@@ -44,6 +45,8 @@ app.use("/record", recordRouter);
 app.use("/image", imageRouter);
 
 app.use("/audio", audioRouter);
+
+app.use("/user", userRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
