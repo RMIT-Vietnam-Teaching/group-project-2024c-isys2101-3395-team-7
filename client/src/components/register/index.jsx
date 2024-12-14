@@ -1,12 +1,15 @@
 "use client"
 
 import React, { useState } from 'react';
-import Link from 'next/link'
+import { useRouter } from "next/navigation";
 import LogoFullIcon from "@/components/icons/LogoFullIcon";
+import { signup } from '@/api';
+import Link from 'next/link';
 
 const iconWidth = 30, iconHeight = 30;
 
 const Register = () => {
+    const router = useRouter();
     const [formData, setFormData] = useState({
         firstName: '',
         lastName: '',
@@ -17,7 +20,7 @@ const Register = () => {
     });
 
     const handleChange = (e) => {
-        const { name, value, files } = e.target;
+        const { name, value } = e.target;
         setFormData({
             ...formData,
             [name]: value,
@@ -28,30 +31,16 @@ const Register = () => {
         e.preventDefault();
 
         if (formData.password !== formData.confirmPassword) {
-            alert("Passwords do not match");
+            alert("Passwords do not match", formData.password, formData.confirmPassword);
             return;
         }
 
         try {
-            // TODO: edited fetch link below
-            const response = await fetch('http://localhost:3000/api/auth/register', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(formData),
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const result = await response.json();
-            console.log('User registered:', result);
+            const res = await signup(formData);
+            console.log('User registered:', res);
 
             // Use Link for redirection
-            await Link.prefetch('/login'); // pre-fetch login page for faster transition
-            window.location.href = '/login'; // redirect to login page
+            router.push("/")
         } catch (error) {
             console.error('Error registering user:', error.message);
         }
@@ -66,7 +55,7 @@ const Register = () => {
                             Create an account for
                             {/*<LogoFullIcon width={iconWidth} height={iconHeight}/>*/}
                             <Link href={'/home'}>
-                                <img src={'logo_full.svg'} alt={'Viego_full'} className={'h-24 w-24 px-1.5'}/>
+                                <img src={'logo_full.svg'} alt={'Viego_full'} className={'h-24 w-24 px-1.5'} />
                             </Link>
                         </h2>
                     </div>
