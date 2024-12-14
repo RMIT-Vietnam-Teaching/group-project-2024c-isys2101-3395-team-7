@@ -76,14 +76,26 @@ export async function uploadImage(image) {
 // ============== Voice Correction ================= //
 
 export async function uploadAudio(file) {
-  console.log("Uploading audio file:", file.name);
-  // Simulate a successful upload with a delay
-  return new Promise((resolve) =>
-    setTimeout(
-      () => resolve({ audioId: 1, message: "Audio uploaded successfully!" }),
-      1000
-    )
-  );
+  try {
+    // Create a FormData object and append the image file
+    const formData = new FormData();
+    formData.append("audio", file);
+
+    // Send the request with the correct headers
+    const res = await axios.post(
+      "https://viego-mongo-api.onrender.com/audio/upload",
+      formData, // Use FormData as the request body
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data", // Ensure the correct content type
+        },
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // receive formData -> send audio file

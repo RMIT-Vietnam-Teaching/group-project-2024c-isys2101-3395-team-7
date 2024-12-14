@@ -15,7 +15,7 @@ import { pushSuccess } from "@/components/Toast";
 import VoiceLeft from "@/components/voice/VoiceLeft";
 import VoiceRight from "@/components/voice/VoiceRight";
 
-const VoiceFrame = ({ }) => {
+const VoiceFrame = ({}) => {
   const [currState, setCurrState] = useState("begin");
   const [isSaved, setSave] = useState(false);
   const formData = new FormData();
@@ -65,7 +65,6 @@ const VoiceFrame = ({ }) => {
   const handleSubmitFile = async (newFileUpload) => {
     try {
       var text = await handleVoiceRecognize(newFileUpload);
-      setAudioUrl(newFileUpload);
       if (text !== null) {
         var audioId = await handleUploadFile(newFileUpload);
         await handleRecordHistory(audioId, "saving audio", text);
@@ -75,23 +74,23 @@ const VoiceFrame = ({ }) => {
     }
   };
 
-  const handleRecordHistory = async (image, type, answer) => {
+  const handleRecordHistory = async (audio, type, answer) => {
     console.log("handleRecordHistory");
-    // const formData = new FormData();
-    // // Change this to current username when authentication is implemented
-    // formData.append("username", "test");
-    // formData.append("time", new Date().toISOString());
-    // formData.append("type", type);
-    // formData.append("favorite", "false");
-    // formData.append("imageId", image);
-    // formData.append("answer", answer);
-    //
-    // try {
-    //     const res = await recordHistory(formData);
-    //     console.log("API response:", res);
-    // } catch (error) {
-    //     console.error("Error uploading file:", error);
-    // }
+    const formData = new FormData();
+    // Change this to current username when authentication is implemented
+    formData.append("username", "test");
+    formData.append("time", new Date().toISOString());
+    formData.append("type", type);
+    formData.append("favorite", "false");
+    formData.append("audioId", audio);
+    formData.append("answer", answer);
+
+    try {
+      const res = await recordHistory(formData);
+      console.log("API response:", res);
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
     return;
   };
 
@@ -131,7 +130,7 @@ const VoiceFrame = ({ }) => {
           if (resAudio) {
             setResultAudio(resAudio);
             setCurrState("process");
-            return resCorrect;
+            return correctedText;
           }
         }
       }
@@ -160,8 +159,9 @@ const VoiceFrame = ({ }) => {
               {"Star this answer"}
             </span>
           }
-          style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${currState != "process" && "hidden"
-            }`}
+          style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${
+            currState != "process" && "hidden"
+          }`}
           onClick={() => setSave(!isSaved)}
         />
       </div>

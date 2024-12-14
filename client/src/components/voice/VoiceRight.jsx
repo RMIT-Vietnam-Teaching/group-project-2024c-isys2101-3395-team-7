@@ -5,7 +5,7 @@ import { pushError, pushWarning } from "@/components/Toast";
 import Button from "@/components/ui/Button";
 import { useState } from "react";
 import VoiceIcon from "@/components/icons/VoiceIcon";
-import VoiceRecorder from "../VoiceRecorder";
+import VoiceRecorder from "./VoiceRecorder";
 import ReactPlayer from "react-player";
 import { recognizeVoice } from "@/api";
 
