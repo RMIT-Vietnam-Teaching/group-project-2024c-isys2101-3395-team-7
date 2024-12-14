@@ -54,7 +54,7 @@ const Register = () => {
                         <h2 className="text-2xl font-bold text-center text-white flex items-center justify-center">
                             Create an account for
                             {/*<LogoFullIcon width={iconWidth} height={iconHeight}/>*/}
-                            <Link href={'/home'}>
+                            <Link href={'/'}>
                                 <img src={'logo_full.svg'} alt={'Viego_full'} className={'h-24 w-24 px-1.5'} />
                             </Link>
                         </h2>

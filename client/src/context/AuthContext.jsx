@@ -78,7 +78,7 @@ export const AuthProvider = ({ children }) => {
             }
             const currPath = window?.location.pathname || "";
             if (token == null && currPath != "/" && currPath != "/register") {
-                router.push("/login");
+                router.push("/");
             }
         };
 
