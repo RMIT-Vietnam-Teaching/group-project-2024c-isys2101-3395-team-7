@@ -55,7 +55,8 @@ router.post("/login", upload.none(), async (req, res) => {
         .status(400)
         .json({ message: "Username and password are required" });
     }
-    const user = await User.findOne({ username });
+    console.log("username: ", username);
+    const user = await User.findOne({ name: username });
 
     if (!user) {
       return res.status(401).json({ message: "Invalid username" });
