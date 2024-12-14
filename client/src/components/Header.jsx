@@ -6,8 +6,10 @@ import History from "./History";
 import NavBar from "@/components/NavBar";
 import { usePathname } from "next/navigation";
 import ToggleSwitch from "@/components/ToggleSwitch";
+import { useAuth } from "@/context/AuthContext";
 
 function Header() {
+    const { removeAuth } = useAuth();
     const [isOpenHistory, setIsOpenHistory] = useState(false);
     const [isOpenFavorite, setIsOpenFavorite] = useState(false);
     const [isOpenProfile, setIsOpenProfile] = useState(false);
@@ -114,7 +116,7 @@ function Header() {
                                     <li>
                                         <button
                                             className="block px-5 py-2 text-black hover:bg-orange w-full text-left"
-                                            onClick={() => console.log("Logout Clicked")}
+                                            onClick={() => removeAuth()}
                                         >
                                             Logout
                                         </button>
