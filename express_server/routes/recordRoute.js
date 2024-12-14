@@ -37,6 +37,10 @@ router.get("/:id", getRecord, (req, res) => {
   res.send(res.record);
 });
 
+router.get("/user/:username", getRecordByUsername, (req, res) => {
+  res.send(res.record);
+});
+
 // Create one
 router.post("/", upload.none(), async (req, res) => {
   const record = new Record({
@@ -104,6 +108,24 @@ async function getRecord(req, res, next) {
 
   try {
     const record = await Record.findById(req.params.id);
+    if (!record) {
+      return res.status(404).json({ message: "Record not found" });
+    }
+
+    res.record = record;
+    next();
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+}
+
+async function getRecordByUsername(req, res, next) {
+  const { username } = req.params;
+
+  try {
+    const record = await Record.find({
+      username: username,
+    });
     if (!record) {
       return res.status(404).json({ message: "Record not found" });
     }
