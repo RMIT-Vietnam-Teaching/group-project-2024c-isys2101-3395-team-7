@@ -1,7 +1,10 @@
+import VoiceFrame from "@/components/voice/VoiceFrame";
 
 const Voice = () => {
     return (
-        <div>Voice correction page</div>
+        <div className="h-full">
+            <VoiceFrame/>
+        </div>
     )
 }
 
