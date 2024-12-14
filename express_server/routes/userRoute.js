@@ -75,4 +75,59 @@ router.post("/login", async (req, res) => {
   }
 });
 
+// Get user
+router.get("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    res.send(user);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+// Update user
+router.patch("/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    const { name, email, password } = req.body;
+
+    if (name != null) {
+      user.name = name;
+    }
+
+    if (email != null) {
+      user.email = email;
+    }
+
+    if (password != null) {
+      user.password = password;
+    }
+
+    await user.save();
+    res.json({ message: "Update user successfully", user });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+// Delete user
+router.delete("/:id", async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ message: "Delete user successfully" });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
+// Get all users
+router.get("/", async (req, res) => {
+  try {
+    const users = await User.find();
+    res.send(users);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 module.exports = router;
