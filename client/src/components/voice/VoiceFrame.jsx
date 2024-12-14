@@ -64,6 +64,7 @@ const VoiceFrame = ({}) => {
 
   const handleSubmitFile = async (newFileUpload) => {
     try {
+      setAudioUrl(URL.createObjectURL(newFileUpload));
       var text = await handleVoiceRecognize(newFileUpload);
       if (text !== null) {
         var audioId = await handleUploadFile(newFileUpload);
