@@ -4,6 +4,8 @@ const options = {
   withCredentials: true,
 };
 
+// ============== Handwriting ================= //
+
 export async function recognizeHandwriting(formData) {
   try {
     const res = await axios.post(
@@ -48,27 +50,6 @@ export async function correctRecognizedText(text) {
   }
 }
 
-export async function recordHistory(formData) {
-  try {
-    const res = await axios.post(
-      "https://viego-mongo-api.onrender.com/record",
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-        withCredentials: true,
-      }
-    );
-
-    console.log("API response:", res.data);
-    return res.data;
-  } catch (error) {
-    console.error("Error during API call:", error);
-    throw error;
-  }
-}
-
 export async function uploadImage(image) {
   try {
     // Create a FormData object and append the image file
@@ -91,6 +72,8 @@ export async function uploadImage(image) {
     console.log(error);
   }
 }
+
+// ============== Voice Correction ================= //
 
 export async function uploadAudio(file) {
   try {
@@ -118,7 +101,6 @@ export async function uploadAudio(file) {
 // receive formData -> send audio file
 export async function recognizeVoice(formData) {
   console.log("Voice recognition in progress...");
-  // Send the request with the correct headers
   try {
     // Send the request with the correct headers
     const res = await axios.post(
@@ -188,6 +170,28 @@ export async function createAiVoice(text) {
   }
 }
 
+// ============== Support Functions ================= //
+export async function recordHistory(formData) {
+  try {
+    const res = await axios.post(
+      "https://viego-mongo-api.onrender.com/record",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        withCredentials: true,
+      }
+    );
+
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
+
 export async function addFavourite() {
   // try {
   //     const res = await axios.post("/correct", text);
@@ -196,4 +200,67 @@ export async function addFavourite() {
   // catch (error) {
   //     console.log(error)
   // }
+}
+
+// ============== Authentication ================= //
+
+export async function login(formData) {
+  console.log("receive login form: ", formData);
+  
+  // Simulate a delay to mimic an API call
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  // Sample JSON data
+  const sampleResponse = {
+    user: {
+      id: 1,
+      username: "sampleUser",
+      email: "sampleuser@example.com",
+      avatarUrl: "https://example.com/avatar.jpg"
+    },
+    token: "sampleToken1234567890"
+  };
+
+  return sampleResponse;
+}
+
+export async function logout() {
+  // try {
+  //     const res = await axios.post("/login", text);
+  //     return res.data;
+  // }
+  // catch (error) {
+  //     console.log(error)
+  // }
+  return true;
+}
+
+export async function signup(formData) {
+  console.log("receive signup form: ", formData)
+
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  // Sample response data
+  const sampleResponse = {
+    status: 200
+  };
+
+  return sampleResponse;
+}
+
+export async function authMember(token) {
+
+  await new Promise(resolve => setTimeout(resolve, 1000));
+
+  // Sample response data
+  const sampleResponse = {
+    user: {
+      id: 1,
+      username: "sampleUser",
+      email: "sampleuser@example.com",
+    },
+    token: "sampleToken1234567890"
+  };
+
+  return sampleResponse;
 }

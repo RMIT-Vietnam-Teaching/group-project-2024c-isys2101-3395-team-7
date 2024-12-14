@@ -1,8 +1,11 @@
+import LandingPage from "@/components/landing-page";
 
-const Login = () => {
+const landingpage = () => {
     return (
-        <div>Login Page at Root !!</div>
+        <>
+            <LandingPage/>
+        </>
     )
 }
 
-export default Login
+export default landingpage
