@@ -48,14 +48,14 @@ router.post("/signup", upload.none(), async (req, res) => {
 
 // Login user
 router.post("/login", upload.none(), async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
   try {
-    if (!email || !password) {
+    if (!username || !password) {
       return res
         .status(400)
         .json({ message: "Email and password are required" });
     }
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
 
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
