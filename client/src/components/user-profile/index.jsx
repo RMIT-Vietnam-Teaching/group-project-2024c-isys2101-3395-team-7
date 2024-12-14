@@ -1,9 +1,14 @@
 "use client"
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from "next/link";
 import CircularProgress from "@/components/CircularProgress";
+import { useAuth } from '@/context/AuthContext';
+import { useRouter } from 'next/navigation';
 
 export default function UserProfile() {
+    const router = useRouter();
+    // const { id } = router.query;
+    const { member } = useAuth();
     const [userName, setUserName] = useState("<your name>");
     const [isEditing, setIsEditing] = useState(false);
     const [isSaved, setIsSaved] = useState(false)
@@ -18,7 +23,7 @@ export default function UserProfile() {
     });
 
     const handleChange = (e) => {
-        const {name, value} = e.target;
+        const { name, value } = e.target;
         setLoading(false)
         setFormData({
             ...formData,
@@ -35,14 +40,13 @@ export default function UserProfile() {
         setIsSaved(true)
     };
 
-
     return (
         <>
             <div className="min-h-screen flex items-center justify-center">
                 <div className="w-full grid place-items-center max-w-xl h-full p-8 shadow-md rounded-lg border-black">
                     <div className={"flex flex-col items-center justify-center mb-4"}>
-                        <img src="profile_black.svg" alt="avatar" className="w-32 h-32 mx-auto rounded-full"/>
-                        <p>Hi <span className={"text-pink font-bold"}>{userName}</span>, you are viewing your profile.</p>
+                        <img src="/profile_black.svg" alt="avatar" className="w-32 h-32 mx-auto rounded-full" />
+                        <p>Hi <span className={"text-pink font-bold"}>{member?.username || "unknown"}</span>, you are viewing your profile.</p>
                         <p>You can edit your profile here.</p>
                     </div>
                     <form onSubmit={handleSave} className="space-y-4 flex flex-col justify-center h-full">
@@ -57,7 +61,7 @@ export default function UserProfile() {
                                         id="lastName"
                                         type="text"
                                         name="lastName"
-                                        placeholder="Last Name"
+                                        placeholder={member?.lastName}
                                         value={formData.lastName}
                                         onChange={handleChange}
                                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -72,7 +76,7 @@ export default function UserProfile() {
                                         id="firstName"
                                         type="text"
                                         name="firstName"
-                                        placeholder="First Name"
+                                        placeholder={member?.firstName}
                                         value={formData.firstName}
                                         onChange={handleChange}
                                         className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -88,7 +92,7 @@ export default function UserProfile() {
                                     id="username"
                                     type="username"
                                     name="username"
-                                    placeholder="Username"
+                                    placeholder={member?.username}
                                     value={formData.username}
                                     onChange={handleChange}
                                     className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
@@ -103,6 +107,7 @@ export default function UserProfile() {
                                     id="dateOfBirth"
                                     type="date"
                                     name="dateOfBirth"
+                                    placeholder={member?.dateOfBirth}
                                     value={formData.dateOfBirth}
                                     onChange={handleChange}
                                     required

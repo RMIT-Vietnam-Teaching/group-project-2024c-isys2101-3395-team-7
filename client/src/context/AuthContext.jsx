@@ -24,24 +24,24 @@ export const AuthProvider = ({ children }) => {
             const storedToken = localStorage.getItem(TOKEN_KEY) || null;
             const storedMember = localStorage.getItem(MEMBER_KEY) || null;
 
-            if (storedToken && storedMember) {
+            if (storedToken) {
                 setToken(storedToken);
                 setIsLoggedIn(storedToken && storedMember);
-                setMember(storedMember);
+                setMember(JSON.parse(storedMember));
             }
         }
     }, [router]);
 
     const storeAuth = (member, token) => {
         if (member) {
+            console.log("member in auth: ", member)
             setIsLoggedIn(true);
             setMember(member)
             setToken(token)
-            localStorage.setItem(MEMBER_KEY, member);   // may handle type
+            localStorage.setItem(MEMBER_KEY, JSON.stringify(member));   // may handle type
             localStorage.setItem(TOKEN_KEY, token)
         }
         console.log("successfully logged in")
-        console.log("member: ", member)
         router.push("/home")
     };
 
@@ -60,7 +60,6 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const verifyAuth = async () => {
-            console.log("token: ", token)
             if (token !== null) {
                 const res = await authMember(token);
                 if (res) {
@@ -99,4 +98,7 @@ export const AuthProvider = ({ children }) => {
     );
 };
 
-export const useAuth = () => useContext(AuthContext);
+// export const useAuth = () => useContext(AuthContext);
+export const useAuth = () => {
+    return useContext(AuthContext);
+};

@@ -216,7 +216,9 @@ export async function login(formData) {
       id: 1,
       username: "sampleUser",
       email: "sampleuser@example.com",
-      avatarUrl: "https://example.com/avatar.jpg"
+      firstName: 'first',
+      lastName: 'user',
+      dateOfBirth: "2000-10-10"
     },
     token: "sampleToken1234567890"
   };
@@ -258,6 +260,9 @@ export async function authMember(token) {
       id: 1,
       username: "sampleUser",
       email: "sampleuser@example.com",
+      firstName: 'first',
+      lastName: 'user',
+      dateOfBirth: "2000-10-10"
     },
     token: "sampleToken1234567890"
   };
