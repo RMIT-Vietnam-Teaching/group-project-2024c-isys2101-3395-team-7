@@ -5,10 +5,13 @@ const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Sign up
-router.post("/signup", async (req, res) => {
+router.post("/signup", upload.none(), async (req, res) => {
   const { name, email, password } = req.body;
 
   if (!name || !email || !password) {
@@ -44,7 +47,7 @@ router.post("/signup", async (req, res) => {
 });
 
 // Login user
-router.post("/login", async (req, res) => {
+router.post("/login", upload.none(), async (req, res) => {
   const { email, password } = req.body;
   try {
     if (!email || !password) {
@@ -86,7 +89,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // Update user
-router.patch("/:id", async (req, res) => {
+router.patch("/:id", upload.none(), async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
     const { name, email, password } = req.body;
