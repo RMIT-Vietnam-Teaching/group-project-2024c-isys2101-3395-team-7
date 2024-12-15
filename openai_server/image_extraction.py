@@ -6,6 +6,8 @@ from dotenv import load_dotenv
 from PIL import Image
 from pillow_heif import register_heif_opener
 from flask_cors import CORS
+# Import the token_required decorator
+from Auth.auth import token_required
 
 load_dotenv(override=True)
 register_heif_opener()
@@ -30,6 +32,7 @@ def is_valid(file_path):
     return ext.lower() not in ['.png', '.jpeg', '.gif', '.webp']
 
 @app.route('/recognize-handwriting', methods=['POST'])
+@token_required
 def recognize_handwriting():
     try:
         if 'image' not in request.files:
@@ -75,6 +78,7 @@ def recognize_handwriting():
         return jsonify({"error": str(e)}), 500
     
 @app.route('/correct', methods=['POST'])
+@token_required
 def correct_text():
     try:
         data = request.json

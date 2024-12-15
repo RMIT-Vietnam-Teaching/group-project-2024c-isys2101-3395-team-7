@@ -4,3 +4,4 @@ python-dotenv
 Pillow
 pillow_heif
 flask_cors
+pyjwt
