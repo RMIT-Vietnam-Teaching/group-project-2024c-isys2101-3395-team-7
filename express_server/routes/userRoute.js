@@ -11,7 +11,7 @@ const upload = multer({ storage: storage });
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Sign up
-router.post("/signup", async (req, res) => {
+router.post("/signup", upload.none(), async (req, res) => {
   const { last_name, first_name, username, password, confirmedPassword, dob } =
     req.body;
 
@@ -99,7 +99,7 @@ router.get("/", async (req, res) => {
 });
 
 // Update user
-router.patch("/:id", getUser, async (req, res) => {
+router.patch("/:id", upload.none(), getUser, async (req, res) => {
   const user = res.user;
   const { last_name, first_name, username, oldPassword, newPassword, dob } =
     req.body;
