@@ -66,6 +66,12 @@ export async function correctRecognizedText(text) {
 
 export async function uploadImage(image) {
   try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
     // Create a FormData object and append the image file
     const formData = new FormData();
     formData.append("hw-image", image);
@@ -78,6 +84,7 @@ export async function uploadImage(image) {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data", // Ensure the correct content type
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -91,6 +98,13 @@ export async function uploadImage(image) {
 
 export async function uploadAudio(file) {
   try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
     // Create a FormData object and append the image file
     const formData = new FormData();
     formData.append("audio", file);
@@ -103,6 +117,7 @@ export async function uploadAudio(file) {
         withCredentials: true,
         headers: {
           "Content-Type": "multipart/form-data", // Ensure the correct content type
+          Authorization: `Bearer ${token}`,
         },
       }
     );
@@ -211,12 +226,20 @@ export async function createAiVoice(text) {
 // ============== Support Functions ================= //
 export async function recordHistory(formData) {
   try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
     const res = await axios.post(
       "https://viego-mongo-api.onrender.com/record",
       formData,
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
         },
         withCredentials: true,
       }

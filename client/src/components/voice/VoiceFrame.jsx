@@ -68,7 +68,7 @@ const VoiceFrame = ({}) => {
       var text = await handleVoiceRecognize(newFileUpload);
       if (text !== null) {
         var audioId = await handleUploadFile(newFileUpload);
-        await handleRecordHistory(audioId, "saving audio", text);
+        await handleRecordHistory(audioId, "audio", text);
       } else console.log("correctText is null");
     } catch (error) {
       console.error("Error submitting file:", error);
