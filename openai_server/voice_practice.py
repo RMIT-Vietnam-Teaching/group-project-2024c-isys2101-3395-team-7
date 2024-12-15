@@ -8,6 +8,8 @@ from pillow_heif import register_heif_opener
 from flask_cors import CORS
 from pathlib import Path
 import io
+# Import the token_required decorator
+from Auth.auth import token_required
 
 load_dotenv(override=True)
 register_heif_opener()
@@ -22,6 +24,7 @@ api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key) 
 
 @app.route('/transcribe-audio', methods=['POST'])
+@token_required
 def transcribe_audio():
     try:
         # Check if an audio file is provided
@@ -53,6 +56,7 @@ def transcribe_audio():
         return jsonify({"error": str(e)}), 500
 
 @app.route('/correct-audio', methods=['POST'])
+@token_required
 def correct_text():
     try:
         # Get input text from request
@@ -118,6 +122,7 @@ def after_request(response):
     return response
 
 @app.route('/generate-speech', methods=['POST'])
+@token_required
 def generate_speech():
     try:
         # Check if the input text is provided in the request
