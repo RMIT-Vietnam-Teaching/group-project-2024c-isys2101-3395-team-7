@@ -5,7 +5,9 @@ const router = express.Router();
 const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const { default: mongoose } = require("mongoose");
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const JWT_SECRET = process.env.JWT_SECRET;
 
 // Sign up
@@ -48,7 +50,7 @@ router.post("/signup", async (req, res) => {
 });
 
 // Login user
-router.post("/login", async (req, res) => {
+router.post("/login", upload.none(), async (req, res) => {
   const { username, password } = req.body;
   try {
     if (!username || !password) {
@@ -73,7 +75,9 @@ router.post("/login", async (req, res) => {
       expiresIn: "1d",
     });
 
-    res.status(200).json({ message: "Login successful", token });
+    res
+      .status(200)
+      .json({ user: user._id, message: "Login successful", token });
   } catch (err) {
     res.status(500).json({ message: err.message });
   }
