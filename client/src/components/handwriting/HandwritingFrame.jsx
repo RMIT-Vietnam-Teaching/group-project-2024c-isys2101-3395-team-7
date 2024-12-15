@@ -9,11 +9,12 @@ import {
   correctRecognizedText,
   recordHistory,
   uploadImage,
+  addFavorite,
 } from "@/api";
 import CircularProgress from "@/components/CircularProgress";
 import { pushSuccess } from "../Toast";
 
-function HandwritingFrame({ }) {
+function HandwritingFrame({}) {
   const [currState, setCurrState] = useState("begin");
   const [isSaved, setSave] = useState(false);
   const formData = new FormData();
@@ -21,6 +22,7 @@ function HandwritingFrame({ }) {
   const [correctText, setCorrectText] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false); // State to manage loading status
+  const [currentRecord, setCurrentRecord] = useState(null);
 
   const handleFileChange = (file) => {
     // console.log('receive file', file)
@@ -59,6 +61,7 @@ function HandwritingFrame({ }) {
     try {
       const res = await recordHistory(formData);
       console.log("API response:", res);
+      setCurrentRecord(res.newRecord._id);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -103,6 +106,21 @@ function HandwritingFrame({ }) {
     }
   };
 
+  const handleAddFavorite = async (imageId) => {
+    const formData = new FormData();
+    !isSaved
+      ? formData.append("favorite", "true")
+      : formData.append("favorite", "false");
+    try {
+      const res = await addFavorite(formData, imageId);
+      console.log("API response:", res);
+    } catch (error) {
+      console.error("Error adding favorite:", error);
+    } finally {
+      setSave(!isSaved);
+    }
+  };
+
   return (
     <div className="h-5/6 my-10">
       <div className="flex justify-between">
@@ -121,9 +139,10 @@ function HandwritingFrame({ }) {
               {"Star this answer"}
             </span>
           }
-          style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${currState != "process" && "hidden"
-            }`}
-          onClick={() => setSave(!isSaved)}
+          style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${
+            currState != "process" && "hidden"
+          }`}
+          onClick={() => handleAddFavorite(currentRecord)}
         />
       </div>
 

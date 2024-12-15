@@ -253,14 +253,30 @@ export async function recordHistory(formData) {
   }
 }
 
-export async function addFavourite() {
-  // try {
-  //     const res = await axios.post("/correct", text);
-  //     return res.data;
-  // }
-  // catch (error) {
-  //     console.log(error)
-  // }
+export async function addFavorite(formData, id) {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.patch(
+      `https://viego-mongo-api.onrender.com/record/${id}`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // ============== Authentication ================= //
