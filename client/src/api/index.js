@@ -301,14 +301,24 @@ export async function logout() {
 export async function signup(formData) {
   console.log("receive signup form: ", formData);
 
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  try {
+    const res = await axios.post(
+      "https://viego-mongo-api.onrender.com/user/signup",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
 
-  // Sample response data
-  const sampleResponse = {
-    status: 200,
-  };
-
-  return sampleResponse;
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
 }
 
 export async function authMember(token) {
