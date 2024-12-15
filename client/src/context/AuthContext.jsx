@@ -11,6 +11,7 @@ export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const router = useRouter();
+  const [memberId, setMemberId] = useState();
   const [member, setMember] = useState();
   const [isLoggedIn, setIsLoggedIn] = useState();
   const [token, setToken] = useState();
@@ -23,7 +24,7 @@ export const AuthProvider = ({ children }) => {
       if (storedToken) {
         setToken(storedToken);
         setIsLoggedIn(storedToken && storedMember);
-        setMember(JSON.parse(storedMember));
+        setMemberId(JSON.parse(storedMember));
       }
     }
   }, [router]);
@@ -57,26 +58,31 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const verifyAuth = async () => {
       if (token !== null) {
-        const res = await authMember(token);
+        const id = JSON.parse(localStorage.getItem(MEMBER_KEY));
+        const res = await authMember(id, token);
         if (res) {
-          setIsLoggedIn(true);
-          // setMember(res.user);
-          router.push(window?.location.pathname);
-        } else {
-          setIsLoggedIn(false);
-          setMember(null);
-          setToken(null);
-          localStorage.removeItem(MEMBER_KEY);
-          localStorage.removeItem(TOKEN_KEY);
-          router.push("/");
+          // setIsLoggedIn(true);
+          setMember(res);
+          // router.push(window?.location.pathname);
         }
+        // } else {
+        //   setIsLoggedIn(false);
+        //   setMember(null);
+        //   setToken(null);
+        //   localStorage.removeItem(MEMBER_KEY);
+        //   localStorage.removeItem(TOKEN_KEY);
+        //   router.push("/");
+        // }
       }
       const currPath = window?.location.pathname || "";
-      if (token == null && currPath != "/" && currPath != "/register") {
+      if (
+        localStorage.getItem(TOKEN_KEY) == null &&
+        currPath != "/" &&
+        currPath != "/register"
+      ) {
         router.push("/");
       }
     };
-
     verifyAuth();
   }, [token, router]);
 

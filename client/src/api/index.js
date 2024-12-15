@@ -337,21 +337,23 @@ export async function signup(formData) {
   }
 }
 
-export async function authMember(token) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+export async function authMember(id, token) {
+  try {
+    const res = await axios.get(
+      `https://viego-mongo-api.onrender.com/user/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
 
-  // Sample response data
-  const sampleResponse = {
-    user: {
-      id: 1,
-      username: "sampleUser",
-      email: "sampleuser@example.com",
-      firstName: "first",
-      lastName: "user",
-      dateOfBirth: "2000-10-10",
-    },
-    token: "sampleToken1234567890",
-  };
-
-  return sampleResponse;
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
 }
