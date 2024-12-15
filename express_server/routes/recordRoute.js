@@ -5,6 +5,8 @@ const Record = require("../models/record");
 const db = mongoose.connection;
 const multer = require("multer");
 const bcrypt = require("bcrypt");
+const { verifyToken } = require("../middleware/auth");
+console.log("verifyToken:", verifyToken);
 
 // Set up multer for file uploads (ensure formdata post is not empty)
 const storage = multer.diskStorage({
@@ -19,7 +21,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 // Get all records
-router.get("/", async (req, res) => {
+router.get("/", verifyToken, async (req, res) => {
   try {
     const records = await Record.find();
     if (records.length === 0) {
@@ -33,16 +35,16 @@ router.get("/", async (req, res) => {
 });
 
 // Get one
-router.get("/:id", getRecord, (req, res) => {
+router.get("/:id", verifyToken, getRecord, (req, res) => {
   res.send(res.record);
 });
 
-router.get("/user/:username", getRecordByUsername, (req, res) => {
+router.get("/user/:username", verifyToken, getRecordByUsername, (req, res) => {
   res.send(res.record);
 });
 
 // Create one
-router.post("/", upload.none(), async (req, res) => {
+router.post("/", verifyToken, upload.none(), async (req, res) => {
   const record = new Record({
     username: req.body.username,
     type: req.body.type,
@@ -62,35 +64,41 @@ router.post("/", upload.none(), async (req, res) => {
 });
 
 // Update one
-router.patch("/:id", upload.none(), getRecord, async (req, res) => {
-  const { username, type, favorite, answer } = req.body;
+router.patch(
+  "/:id",
+  verifyToken,
+  upload.none(),
+  getRecord,
+  async (req, res) => {
+    const { username, type, favorite, answer } = req.body;
 
-  if (username != null) {
-    res.record.username = username;
-  }
+    if (username != null) {
+      res.record.username = username;
+    }
 
-  if (type != null) {
-    res.record.type = type;
-  }
+    if (type != null) {
+      res.record.type = type;
+    }
 
-  if (favorite != null) {
-    res.record.favorite = favorite == "true" ? true : false;
-  }
+    if (favorite != null) {
+      res.record.favorite = favorite == "true" ? true : false;
+    }
 
-  if (answer != null) {
-    res.record.answer = answer;
-  }
+    if (answer != null) {
+      res.record.answer = answer;
+    }
 
-  try {
-    const updatedRecord = await res.record.save();
-    res.json({ message: "Update record succesfully", updatedRecord });
-  } catch (error) {
-    res.status(400).json({ message: error.message });
+    try {
+      const updatedRecord = await res.record.save();
+      res.json({ message: "Update record succesfully", updatedRecord });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
   }
-});
+);
 
 // Delete one
-router.delete("/:id", getRecord, async (req, res) => {
+router.delete("/:id", verifyToken, getRecord, async (req, res) => {
   try {
     await res.record.deleteOne();
     res.json({ message: "Delete record successfully" });

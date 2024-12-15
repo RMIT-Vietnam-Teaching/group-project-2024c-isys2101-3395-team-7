@@ -4,13 +4,14 @@ const heicConvert = require("heic-convert");
 const Image = require("../models/image");
 const Record = require("../models/record");
 const { default: mongoose } = require("mongoose");
+const { verifyToken } = require("../middleware/auth");
 
 const router = express.Router();
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
 // Get image
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", verifyToken, async (req, res, next) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id)) {
@@ -39,35 +40,40 @@ async function convertHEIC(heicBuffer) {
 }
 
 // Upload image
-router.post("/upload", upload.single("hw-image"), async (req, res, next) => {
-  if (!req.file) {
-    return res.status(404).json({ message: "No image found to upload" });
-  }
-  let imageBuffer = req.file.buffer;
-  let contentType = req.file.mimetype;
+router.post(
+  "/upload",
+  verifyToken,
+  upload.single("hw-image"),
+  async (req, res, next) => {
+    if (!req.file) {
+      return res.status(404).json({ message: "No image found to upload" });
+    }
+    let imageBuffer = req.file.buffer;
+    let contentType = req.file.mimetype;
 
-  // Check if the image is in HEIC format
-  if (req.file.mimetype === "image/heic") {
-    imageBuffer = await convertHEIC(imageBuffer);
-    contentType = "image/jpeg";
-  }
+    // Check if the image is in HEIC format
+    if (req.file.mimetype === "image/heic") {
+      imageBuffer = await convertHEIC(imageBuffer);
+      contentType = "image/jpeg";
+    }
 
-  const newImage = new Image({
-    name: req.file.originalname + "-" + Date.now(),
-    data: {
-      data: imageBuffer,
-      contentType: contentType,
-    },
-  });
+    const newImage = new Image({
+      name: req.file.originalname + "-" + Date.now(),
+      data: {
+        data: imageBuffer,
+        contentType: contentType,
+      },
+    });
 
-  try {
-    await newImage.save();
-    res
-      .status(200)
-      .json({ message: "Upload image successfully", imageId: newImage.id });
-  } catch (error) {
-    res.status(500).json({ message: error.message });
+    try {
+      await newImage.save();
+      res
+        .status(200)
+        .json({ message: "Upload image successfully", imageId: newImage.id });
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
   }
-});
+);
 
 module.exports = router;
