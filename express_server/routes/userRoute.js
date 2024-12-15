@@ -21,7 +21,7 @@ router.post("/signup", upload.none(), async (req, res) => {
 
   try {
     // Check if the user already exists
-    const existingUser = await User.findOne({ username });
+    const existingUser = await User.findOne({ username: username });
     if (existingUser) {
       return res.status(400).json({ message: "Username is already taken" });
     }
