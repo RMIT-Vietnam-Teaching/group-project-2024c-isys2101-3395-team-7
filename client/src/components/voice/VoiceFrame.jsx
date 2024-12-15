@@ -10,6 +10,7 @@ import {
   recordHistory,
   uploadAudio,
   createAiVoice,
+  addFavorite,
 } from "@/api";
 import { pushSuccess } from "@/components/Toast";
 import VoiceLeft from "@/components/voice/VoiceLeft";
@@ -25,6 +26,7 @@ const VoiceFrame = ({}) => {
   const [resultAudio, setResultAudio] = useState(null);
   const [loading, setLoading] = useState(false); // State to manage loading status
   const [comments, setComments] = useState([]);
+  const [currentRecord, setCurrentRecord] = useState(null);
 
   const handleFileChange = (file) => {
     console.log("receive file", file);
@@ -89,6 +91,7 @@ const VoiceFrame = ({}) => {
     try {
       const res = await recordHistory(formData);
       console.log("API response:", res);
+      setCurrentRecord(res.newRecord._id);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -142,6 +145,22 @@ const VoiceFrame = ({}) => {
       setLoading(false);
     }
   };
+
+  const handleAddFavorite = async (imageId) => {
+    const formData = new FormData();
+    !isSaved
+      ? formData.append("favorite", "true")
+      : formData.append("favorite", "false");
+    try {
+      const res = await addFavorite(formData, imageId);
+      console.log("API response:", res);
+    } catch (error) {
+      console.error("Error adding favorite:", error);
+    } finally {
+      setSave(!isSaved);
+    }
+  };
+
   return (
     <div className="h-5/6 my-10">
       <div className="flex justify-between">
@@ -163,7 +182,7 @@ const VoiceFrame = ({}) => {
           style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${
             currState != "process" && "hidden"
           }`}
-          onClick={() => setSave(!isSaved)}
+          onClick={() => handleAddFavorite(currentRecord)}
         />
       </div>
 
