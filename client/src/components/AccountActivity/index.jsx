@@ -7,6 +7,7 @@ import {pushError, pushSuccess} from "@/components/Toast";
 import WrapperFilter from "@/components/pagination/WrapperFilter";
 import StarIcon from "@/components/icons/StarIcon";
 import CancelIcon from "@/components/icons/CancelIcon";
+import {addFavorite} from "@/api";
 
 
 const activitySearchTypes = [
@@ -19,6 +20,11 @@ const activitySearchTypes = [
         id: 2,
         name: "Voice",
         value: "voice",
+    },
+    {
+        id: 3,
+        name: "All",
+        value: "all",
     }
 ];
 
@@ -26,7 +32,8 @@ export default function AccountActivity() {
     const pageSize = 5;
     const [activeTab, setActiveTab] = useState("history");
     const [loading, setLoading] = useState(false);
-    const [isSaved, setIsSaved] = useState(false)
+    const [isSaved, setSave] = useState(false);
+    const [currentRecord, setCurrentRecord] = useState(null);
     const [paging, setPaging] = useState({
         data: [],
         totalCount: 0,
@@ -58,26 +65,21 @@ export default function AccountActivity() {
     );
 
     const handleDeleteConfirm = async (activityId) => {
+        console.log("handleDeleteConfirm", activityId);
+    };
+
+    const handleAddFavorite = async (imageId) => {
+        const formData = new FormData();
+        !isSaved
+            ? formData.append("favorite", "true")
+            : formData.append("favorite", "false");
         try {
-            const url = new URL(
-                `${baseUrl}/api/activitys/${activityId}`
-            );
-            const response = await fetch(url, {
-                method: "Delete",
-                credentials: "include",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-            if (response.ok) {
-                pushSuccess("Delete activity successfully");
-                fetchActivities();
-            } else {
-                pushError("Failed to delete activity");
-                throw new Error("Failed to delete activity");
-            }
+            const res = await addFavorite(formData, imageId);
+            console.log("API response:", res);
         } catch (error) {
-            pushError("Failed to delete activity");
+            console.error("Error adding favorite:", error);
+        } finally {
+            setSave(!isSaved);
         }
     };
 
@@ -165,17 +167,17 @@ export default function AccountActivity() {
             {data.map((item, index) => (
                 <div
                     key={index}
-                    className="grid grid-cols-5 p-4 border-t border-black"
+                    className="grid grid-cols-5 p-4 border-t border-pink bg-black hover:bg-orange hover:cursor-pointer hover:text-black"
                 >
                     <div>{item.correctedText}</div>
                     <div>{item.transcribedText}</div>
                     <div>{item.timestamp}</div>
                     <div>{item.type}</div>
                     <div className="flex space-x-2">
-                        <div>
-                            <StarIcon isFilled={isSaved} style={{ marginRight: "5px" }} />
+                        <div onClick={() => handleAddFavorite(currentRecord)}>
+                            <StarIcon isFilled={isSaved} style={{ marginRight: "5px" }}/>
                         </div>
-                        <div>
+                        <div onClick={() => handleDeleteConfirm(currentRecord)}>
                             <CancelIcon width={20} height={20} />
                         </div>
                     </div>
@@ -186,24 +188,47 @@ export default function AccountActivity() {
     return (
         <>
             <div className="bg-[#ffe3e3] min-h-screen p-6">
-                {/* Tabs */}
-                <div className="flex space-x-4">
-                    <button
-                        className={`px-4 py-2 rounded ${
-                            activeTab === "history" ? "bg-[#c94d4d] text-white" : "bg-[#ffa3a3]"
-                        }`}
-                        onClick={() => setActiveTab("history")}
-                    >
-                        History
-                    </button>
-                    <button
-                        className={`px-4 py-2 rounded ${
-                            activeTab === "favorite" ? "bg-[#c94d4d] text-white" : "bg-[#ffa3a3]"
-                        }`}
-                        onClick={() => setActiveTab("favorite")}
-                    >
-                        Favorite
-                    </button>
+
+                <div className={"flex flex-row justify-between"}>
+                    {/* Tabs */}
+                    <div className="flex">
+                        <button
+                            className={`px-4 py-2 rounded-t-lg text-white ${
+                                activeTab === "history" ? "bg-pink" : "bg-black"
+                            }`}
+                            onClick={() => setActiveTab("history")}
+                        >
+                            History
+                        </button>
+                        <button
+                            className={`px-4 py-2 rounded-t-lg text-white ${
+                                activeTab === "favorite" ? "bg-pink " : "bg-black"
+                            }`}
+                            onClick={() => setActiveTab("favorite")}
+                        >
+                            Favorite
+                        </button>
+                    </div>
+                    {/*Type*/}
+                    <div>
+                        <label htmlFor="filterDropdown" style={{marginRight: "10px"}}>
+                            Filter by:
+                        </label>
+                        <select
+                            id="filterDropdown"
+                            value={selectedFilter}
+                            onChange={handleChange}
+                            style={{
+                                padding: "5px",
+                                borderRadius: "5px",
+                                border: "1px solid #ccc",
+                            }}
+                        >
+                            <option value="">Select</option>
+                            <option value="handwriting">Handwriting</option>
+                            <option value="voice">Voice</option>
+                        </select>
+                    </div>
                 </div>
 
                 {/* Render content based on the active tab */}
@@ -219,26 +244,7 @@ export default function AccountActivity() {
                         {renderTable(favoriteData)}
                     </>
                 )}
-                {/*Type*/}
-                <div>
-                    <label htmlFor="filterDropdown" style={{marginRight: "10px"}}>
-                        Filter by:
-                    </label>
-                    <select
-                        id="filterDropdown"
-                        value={selectedFilter}
-                        onChange={handleChange}
-                        style={{
-                            padding: "5px",
-                            borderRadius: "5px",
-                            border: "1px solid #ccc",
-                        }}
-                    >
-                        <option value="">Select</option>
-                        <option value="handwriting">Handwriting</option>
-                        <option value="voice">Voice</option>
-                    </select>
-                </div>
+
 
                 {/*<div style={{*/}
                 {/*    height: "100%",*/}
