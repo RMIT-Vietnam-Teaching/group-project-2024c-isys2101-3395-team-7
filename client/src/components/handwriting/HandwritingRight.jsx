@@ -86,7 +86,7 @@ const HandwritingRight = ({
           <span className="text-gray-700">
             {comments.length == 0
               ? "Your audio is perfect! No mistakes found."
-              : "Mistakes found in your audio:"}
+              : "Mistakes found in your handwriting:"}
             {comments.map((comment, index) => (
               <div key={index}>
                 <span className="font-bold">
@@ -105,7 +105,7 @@ const HandwritingRight = ({
               <textarea
                 className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
                 value={correctText}
-                placeholder="Transcript Texts From Fixed Audio will be displayed here."
+                placeholder="Transcript Texts From Fixed Handwriting will be displayed here."
                 readOnly
               />
             </div>
