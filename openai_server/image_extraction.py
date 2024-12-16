@@ -81,25 +81,54 @@ def recognize_handwriting():
 @token_required
 def correct_text():
     try:
+        # Get input text from request
         data = request.json
         input_text = data.get("text")
 
+        if not input_text:
+            return jsonify({"error": "No text provided."}), 400
+
+        # Adjust prompt to identify grammar or pronunciation mistakes and correct them
         response = client.chat.completions.create(
-            model=MODEL,
+            model=MODEL,  # Replace with your specific model if needed
             messages=[
-                {"role": "system", "content": "You are an expert in Vietnamese spelling and grammar."},
-                {"role": "user", "content": f"Sửa ngữ pháp hoặc chính tả: '{input_text}' return only corrected text."}
+                {"role": "system", "content": "You are an expert in Vietnamese spelling, grammar, and pronunciation analysis."},
+                {
+                    "role": "user",
+                    "content": f"""
+                    Đoạn văn sau được lấy từ hình ảnh: '{input_text}'.
+                    Hãy phân tích và:
+                    1. Chỉ ra lỗi ngữ pháp hoặc chính tả trong đoạn văn, bao gồm mô tả ngắn gọn tại sao nó sai.
+                    2. Đưa ra đoạn văn đã được sửa chính xác hoàn toàn.
+                    
+                    Trả lời dưới dạng JSON với cấu trúc:
+                    {{
+                        "errors": [
+                            {{
+                                "mistake": "<original_text_with_error>",
+                                "correction": "<corrected_text>",
+                                "description": "<why_it_is_wrong>"
+                            }},
+                            ...
+                        ],
+                        "corrected_text": "<text_with_all_corrections_applied>"
+                    }}
+                    """
+                }
             ],
             temperature=0.0,
         )
 
-        corrected_text = response.choices[0].message.content.strip()
+        ai_response = response.choices[0].message.content.strip()
         usage = response.usage.to_dict()
 
-        return jsonify({"corrected_text": corrected_text, "usage": usage})
+        # Return the corrected and detailed response
+        return jsonify({"result": ai_response, "usage": usage})
 
     except Exception as e:
+        # Handle exceptions
         return jsonify({"error": str(e)}), 500
+
 
 @app.after_request
 def after_request(response):
