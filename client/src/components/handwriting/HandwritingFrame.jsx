@@ -13,7 +13,7 @@ import {
 } from "@/api";
 import CircularProgress from "@/components/CircularProgress";
 import { pushSuccess } from "../Toast";
-import { extractText } from "../hubber/ExtractText";
+import { extractText } from "@/components/helper/ExtractText";
 
 function HandwritingFrame({}) {
   const [currState, setCurrState] = useState("begin");
