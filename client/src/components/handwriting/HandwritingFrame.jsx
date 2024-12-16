@@ -9,11 +9,13 @@ import {
   correctRecognizedText,
   recordHistory,
   uploadImage,
+  addFavorite,
 } from "@/api";
 import CircularProgress from "@/components/CircularProgress";
 import { pushSuccess } from "../Toast";
+import { extractText } from "../hubber/ExtractText";
 
-function HandwritingFrame({ }) {
+function HandwritingFrame({}) {
   const [currState, setCurrState] = useState("begin");
   const [isSaved, setSave] = useState(false);
   const formData = new FormData();
@@ -21,6 +23,8 @@ function HandwritingFrame({ }) {
   const [correctText, setCorrectText] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false); // State to manage loading status
+  const [currentRecord, setCurrentRecord] = useState(null);
+  const [comments, setComments] = useState([]);
 
   const handleFileChange = (file) => {
     // console.log('receive file', file)
@@ -59,6 +63,7 @@ function HandwritingFrame({ }) {
     try {
       const res = await recordHistory(formData);
       console.log("API response:", res);
+      setCurrentRecord(res.newRecord._id);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -89,8 +94,11 @@ function HandwritingFrame({ }) {
         setRecognizedText(resTextRecognize);
         console.log("has response");
         const resCorrect = await correctRecognizedText(resTextRecognize);
+        setComments(extractText(resCorrect, "errors"));
         if (resCorrect) {
-          setCorrectText(resCorrect);
+          const correctedText = extractText(resCorrect, "corrected_text");
+          // after get correct text
+          setCorrectText(correctedText);
           setCurrState("process");
           return resCorrect;
         }
@@ -100,6 +108,21 @@ function HandwritingFrame({ }) {
       console.error("Error uploading file:", error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleAddFavorite = async (imageId) => {
+    const formData = new FormData();
+    !isSaved
+      ? formData.append("favorite", "true")
+      : formData.append("favorite", "false");
+    try {
+      const res = await addFavorite(formData, imageId);
+      console.log("API response:", res);
+    } catch (error) {
+      console.error("Error adding favorite:", error);
+    } finally {
+      setSave(!isSaved);
     }
   };
 
@@ -121,9 +144,10 @@ function HandwritingFrame({ }) {
               {"Star this answer"}
             </span>
           }
-          style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${currState != "process" && "hidden"
-            }`}
-          onClick={() => setSave(!isSaved)}
+          style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${
+            currState != "process" && "hidden"
+          }`}
+          onClick={() => handleAddFavorite(currentRecord)}
         />
       </div>
 
@@ -159,6 +183,8 @@ function HandwritingFrame({ }) {
                 state={currState}
                 handleState={setCurrState}
                 handleForm={handleSubmitImage}
+                comments={comments}
+                rawText={recognizedText}
                 correctText={correctText}
               />
             </div>

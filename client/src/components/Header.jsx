@@ -4,12 +4,12 @@ import Link from "next/link";
 import Favorite from "@/components/AccountActivity/Favorite";
 import History from "@/components/AccountActivity/History";
 import NavBar from "@/components/NavBar";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { useAuth } from "@/context/AuthContext";
 
 function Header() {
-    const { removeAuth } = useAuth();
+    const { removeAuth, member } = useAuth();
     const [isOpenHistory, setIsOpenHistory] = useState(false);
     const [isOpenFavorite, setIsOpenFavorite] = useState(false);
     const [isOpenProfile, setIsOpenProfile] = useState(false);
@@ -17,6 +17,7 @@ function Header() {
     const [isOpenMenu, setIsOpenMenu] = useState(false)
 
     const [isEnglish, setIsEnglish] = useState(true);
+    const router = useRouter()
 
     const toggleLanguage = () => {
         setIsEnglish(!isEnglish);
@@ -41,7 +42,7 @@ function Header() {
                             onClick={() => setIsOpenMenu(!isOpenMenu)}
                             className={`md:hidden flex px-5 items-start justify-start `}
                         >
-                            <img src={'Menu.svg'} alt={'Menu'} className={'h-16 w-10'} />
+                            <img src='/Menu.svg' alt={'Menu'} className={'h-16 w-10'} />
                         </div>
                     </div>
                 </div>
@@ -49,7 +50,7 @@ function Header() {
                 {/*app logo*/}
                 <div className='basis-1/3 flex items-center justify-center'>
                     <Link href="/home">
-                        <img src={'vietgo_logo.svg'} alt={'vietgo-logo'} className={'h-16 w-16 min-h-12 min-w-8'} />
+                        <img src='/vietgo_logo.svg' alt={'vietgo-logo'} className={'h-16 w-16 min-h-12 min-w-8'} />
                     </Link>
                 </div>
                 {/*right panel*/}
@@ -58,21 +59,21 @@ function Header() {
                         <button
                             onClick={() => handleToggleState(setIsOpenHistory, isOpenHistory)}
                             className={`hover:bg-orange md:px-5 px-1 ${isOpenHistory ? 'bg-orange' : ''}`}>
-                            <img src={'History.svg'} alt="History Icon" className='h-16 w-10 min-h-10 min-w-6' />
+                            <img src='/History.svg' alt="History Icon" className='h-16 w-10 min-h-10 min-w-6' />
                         </button>
                         {/* Conditionally render History */}
 
                         <button
                             onClick={() => handleToggleState(setIsOpenFavorite, isOpenFavorite)}
                             className={`hover:bg-orange md:px-5 px-1 ${isOpenFavorite ? 'bg-orange' : ''}`}>
-                            <img src={'Bookmark_black.svg'} alt="Favorite Icon" className='h-16 w-10 min-h-10 min-w-6' />
+                            <img src='/Bookmark_black.svg' alt="Favorite Icon" className='h-16 w-10 min-h-10 min-w-6' />
                         </button>
                         {/* Conditionally render Favorite */}
 
                         <button
                             onClick={() => handleToggleState(setIsOpenSetting, isOpenSetting)}
                             className={`hover:bg-orange md:px-5 px-1 ${isOpenSetting ? 'bg-orange' : ''}`}>
-                            <img src={'Setting_fill.svg'} alt="Setting Icon" className='h-16 w-10 min-h-10 min-w-6' />
+                            <img src='/Setting_fill.svg' alt="Setting Icon" className='h-16 w-10 min-h-10 min-w-6' />
                         </button>
                         {/*Drop down to show current setting*/}
                         {isOpenSetting && (
@@ -96,7 +97,7 @@ function Header() {
                         <button
                             onClick={() => handleToggleState(setIsOpenProfile, isOpenProfile)}
                             className={`hover:bg-orange md:px-2 px-1 ${isOpenProfile ? 'bg-orange' : ''}`}>
-                            <img src={'User_circle.svg'} alt="User" className='h-16 w-10 min-h-10 min-w-6' />
+                            <img src='/User_circle.svg' alt="User" className='h-16 w-10 min-h-10 min-w-6' />
                         </button>
                         {/* Dropdown Menu */}
                         {isOpenProfile && (
@@ -107,7 +108,7 @@ function Header() {
                                     <li>
                                         <button
                                             className="block px-5 py-2 text-black hover:bg-orange w-full text-left "
-                                            onClick={() => console.log("Profile Clicked")}
+                                            onClick={() => router.push(`/profile/${member.id}`)}
                                         >
                                             View Profile
                                         </button>
