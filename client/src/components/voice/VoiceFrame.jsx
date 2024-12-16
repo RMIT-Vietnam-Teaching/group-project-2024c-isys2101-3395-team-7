@@ -15,6 +15,7 @@ import {
 import { pushSuccess } from "@/components/Toast";
 import VoiceLeft from "@/components/voice/VoiceLeft";
 import VoiceRight from "@/components/voice/VoiceRight";
+import { extractText } from "@/components/hubber/ExtractText";
 
 const VoiceFrame = ({}) => {
   const [currState, setCurrState] = useState("begin");
@@ -38,31 +39,6 @@ const VoiceFrame = ({}) => {
       reader.readAsDataURL(file);
     }
   };
-
-  function extractText(response, content) {
-    // Step 1: Get the `result` string and remove triple backticks
-    const rawResult = response.result;
-    const jsonString = rawResult
-      .replace(/```json\n|```/g, "")
-      .split("\n\n")[0]
-      .trim();
-
-    // Step 2: Parse the JSON string
-    try {
-      const parsedData = JSON.parse(jsonString);
-      switch (content) {
-        case "corrected_text":
-          return parsedData.corrected_text;
-        case "errors":
-          return parsedData.errors;
-        default:
-          return null;
-      }
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-      return null;
-    }
-  }
 
   const handleSubmitFile = async (newFileUpload) => {
     try {

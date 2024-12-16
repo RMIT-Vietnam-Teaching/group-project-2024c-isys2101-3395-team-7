@@ -57,7 +57,7 @@ export async function correctRecognizedText(text) {
       }
     );
     console.log("API response:", res.data);
-    return res.data.corrected_text;
+    return res.data;
   } catch (error) {
     console.error("Error during API call:", error);
     throw error;

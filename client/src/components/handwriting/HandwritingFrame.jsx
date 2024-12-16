@@ -13,6 +13,7 @@ import {
 } from "@/api";
 import CircularProgress from "@/components/CircularProgress";
 import { pushSuccess } from "../Toast";
+import { extractText } from "../hubber/ExtractText";
 
 function HandwritingFrame({}) {
   const [currState, setCurrState] = useState("begin");
@@ -23,6 +24,7 @@ function HandwritingFrame({}) {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false); // State to manage loading status
   const [currentRecord, setCurrentRecord] = useState(null);
+  const [comments, setComments] = useState([]);
 
   const handleFileChange = (file) => {
     // console.log('receive file', file)
@@ -92,8 +94,11 @@ function HandwritingFrame({}) {
         setRecognizedText(resTextRecognize);
         console.log("has response");
         const resCorrect = await correctRecognizedText(resTextRecognize);
+        setComments(extractText(resCorrect, "errors"));
         if (resCorrect) {
-          setCorrectText(resCorrect);
+          const correctedText = extractText(resCorrect, "corrected_text");
+          // after get correct text
+          setCorrectText(correctedText);
           setCurrState("process");
           return resCorrect;
         }
@@ -178,6 +183,8 @@ function HandwritingFrame({}) {
                 state={currState}
                 handleState={setCurrState}
                 handleForm={handleSubmitImage}
+                comments={comments}
+                rawText={recognizedText}
                 correctText={correctText}
               />
             </div>

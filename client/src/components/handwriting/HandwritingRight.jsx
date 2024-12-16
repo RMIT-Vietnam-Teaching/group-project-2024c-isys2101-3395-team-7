@@ -4,7 +4,14 @@ import Button from "../ui/Button";
 import DragDropIcon from "../icons/DragDropIcon";
 import { pushError, pushWarning } from "../Toast";
 
-const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
+const HandwritingRight = ({
+  state,
+  handleState,
+  handleForm,
+  comments,
+  rawText,
+  correctText,
+}) => {
   const errors = [];
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -76,25 +83,33 @@ const HandwritingRight = ({ state, handleState, handleForm, correctText }) => {
           <div className="w-full md:h-28 grid content-center md:pb-0 pb-5">
             <h3 className="text-lg font-bold text-center">Fixed / Bản sửa</h3>
           </div>
-          <div className="overflow-y-auto md:px-8">
-            <p className="text-gray-700 mb-10 leading-loose">
-              {correctText || "No text available"}
-            </p>
-            <p className="text-gray-700">
-              Total Errors: {correctText.errors || "0"}. Errors:
-              {errors.length == 0 && (
-                <span className="text-red-500"> None</span>
-              )}
-            </p>
-            <ul className="list-disc list-inside ml-4">
-              {errors?.map((error, index) => (
-                <li key={index} className="text-red-500">
-                  {error || "Detected Error"}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <p className="text-lg block mt-3">{correctText.comment || ""}</p>
+          <span className="text-gray-700">
+            {comments.length == 0
+              ? "Your audio is perfect! No mistakes found."
+              : "Mistakes found in your audio:"}
+            {comments.map((comment, index) => (
+              <div key={index}>
+                <span className="font-bold">
+                  Mistake {index + 1}: {comment.mistake}
+                </span>
+                <br />
+                <span className="font-bold">
+                  Description: {comment.description}
+                </span>
+              </div>
+            ))}
+            <br />
+
+            <div>
+              <span className="font-bold text-left">Correct Text:</span>
+              <textarea
+                className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
+                value={correctText}
+                placeholder="Transcript Texts From Fixed Audio will be displayed here."
+                readOnly
+              />
+            </div>
+          </span>
         </>
       )}
     </>
