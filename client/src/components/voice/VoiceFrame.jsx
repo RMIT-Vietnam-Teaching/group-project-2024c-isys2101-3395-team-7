@@ -10,10 +10,12 @@ import {
   recordHistory,
   uploadAudio,
   createAiVoice,
+  addFavorite,
 } from "@/api";
 import { pushSuccess } from "@/components/Toast";
 import VoiceLeft from "@/components/voice/VoiceLeft";
 import VoiceRight from "@/components/voice/VoiceRight";
+import { extractText } from "@/components/hubber/ExtractText";
 
 const VoiceFrame = ({}) => {
   const [currState, setCurrState] = useState("begin");
@@ -25,6 +27,7 @@ const VoiceFrame = ({}) => {
   const [resultAudio, setResultAudio] = useState(null);
   const [loading, setLoading] = useState(false); // State to manage loading status
   const [comments, setComments] = useState([]);
+  const [currentRecord, setCurrentRecord] = useState(null);
 
   const handleFileChange = (file) => {
     console.log("receive file", file);
@@ -37,37 +40,13 @@ const VoiceFrame = ({}) => {
     }
   };
 
-  function extractText(response, content) {
-    // Step 1: Get the `result` string and remove triple backticks
-    const rawResult = response.result;
-    const jsonString = rawResult
-      .replace(/```json\n|```/g, "")
-      .split("\n\n")[0]
-      .trim();
-
-    // Step 2: Parse the JSON string
-    try {
-      const parsedData = JSON.parse(jsonString);
-      switch (content) {
-        case "corrected_text":
-          return parsedData.corrected_text;
-        case "errors":
-          return parsedData.errors;
-        default:
-          return null;
-      }
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
-      return null;
-    }
-  }
-
   const handleSubmitFile = async (newFileUpload) => {
     try {
+      setAudioUrl(URL.createObjectURL(newFileUpload));
       var text = await handleVoiceRecognize(newFileUpload);
       if (text !== null) {
         var audioId = await handleUploadFile(newFileUpload);
-        await handleRecordHistory(audioId, "saving audio", text);
+        await handleRecordHistory(audioId, "audio", text);
       } else console.log("correctText is null");
     } catch (error) {
       console.error("Error submitting file:", error);
@@ -88,6 +67,7 @@ const VoiceFrame = ({}) => {
     try {
       const res = await recordHistory(formData);
       console.log("API response:", res);
+      setCurrentRecord(res.newRecord._id);
     } catch (error) {
       console.error("Error uploading file:", error);
     }
@@ -141,6 +121,22 @@ const VoiceFrame = ({}) => {
       setLoading(false);
     }
   };
+
+  const handleAddFavorite = async (imageId) => {
+    const formData = new FormData();
+    !isSaved
+      ? formData.append("favorite", "true")
+      : formData.append("favorite", "false");
+    try {
+      const res = await addFavorite(formData, imageId);
+      console.log("API response:", res);
+    } catch (error) {
+      console.error("Error adding favorite:", error);
+    } finally {
+      setSave(!isSaved);
+    }
+  };
+
   return (
     <div className="h-5/6 my-10">
       <div className="flex justify-between">
@@ -162,7 +158,7 @@ const VoiceFrame = ({}) => {
           style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${
             currState != "process" && "hidden"
           }`}
-          onClick={() => setSave(!isSaved)}
+          onClick={() => handleAddFavorite(currentRecord)}
         />
       </div>
 
