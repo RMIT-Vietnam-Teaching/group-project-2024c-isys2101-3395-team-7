@@ -1,55 +1,59 @@
 "use client";
-import { useState, useEffect } from "react";
-import HandwritingLeft from "./HandwritingLeft";
-import HandwritingRight from "./HandwritingRight";
-import Button from "../ui/Button";
-import StarIcon from "../icons/StarIcon";
+
+import Button from "@/components/ui/Button";
+import StarIcon from "@/components/icons/StarIcon";
+import CircularProgress from "@/components/CircularProgress";
+import { useState } from "react";
 import {
-  recognizeHandwriting,
-  correctRecognizedText,
+  correctRecognizedTextVoice,
+  recognizeVoice,
   recordHistory,
-  uploadImage,
+  uploadAudio,
+  createAiVoice,
   addFavorite,
 } from "@/api";
-import CircularProgress from "@/components/CircularProgress";
-import { pushSuccess } from "../Toast";
-import { extractText } from "../hubber/ExtractText";
+import { pushSuccess } from "@/components/Toast";
+import VoiceLeft from "@/components/voice/VoiceLeft";
+import VoiceRight from "@/components/voice/VoiceRight";
+import { extractText } from "@/components/hubber/ExtractText";
 
-function HandwritingFrame({}) {
+const VoiceFrame = ({}) => {
   const [currState, setCurrState] = useState("begin");
   const [isSaved, setSave] = useState(false);
   const formData = new FormData();
   const [recognizedText, setRecognizedText] = useState("");
   const [correctText, setCorrectText] = useState(null);
-  const [imageUrl, setImageUrl] = useState(null);
+  const [audioUrl, setAudioUrl] = useState(null);
+  const [resultAudio, setResultAudio] = useState(null);
   const [loading, setLoading] = useState(false); // State to manage loading status
-  const [currentRecord, setCurrentRecord] = useState(null);
   const [comments, setComments] = useState([]);
+  const [currentRecord, setCurrentRecord] = useState(null);
 
   const handleFileChange = (file) => {
-    // console.log('receive file', file)
+    console.log("receive file", file);
     if (file instanceof File) {
       const reader = new FileReader();
-      reader.onload = () => {
-        setImageUrl(reader.result);
+      reader.onload = (e) => {
+        setAudioUrl(e.target.result);
       };
       reader.readAsDataURL(file);
     }
   };
 
-  const handleSubmitImage = async (newFileUpload) => {
+  const handleSubmitFile = async (newFileUpload) => {
     try {
-      var text = await handleTextScanning(newFileUpload);
+      setAudioUrl(URL.createObjectURL(newFileUpload));
+      var text = await handleVoiceRecognize(newFileUpload);
       if (text !== null) {
-        var imageId = await handleUploadImage(newFileUpload);
-        await handleRecordHistory(imageId, "handwriting", text);
+        var audioId = await handleUploadFile(newFileUpload);
+        await handleRecordHistory(audioId, "audio", text);
       } else console.log("correctText is null");
     } catch (error) {
-      console.error("Error submitting image:", error);
+      console.error("Error submitting file:", error);
     }
   };
 
-  const handleRecordHistory = async (image, type, answer) => {
+  const handleRecordHistory = async (audio, type, answer) => {
     console.log("handleRecordHistory");
     const formData = new FormData();
     // Change this to current username when authentication is implemented
@@ -57,7 +61,7 @@ function HandwritingFrame({}) {
     formData.append("time", new Date().toISOString());
     formData.append("type", type);
     formData.append("favorite", "false");
-    formData.append("imageId", image);
+    formData.append("audioId", audio);
     formData.append("answer", answer);
 
     try {
@@ -67,43 +71,50 @@ function HandwritingFrame({}) {
     } catch (error) {
       console.error("Error uploading file:", error);
     }
+    return;
   };
 
-  const handleUploadImage = async (newFileUpload) => {
-    console.log("handleUploadImage", newFileUpload);
+  const handleUploadFile = async (newFileUpload) => {
+    console.log("handleUploadFile", newFileUpload);
     try {
-      const res = await uploadImage(newFileUpload);
+      const res = await uploadAudio(newFileUpload);
       console.log("API response:", res);
-      return res.imageId;
+      return res.audioId;
     } catch (error) {
       console.error("Error uploading file:", error);
     }
   };
 
-  const handleTextScanning = async (newFileUpload) => {
-    console.log("handleTextScanning", newFileUpload);
-    formData.append("image", newFileUpload);
-    handleFileChange(formData.getAll("image")[0]);
+  const handleVoiceRecognize = async (newFileUpload) => {
+    console.log("handleVoiceRecognize", newFileUpload);
+    formData.append("audio", newFileUpload);
+    handleFileChange(formData.getAll("file")[0]);
     setLoading(true); // Set loading to true before API requests
     pushSuccess("Successfully submitted!");
     try {
-      const resTextRecognize = await recognizeHandwriting(formData);
+      const resTextRecognize = await recognizeVoice(formData);
       console.log("API response:", resTextRecognize);
       if (resTextRecognize) {
         // Assuming success check
-        setRecognizedText(resTextRecognize);
+        setRecognizedText(resTextRecognize.text);
         console.log("has response");
-        const resCorrect = await correctRecognizedText(resTextRecognize);
+        const resCorrect = await correctRecognizedTextVoice(resTextRecognize);
+        console.log("response text", resCorrect);
         setComments(extractText(resCorrect, "errors"));
         if (resCorrect) {
           const correctedText = extractText(resCorrect, "corrected_text");
           // after get correct text
           setCorrectText(correctedText);
-          setCurrState("process");
-          return resCorrect;
+          // send correct text for ai voice reading
+          const resAudio = await createAiVoice(correctedText);
+          if (resAudio) {
+            setResultAudio(resAudio);
+            setCurrState("process");
+            return correctedText;
+          }
         }
       }
-      return null;
+      //   return null;
     } catch (error) {
       console.error("Error uploading file:", error);
     } finally {
@@ -170,29 +181,40 @@ function HandwritingFrame({}) {
           <>
             <div className="flex flex-col justify-between relative h-full w-full items-center px-4 overflow-y-auto">
               {/* content */}
-              <HandwritingLeft
+              <VoiceLeft
                 state={currState}
                 handleState={setCurrState}
-                originalInput={imageUrl}
+                originalInput={audioUrl}
+                rawText={recognizedText}
               />
             </div>
             <div className="absolute border-l border-gray-300 py-8 h-3/4 md:block hidden" />
+
             <div className="flex flex-col items-center relative h-full w-full px-8 min-h-60 overflow-y-auto">
               {/* content */}
-              <HandwritingRight
-                state={currState}
-                handleState={setCurrState}
-                handleForm={handleSubmitImage}
-                comments={comments}
-                rawText={recognizedText}
-                correctText={correctText}
-              />
+              {currState === "microphone" ? (
+                <SpeechToTextInterface
+                  state={currState}
+                  handleState={setCurrState}
+                  correctText={correctText}
+                />
+              ) : (
+                <VoiceRight
+                  state={currState}
+                  handleState={setCurrState}
+                  handleForm={handleSubmitFile}
+                  comments={comments}
+                  rawText={recognizedText}
+                  correctedText={correctText}
+                  resultAudio={resultAudio} // replace with resultAudio after handle api response
+                />
+              )}
             </div>
           </>
         )}
       </div>
     </div>
   );
-}
+};
 
-export default HandwritingFrame;
+export default VoiceFrame;
