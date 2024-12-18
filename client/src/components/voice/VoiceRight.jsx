@@ -8,6 +8,7 @@ import VoiceIcon from "@/components/icons/VoiceIcon";
 import VoiceRecorder from "./VoiceRecorder";
 import ReactPlayer from "react-player";
 import { recognizeVoice } from "@/api";
+import Tooltip from "@/components/tooltip";
 
 const VoiceRight = ({
   state,
@@ -39,7 +40,6 @@ const VoiceRight = ({
   const handleMicrophoneClick = (event) => {
     event.preventDefault(); // Prevent default form submission
     console.log("Microphone button clicked!");
-    // handleState("microphone");
   };
 
   const isPlainText = (event) => {
@@ -65,18 +65,22 @@ const VoiceRight = ({
           >
             <label className="grid appearance-none cursor-pointer hover:border-gray-400 focus:outline-none justify-items-center w-full">
               <div className={"top-1 w-full flex gap-4 justify-center"}>
-                <div>
-                  <DragDropIcon width={50} height={50} />
-                </div>
+                <Tooltip text={"You can drag and drop a file here!"} position={"top"}>
+                  <div>
+                    <DragDropIcon width={50} height={50} />
+                  </div>
+                </Tooltip>
                 <div
                   className="flex justify-center items-center cursor-default"
                   onClick={isPlainText}
                 >
                   <p className={"text-4xl"}> / </p>
                 </div>
-                <div onClick={handleMicrophoneClick}>
-                  <VoiceIcon width={50} height={50} />
-                </div>
+                <Tooltip text={"or Press `Start` below to record real-time!"} position={"top"}>
+                  <div onClick={isPlainText}>
+                    <VoiceIcon width={50} height={50} />
+                  </div>
+                </Tooltip>
               </div>
               <div>{selectedFile?.name}</div>
               <input
