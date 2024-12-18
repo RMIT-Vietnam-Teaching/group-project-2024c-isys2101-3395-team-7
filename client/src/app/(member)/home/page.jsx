@@ -1,7 +1,11 @@
+import Guidelines from "@/components/guidelines";
+
 
 const Home = () => {
     return (
-        <div>Guideline page</div>
+        <div>
+            <Guidelines/>
+        </div>
     )
 }
 

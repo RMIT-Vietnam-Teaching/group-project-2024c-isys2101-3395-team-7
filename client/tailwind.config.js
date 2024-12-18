@@ -39,6 +39,16 @@ module.exports = {
 
       },
     },
+    transitionDuration: {
+      '300': '300ms',
+      '500': '500ms',
+    },
+    transitionTimingFunction: {
+      DEFAULT: 'ease-in-out',
+      linear: 'linear',
+      easeIn: 'ease-in',
+      easeOut: 'ease-out',
+    },
   },
   plugins: [],
 };
