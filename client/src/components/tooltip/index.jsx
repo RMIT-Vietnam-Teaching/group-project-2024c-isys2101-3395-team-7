@@ -20,6 +20,13 @@ const Tooltip = ({ text, children, position = 'top' }) => {
         right: 'top-1/2 left-full transform -translate-y-1/2 ml-2',
     };
 
+    const tailClasses = {
+        top: "absolute top-full left-1/2 transform -translate-x-1/2 border-2 border-transparent border-t-black",
+        bottom: "absolute bottom-full left-1/2 transform -translate-x-1/2 border-2 border-transparent border-b-black",
+        left: "absolute left-full top-1/2 transform -translate-y-1/2 border-2 border-transparent border-l-black",
+        right: "absolute right-full top-1/2 transform -translate-y-1/2 border-4 border-transparent border-r-black",
+    };
+
     return (
         <div style={{ position: 'relative', display: 'inline-block', width: 'fit-content', height: 'fit-content' }}>
             <div
@@ -31,9 +38,10 @@ const Tooltip = ({ text, children, position = 'top' }) => {
             </div>
             {showTooltip && (
                 <span
-                    className={`absolute text-xs bg-grey-200 text-black p-2 rounded whitespace-nowrap ${positionClasses[position]}`}
+                    className={`absolute text-xs font-bold bg-black text-white border-orange border-solid shadow-lg border-2 p-2 rounded whitespace-nowrap ${positionClasses[position]}`}
                 >
                     {text}
+                    <div className={tailClasses[position]}></div>
                 </span>
             )}
         </div>
