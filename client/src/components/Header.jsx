@@ -8,12 +8,7 @@ import { useRouter } from "next/navigation";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { useAuth } from "@/context/AuthContext";
 import Tooltip from "@/components/tooltip";
-import HistoryIcon from "@/components/icons/HistoryIcon";
-import ViegoLogoIcon from "@/components/icons/ViegoLogoIcon";
 import MenuIcon from "@/components/icons/MenuIcon";
-import FavoriteIcon from "@/components/icons/FavoriteIcon";
-import SettingsIcon from "@/components/icons/SettingsIcon";
-import UserProfileIcon from "@/components/icons/UserProfileIcon";
 
 
 const iconWidth = 30, iconHeight = 30;
