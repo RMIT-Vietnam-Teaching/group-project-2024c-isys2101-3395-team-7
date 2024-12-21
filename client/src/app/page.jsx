@@ -78,8 +78,12 @@ const landingpage = () => {
 
                     {/* Right Section */}
                     <div className={"flex justify-center items-center flex-2/5"}>
-                        {/*TODO: replace with the app image later*/}
-                        <img src={'placeholder.png'} alt={'placeholder_image'} className={'h-96 w-full'} />
+                        <img src={'viego-landing-page-illustration.png'} alt={'landing-page'}  className="object-contain"
+                             style={{
+                                 height: 'calc((100vh - 4.5rem) * 2 / 3)', // Dynamic height
+                                 width: 'auto', // Proportional width
+                             }}
+                             />
                     </div>
                 </main>
             </div>
