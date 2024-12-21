@@ -2,6 +2,7 @@
 import { createContext, useEffect, useState, useContext } from "react";
 import { logout, authMember } from "@/api";
 import { useRouter } from "next/navigation";
+import { pushSuccess, pushError } from "@/components/Toast";
 
 const MEMBER_KEY = "member",
   TOKEN_KEY = "authToken";
@@ -57,13 +58,13 @@ export const AuthProvider = ({ children }) => {
 
   useEffect(() => {
     const verifyAuth = async () => {
-      if (token !== null) {
+      console.log(token, memberId);
+      if (token && memberId) {
         const id = JSON.parse(localStorage.getItem(MEMBER_KEY));
         const res = await authMember(id, token);
         if (res) {
           // setIsLoggedIn(true);
           setMember(res);
-          // router.push(window?.location.pathname);
         }
         // } else {
         //   setIsLoggedIn(false);
@@ -81,10 +82,18 @@ export const AuthProvider = ({ children }) => {
         currPath != "/register"
       ) {
         router.push("/");
+        pushError("Please login or register an account!")
       }
     };
     verifyAuth();
   }, [token, router]);
+
+  const checkLoginInitial = () => {
+    if (localStorage.getItem(TOKEN_KEY)) {
+      pushSuccess("You already logged in!")
+      router.push("/home")
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -93,6 +102,7 @@ export const AuthProvider = ({ children }) => {
         storeAuth,
         removeAuth,
         isLoggedIn,
+        checkLoginInitial
       }}
     >
       {children}
@@ -100,7 +110,6 @@ export const AuthProvider = ({ children }) => {
   );
 };
 
-// export const useAuth = () => useContext(AuthContext);
 export const useAuth = () => {
   return useContext(AuthContext);
 };

@@ -83,7 +83,7 @@ const HandwritingRight = ({
           <div className="w-full md:h-28 grid content-center md:pb-0 pb-5">
             <h3 className="text-lg font-bold text-center">Fixed / Bản sửa</h3>
           </div>
-          <span className="text-gray-700">
+          <span className="text-gray-700 h-full">
             {comments.length == 0
               ? "Your audio is perfect! No mistakes found."
               : "Mistakes found in your handwriting:"}
@@ -103,7 +103,7 @@ const HandwritingRight = ({
             <div>
               <span className="font-bold text-left">Correct Text:</span>
               <textarea
-                className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
+                className="block w-full md:h-48 p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
                 value={correctText}
                 placeholder="Transcript Texts From Fixed Handwriting will be displayed here."
                 readOnly

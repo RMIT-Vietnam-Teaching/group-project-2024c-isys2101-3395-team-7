@@ -1,9 +1,9 @@
-import ConfigPage from "@/components/config-page";
+import Index from "@/components/config-page";
 
 const configpage = () => {
     return (
         <>
-            <ConfigPage/>
+            <Index/>
         </>
     )
 }
