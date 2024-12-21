@@ -36,7 +36,7 @@ export default function guidelines() {
 
                 {/* Reusable Collapsible Sections */}
                 {/*Handwriting Section*/}
-                <CollapsibleSection title="Use Image Translation and Correction Feature">
+                <CollapsibleSection title="Use Handwriting Detection and Correction Feature">
                     <p className="font-semibold text-pink">
                             STEP 1:
                     </p>
@@ -55,7 +55,7 @@ export default function guidelines() {
                     </p>
                 </CollapsibleSection>
                 {/*Voice Section*/}
-                <CollapsibleSection title="Use Vocabulary Building Feature">
+                <CollapsibleSection title="Use Voice Detection and Correction Feature">
                     <p>
                         The Vocabulary Building Feature helps users enhance their Vietnamese
                         vocabulary using interactive exercises and flashcards.
@@ -63,7 +63,7 @@ export default function guidelines() {
                     <p>1. Select a category. 2. Practice new words. 3. Test your skills.</p>
                 </CollapsibleSection>
                 {/*Quiz Section*/}
-                <CollapsibleSection title="Use Sentence Correction Tool">
+                <CollapsibleSection title="Use Quiz Feature">
                     <p>
                         The Sentence Correction Tool analyzes your sentences and provides
                         grammar suggestions to improve writing skills.
