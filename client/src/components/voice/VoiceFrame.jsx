@@ -17,6 +17,7 @@ import VoiceLeft from "@/components/voice/VoiceLeft";
 import VoiceRight from "@/components/voice/VoiceRight";
 import { extractText } from "@/components/hubber/ExtractText";
 import Tooltip from "@/components/tooltip";
+import { extractText } from "@/components/helper/ExtractText";
 
 const VoiceFrame = ({}) => {
   const [currState, setCurrState] = useState("begin");
