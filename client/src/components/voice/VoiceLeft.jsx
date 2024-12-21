@@ -25,15 +25,13 @@ const VoiceLeft = ({
       <div className="mb-10 text-center md:border-b-0 border-b pb-5 h-full w-full">
         {state === "begin" && (
           <div className="h-full">
-            <p className="md:absolute top-20">
-              Upload your Vietnamese voice recording to get feedback!
-            </p>
-            <div className="h-full grid content-center">
+            <h3 className="text-lg font-bold h-20 grid content-center">Try out Voice Detection & Vietnamese
+              Correction Service!</h3>
+            <div className="h-4/5 grid content-center">
               <Image
-                src="/voice-guide.png"
+                  src="/voice-official-guide.png"
                 alt="Image guide"
-                width={500}
-                height={300}
+                width={900} height={400} className="w-full"
               />
             </div>
           </div>
