@@ -1,9 +1,16 @@
 "use client"
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Logo from '@/components/Logo'
+import { useAuth } from '@/context/AuthContext'
 
 const landingpage = () => {
+    const { checkLoginInitial } = useAuth();
     const router = useRouter()
+
+    useEffect(() => {
+        checkLoginInitial();
+    }, [router]);
 
     return (
         <>

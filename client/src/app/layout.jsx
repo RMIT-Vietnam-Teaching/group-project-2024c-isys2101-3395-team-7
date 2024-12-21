@@ -1,6 +1,6 @@
 import "../styles/globals.css"
 import { ToastContainer } from 'react-toastify';
-import { AuthProvider } from "@/context/AuthContext";
+import Providers from "@/context/Providers";
 
 export const metadata = {
     title: "Viego",
@@ -13,10 +13,10 @@ export default function RootLayout({ children }) {
     return (
         <html lang="en" >
             <body >
-                <AuthProvider>
+                <Providers>
                     {children}
                     <ToastContainer />
-                </AuthProvider>
+                </Providers>
             </body>
         </html>
     )
