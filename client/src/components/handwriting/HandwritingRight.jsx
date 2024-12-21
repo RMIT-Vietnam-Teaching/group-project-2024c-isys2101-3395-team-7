@@ -3,6 +3,7 @@ import { useState } from "react";
 import Button from "../ui/Button";
 import DragDropIcon from "../icons/DragDropIcon";
 import { pushError, pushWarning } from "../Toast";
+import Tooltip from "@/components/tooltip";
 
 const HandwritingRight = ({
   state,
@@ -52,7 +53,9 @@ const HandwritingRight = ({
           >
             <label className="grid appearance-none cursor-pointer hover:border-gray-400 focus:outline-none justify-items-center">
               <div className={"justify-center"}>
-                <DragDropIcon width={50} height={50} />
+                <Tooltip text={"You can drag and drop a file here!"} position={"top"}>
+                  <DragDropIcon width={50} height={50} />
+                </Tooltip>
               </div>
               <div>{selectedFile?.name}</div>
               <input
@@ -62,7 +65,7 @@ const HandwritingRight = ({
                 className="hidden"
               />
               <pushError message={"Invalid file type!"} />
-              <div className="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange">
+              <div className="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange hover:text-black">
                 {selectedFile ? "Choose another file" : "Browse your file"}
               </div>
             </label>
@@ -70,7 +73,7 @@ const HandwritingRight = ({
               <Button
                 type="submit"
                 text="Submit file"
-                style="bg-black text-white hover:bg-orange py-2 px-4 mb-3"
+                style="bg-black text-white hover:bg-orange hover:text-black py-2 px-4 mb-3"
               />
             )}
           </form>

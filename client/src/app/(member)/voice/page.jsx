@@ -1,3 +1,4 @@
+"use client"
 import VoiceFrame from "@/components/voice/VoiceFrame";
 
 const Voice = () => {
