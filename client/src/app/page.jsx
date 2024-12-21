@@ -8,11 +8,11 @@ const landingpage = () => {
     return (
         <>
             <div className="min-h-screen bg-black ">
-                <header className="flex h-18 justify-between items-center px-8 py-4 border-b border-white">
+                <header className="flex justify-between items-center px-8 py-4 border-b border-white">
                     {/* Logo */}
                     <div className="text-3xl font-bold italic">
                         {/* <img src="/client/public/vietgo_logo.svg" alt="logo" className={'h-18 w-18'} /> */}
-                        <Logo width={50} height={50} />
+                        <Logo width={30} height={30} />
                     </div>
                     {/* Navigation */}
                     <nav className="flex space-x-4">
@@ -80,7 +80,7 @@ const landingpage = () => {
                     <div className={"flex justify-center items-center flex-2/5"}>
                         <img src={'viego-landing-page-illustration.png'} alt={'landing-page'}  className="object-contain"
                              style={{
-                                 height: 'calc((100vh - 4.5rem) * 2 / 3)', // Dynamic height
+                                 height: 'calc((100vh - 4.5rem) * 3/4)', // Dynamic height
                                  width: 'auto', // Proportional width
                              }}
                              />
