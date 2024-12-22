@@ -85,7 +85,7 @@ const HandwritingRight = ({
           </div>
           <span className="text-gray-700 h-full">
             {comments.length == 0
-              ? "Your audio is perfect! No mistakes found."
+              ? "Your handwriting is perfect! No mistakes found."
               : "Mistakes found in your handwriting:"}
             {comments.map((comment, index) => (
               <div key={index}>

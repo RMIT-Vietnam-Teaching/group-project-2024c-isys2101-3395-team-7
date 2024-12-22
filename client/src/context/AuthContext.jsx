@@ -30,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     }
   }, [router]);
 
-  const storeAuth = (member, token) => {
+  const storeAuth = (member, token, username) => {
     if (member) {
       console.log("member in auth: ", member);
       setIsLoggedIn(true);
@@ -38,6 +38,7 @@ export const AuthProvider = ({ children }) => {
       setToken(token);
       localStorage.setItem(MEMBER_KEY, JSON.stringify(member)); // may handle type
       localStorage.setItem(TOKEN_KEY, token);
+      localStorage.setItem("username", username);
     }
     console.log("successfully logged in");
     router.push("/home");
@@ -82,7 +83,7 @@ export const AuthProvider = ({ children }) => {
         currPath != "/register"
       ) {
         router.push("/");
-        pushError("Please login or register an account!")
+        pushError("Please login or register an account!");
       }
     };
     verifyAuth();
@@ -90,8 +91,8 @@ export const AuthProvider = ({ children }) => {
 
   const checkLoginInitial = () => {
     if (localStorage.getItem(TOKEN_KEY)) {
-      pushSuccess("You already logged in!")
-      router.push("/home")
+      pushSuccess("You already logged in!");
+      router.push("/home");
     }
   };
 
@@ -102,7 +103,7 @@ export const AuthProvider = ({ children }) => {
         storeAuth,
         removeAuth,
         isLoggedIn,
-        checkLoginInitial
+        checkLoginInitial,
       }}
     >
       {children}

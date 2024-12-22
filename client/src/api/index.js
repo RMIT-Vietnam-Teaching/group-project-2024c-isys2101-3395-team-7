@@ -279,69 +279,29 @@ export async function addFavorite(formData, id) {
   }
 }
 
-export async function fetchRecords(id) {
-  // try {
+export async function fetchRecords(username) {
+  try {
+    // Retrieve the token from localStorage
     const token = localStorage.getItem("authToken");
 
     if (!token) {
       throw new Error("No auth token found in localStorage");
     }
 
-  //   const res = await axios.get(
-  //     `https://viego-mongo-api.onrender.com/record/${id}`,
-  //     formData,
-  //     {
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       withCredentials: true,
-  //     }
-  //   );
-  //   return res.data;
-  // } catch (error) {
-  //   console.log(error);
-  // }
-
-  // Return sample data for testing purposes
-  return [
-    {
-      "_id": "67550f67fd302112d0fc861f",
-      "username": "test",
-      "type": "handwriting",
-      "image_id": [{ "$oid": "67550f67fd302112d0fc861d" }],
-      "favorite": false,
-      "time": "2024-12-08T03:15:51.520Z",
-      "answer": "Nếu bạn không thể sáng tạo thì hãy thử bắt chước người khác, tìm ra điểm giống và khác, điểm tốt và xấu để kết hợp với những gì bạn đã có, từ đó tạo ra sản phẩm của riêng bạn."
-    },
-    {
-      "_id": "67550f67fd302112d0fc8620",
-      "username": "sampleUser",
-      "type": "audio saving",
-      "image_id": [{ "$oid": "67550f67fd302112d0fc8621" }],
-      "favorite": true,
-      "time": "2024-12-09T03:15:51.520Z",
-      "answer": "Creativity can be sparked by imitating others, finding similarities and differences, and combining them with your own ideas to create something unique."
-    },
-    {
-      "_id": "67550f67fd2112d0fc8622",
-      "username": "anotherUser",
-      "type": "handwriting",
-      "image_id": [{ "$oid": "67550f67fd302112d0fc8623" }],
-      "favorite": false,
-      "time": "2024-12-10T03:15:51.520Z",
-      "answer": "Innovation often involves looking at existing ideas and improving upon them to create something new and valuable."
-    },
-    {
-      "_id": "f67fd302112d0fc8622",
-      "username": "User",
-      "type": "audio saving",
-      "image_id": [{ "$oid": "67550f67fd302112d0fc8623" }],
-      "favorite": false,
-      "time": "2024-12-10T03:15:51.520Z",
-      "answer": "Innovation often involves looking at existing ideas and improving upon them to create something new and valuable."
-    }
-  ];
+    const res = await axios.get(
+      `https://viego-mongo-api.onrender.com/record/user/${username}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
 }
 
 // ============== Authentication ================= //
