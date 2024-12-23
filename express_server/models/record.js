@@ -9,7 +9,13 @@ const recordSchema = new mongoose.Schema(
     favorite: { type: Boolean, required: true },
     time: { type: Date, default: Date.now },
     answer: { type: String },
-    comment: { type: String },
+    comment: [
+      {
+        mistake: { type: String }, // Who made the comment
+        correction: { type: String }, // The comment text
+        description: { type: String }, // When the comment was made
+      },
+    ],
   },
   {
     versionKey: false, // Prevents the `__v` field from being added
