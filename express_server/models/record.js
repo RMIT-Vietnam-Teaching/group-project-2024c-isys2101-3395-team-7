@@ -9,6 +9,7 @@ const recordSchema = new mongoose.Schema(
     favorite: { type: Boolean, required: true },
     time: { type: Date, default: Date.now },
     answer: { type: String },
+    comment: { type: String },
   },
   {
     versionKey: false, // Prevents the `__v` field from being added

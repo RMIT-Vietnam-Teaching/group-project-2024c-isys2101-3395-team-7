@@ -53,6 +53,7 @@ router.post("/", verifyToken, upload.none(), async (req, res) => {
     favorite: req.body.favorite,
     time: req.body.time || Date.now(),
     answer: req.body.answer,
+    comment: req.body.comment,
   });
 
   try {
@@ -86,6 +87,10 @@ router.patch(
 
     if (answer != null) {
       res.record.answer = answer;
+    }
+
+    if (comment != null) {
+      res.record.comment = comment;
     }
 
     try {
