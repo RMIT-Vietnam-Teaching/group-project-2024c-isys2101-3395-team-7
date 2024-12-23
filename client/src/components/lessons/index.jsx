@@ -1,15 +1,16 @@
 "use client"
 
 import Sidebar from "@/components/lessons/Sidebar";
+import FloatingSidebar from "@/components/lessons/FloatingSidebar";
 
 export default function Lessons() {
     return (
         <>
-            <div className={"flex min-h-screen"}>
-                <div className={"flex-1"}>
+            <div className={"flex min-h-screen w-2/3 content-center justify-center"}>
+                <div className={""}>
                     <Sidebar />
                 </div>
-                <div className="flex-1 space-y-8 bg-white text-black overflow-y-auto">
+                <div className="flex-1 max-w-1/4 h-screen space-y-8 bg-white text-black overflow-y-auto">
                     <section id="lesson1" className="bg-gray-100 p-6 rounded-md shadow">
                         <h2 className="text-2xl font-bold mb-4">Lesson 1</h2>
                         <p className="">
@@ -60,6 +61,9 @@ export default function Lessons() {
                             lacus eu elit facilisis tempor.
                         </p>
                     </section>
+                </div>
+                <div className={""}>
+                    <FloatingSidebar />
                 </div>
             </div>
         </>
