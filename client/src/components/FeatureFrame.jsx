@@ -30,7 +30,7 @@ const FeatureFrame = ({ type, props }) => {
             state={props.currState || "process"}
             handleState={props.setCurrState}
             handleForm={props.handleSubmitImage}
-            comments={props.comments || []}
+            comments={props.comment || []}
             rawText={props.recognizedText || ""}
             correctText={props.correctText || props.answer || ""}
           />
@@ -39,7 +39,7 @@ const FeatureFrame = ({ type, props }) => {
             state={props.currState || "process"}
             handleState={props.setCurrState}
             handleForm={props.handleSubmitFile}
-            comments={props.comments || []}
+            comments={props.comment || []}
             rawText={props.recognizedText || ""}
             correctedText={props.correctText || props.answer || ""}
             resultAudio={props.resultAudio} // replace with resultAudio after handle api response

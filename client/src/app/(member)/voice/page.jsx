@@ -25,7 +25,7 @@ const Voice = () => {
   const [audioUrl, setAudioUrl] = useState(null);
   const [resultAudio, setResultAudio] = useState(null);
   const [loading, setLoading] = useState(false); // State to manage loading status
-  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState([]);
   const [currentRecord, setCurrentRecord] = useState(null);
   const { updateHeaderData } = useHeader();
 
@@ -43,10 +43,12 @@ const Voice = () => {
   const handleSubmitFile = async (newFileUpload) => {
     try {
       setAudioUrl(URL.createObjectURL(newFileUpload));
-      var text = await handleVoiceRecognize(newFileUpload);
+      var res = await handleVoiceRecognize(newFileUpload);
+      var text = extractText(res, "corrected_text");
+      var cmt = extractText(res, "errors");
       if (text !== null) {
         var audioId = await handleUploadFile(newFileUpload);
-        await handleRecordHistory(audioId, "audio", text);
+        await handleRecordHistory(audioId, "audio", text, cmt);
         await updateHeaderData(); // fetch data again on header
       } else console.log("correctText is null");
     } catch (error) {
@@ -54,7 +56,7 @@ const Voice = () => {
     }
   };
 
-  const handleRecordHistory = async (audio, type, answer) => {
+  const handleRecordHistory = async (audio, type, answer, comment) => {
     console.log("handleRecordHistory");
     const formData = new FormData();
     // Change this to current username when authentication is implemented
@@ -64,6 +66,7 @@ const Voice = () => {
     formData.append("favorite", "false");
     formData.append("audioId", audio);
     formData.append("answer", answer);
+    formData.append("comment", JSON.stringify(comment));
 
     try {
       const res = await recordHistory(formData);
@@ -101,7 +104,7 @@ const Voice = () => {
         console.log("has response");
         const resCorrect = await correctRecognizedTextVoice(resTextRecognize);
         console.log("response text", resCorrect);
-        setComments(extractText(resCorrect, "errors"));
+        setComment(extractText(resCorrect, "errors"));
         if (resCorrect) {
           const correctedText = extractText(resCorrect, "corrected_text");
           // after get correct text
@@ -111,7 +114,7 @@ const Voice = () => {
           if (resAudio) {
             setResultAudio(resAudio);
             setCurrState("process");
-            return correctedText;
+            return resCorrect;
           }
         }
       }
@@ -176,7 +179,7 @@ const Voice = () => {
                 audioUrl,
                 recognizedText,
                 handleSubmitFile,
-                comments,
+                comment,
                 correctText,
                 resultAudio,
               }}
