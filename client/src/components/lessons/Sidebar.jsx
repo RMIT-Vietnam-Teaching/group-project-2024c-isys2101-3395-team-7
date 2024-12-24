@@ -1,8 +1,10 @@
 "use client"
 
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
+import CircularProgress from "@/components/CircularProgress";
 
 const Sidebar = () => {
+    const [isLoading, setIsLoading] = useState(true);
     const lessonsData = [
         {
             id: 1,
@@ -22,25 +24,26 @@ const Sidebar = () => {
     const handleHeadingClick = (heading) => {
         setClickedHeading(heading);
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            // Replace this with actual data fetching logic
+            await new Promise((resolve) => setTimeout(resolve, 2000));
+            // setLessonsData(/* Your fetched data */);
+            setIsLoading(false);
+        };
+        fetchData();
+    }, []);
+
     return (
         <>
             <div className="w-64 bg-black text-white h-screen pt-10 flex flex-col">
-                {/*<ul className="space-y-4 border-t w-full border-white h-auto">*/}
-                {/*    {data.headings.map((heading, index) => (*/}
-                {/*        <li key={index}>*/}
-                {/*            <a*/}
-                {/*                onClick={() => handleHeadingClick(heading)}*/}
-                {/*                href={`#${heading.toLowerCase().replace(/\s+/g, "")}`} // Create an ID-friendly href*/}
-                {/*                className={`block flex-col place-self-center items-center place-content-center content-center hover:underline hover:border-white hover:text-orange pt-0 pl-6 border-gray-800 border-b h-6 ${*/}
-                {/*                    clickedHeading === heading ? "italic underline" : ""*/}
-                {/*                }`}*/}
-                {/*            >*/}
-                {/*                {heading}*/}
-                {/*            </a>*/}
-                {/*        </li>*/}
-                {/*    ))}*/}
-                {/*</ul>*/}
-
+                {isLoading ? (
+                    <div className="flex flex-col justify-center items-center h-full">
+                        <CircularProgress size="lg"/>
+                        <span className="text-sm mt-2">Generating Lessons...</span>
+                    </div>
+                ) : (
                 <ul className="space-y-4 border-t w-full border-white h-auto">
                     {lessonsData.map((lesson, index) => (
                         <li key={index}>
@@ -56,6 +59,7 @@ const Sidebar = () => {
                         </li>
                     ))}
                 </ul>
+                    )}
             </div>
         </>
     )
