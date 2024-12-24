@@ -63,8 +63,7 @@ const Table = ({ data }) => {
             onClick={
               item.answer
                 ? () => {
-                    handleAddImageUrl(item);
-                    handleOpenModal();
+                    handleAddImageUrl(item).then(() => handleOpenModal());
                   }
                 : null
             }
