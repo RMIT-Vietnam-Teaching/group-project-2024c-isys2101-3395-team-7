@@ -17,12 +17,12 @@ const MiniMenu = () => {
     }
 
     const handleConfirm = () => {
-        // Logic to generate new lessons based on newExerciseNumber
-        console.log(`Generating ${newExerciseNumber} new lessons...`);
+        // Logic to generate new exercises based on newExerciseNumber
+        console.log(`Generating ${newExerciseNumber} new exercises...`);
         setIsPopupOpen(false);
         // Reset newExerciseNumber after generation
         setNewExerciseNumber(1);
-        pushSuccess("Generating new lessons");
+        pushSuccess("Generating new exercises");
     };
 
     const handleCancel = () => {
@@ -54,10 +54,10 @@ const MiniMenu = () => {
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
                     <div className="bg-white p-6 rounded-lg">
                         <h2 className="text-lg font-semibold mb-4">Generate New Exercises</h2>
-                        <label htmlFor="lessonNumber">Enter Exercises numbers:</label>
+                        <label htmlFor="exerciseNumber">Enter Exercises numbers:</label>
                         <input
                             type="number"
-                            id="lessonNumber"
+                            id="exerciseNumber"
                             value={newExerciseNumber}
                             onChange={(e) => setNewExerciseNumber(Number(e.target.value))}
                             className="border border-gray-300 p-2 rounded mb-4"

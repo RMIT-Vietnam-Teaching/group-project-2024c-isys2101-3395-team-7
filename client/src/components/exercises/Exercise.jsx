@@ -1,5 +1,8 @@
 "use client"
 
+import FeatureFrame from "@/components/FeatureFrame";
+import ModalPopup from "@/components/ModalPopup";
+
 const Exercise = () => {
     return (
         <>
