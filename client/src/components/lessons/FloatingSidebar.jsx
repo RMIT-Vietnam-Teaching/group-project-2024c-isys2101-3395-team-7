@@ -11,16 +11,16 @@ const iconWidth = 30, iconHeight = 30;
 const FloatingSidebar = () => {
     return (
         <>
-            <div className={`flex flex-1 relative left-0 z-10 md:h-full md:max-w-16 w-72 bg-black content-center md:block border-t-2 border-white`}>
+            <div className={`flex flex-col relative h-screen w-16 bg-black content-center md:block border-t-2 border-white`}>
 
-                <div className="grid grid-cols-1 bg-black text-white h-screen p-4">
+                <div className="grid grid-cols-1">
                     {/* Move to Top */}
-                    <div>
+                    <div className={"z-10"}>
                         <Tooltip text={"Go To Top"} position="right">
                             <a href="#lesson1"
                             >
                                 <div
-                                    className={`p-3 hover:bg-orange grid grid-cols-3`}>
+                                    className={`p-3 hover:bg-orange grid grid-cols-3 border-white border-t`}>
                                     <GoToTopIcon width={iconWidth} height={iconHeight}/>
                                 </div>
                             </a>
@@ -28,10 +28,10 @@ const FloatingSidebar = () => {
                     </div>
 
                     {/* Generate New Lessons */}
-                    <div>
+                    <div className={"z-10"}>
                         <Tooltip text={"Generate New Lessons"} position="right">
                             <div
-                                className={`p-3 hover:bg-orange grid grid-cols-3`}
+                                className={`p-3 hover:bg-orange grid grid-cols-3 border-t border-b border-white content-center items-center self-center`}
                                 onClick={() => {console.log("Generate New Lessons")}}
                             >
                                 <GenerateIcon width={iconWidth} height={iconHeight}/>
