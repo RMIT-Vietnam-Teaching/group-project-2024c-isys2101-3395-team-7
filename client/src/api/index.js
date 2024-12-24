@@ -257,6 +257,40 @@ export async function getImage(imageUrl) {
   }
 }
 
+// Get image/audio file
+export async function getAudio(audioUrl) {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.get(
+      `https://viego-mongo-api.onrender.com/audio/${audioUrl}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+        responseType: "blob",
+      }
+    );
+
+    // Convert the Blob into an object URL
+    const audioObjectUrl = URL.createObjectURL(res.data);
+
+    console.log("Audio Object URL:", audioObjectUrl);
+
+    // Return the object URL
+    return audioObjectUrl;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
+
 // ============== Support Functions ================= //
 export async function recordHistory(formData) {
   try {

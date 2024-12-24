@@ -4,7 +4,7 @@ import StarIcon from "@/components/icons/StarIcon";
 import CancelIcon from "@/components/icons/CancelIcon";
 import ModalPopup from "@/components/ModalPopup";
 import FeatureFrame from "../FeatureFrame";
-import { getImage } from "@/api";
+import { getImage, getAudio } from "@/api";
 
 const Table = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -23,10 +23,16 @@ const Table = ({ data }) => {
 
   const handleDeleteConfirm = (item) => {};
 
-  const handleAddImageUrl = async (item) => {
-    const imageUrl = await getImage(item.image_id[0].toString());
-    item.imageUrl = imageUrl;
-    setSelectedItem(item);
+  const handleAddUrl = async (item) => {
+    if (item.type === "handwriting") {
+      const imageUrl = await getImage(item.image_id[0].toString());
+      item.imageUrl = imageUrl;
+      setSelectedItem(item);
+    } else if (item.type === "audio") {
+      const audioUrl = await getAudio(item.audio_id[0].toString());
+      item.audioUrl = audioUrl;
+      setSelectedItem(item);
+    }
   };
 
   const paginatedData = data.slice(
@@ -63,7 +69,7 @@ const Table = ({ data }) => {
             onClick={
               item.answer
                 ? () => {
-                    handleAddImageUrl(item).then(() => handleOpenModal());
+                    handleAddUrl(item).then(() => handleOpenModal());
                   }
                 : null
             }
