@@ -11,7 +11,8 @@ export default function Exercises() {
         <>
             <div className={"flex flex-col min-h-screen w-2/3 justify-items-start border-l border-r border-black mx-auto"}>
                 <div className={"w-full h-full"}>
-                    <MiniHeader />
+                    <MiniHeader
+                    type = "generatingExercise"/>
                 </div>
                 <div className={"w-full h-full overflow-y-auto"}>
                     <MiniMenu />
