@@ -90,7 +90,7 @@ export default function Lessons() {
 
     return (
         <>
-            <div className={"flex min-h-screen w-2/3 content-center justify-center"}>
+            <div className={"flex min-h-screen w-2/3 content-center justify-center  mx-auto"}>
                 <div className={"flex justify-items-end"}>
                     <Sidebar/>
                 </div>
