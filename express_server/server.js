@@ -8,7 +8,7 @@ const imageRouter = require("./routes/imageRoute");
 const audioRouter = require("./routes/audioRoute");
 const userRouter = require("./routes/userRoute");
 const lessonRouter = require("./routes/lessonRoute");
-const quizRouter = require("./routes/quizRoute");
+const exerciseRouter = require("./routes/exerciseRoute");
 
 const app = express();
 const frontendUrl = process.env.FRONTEND_URL;
@@ -52,7 +52,7 @@ app.use("/user", userRouter);
 
 app.use("/lesson", lessonRouter);
 
-app.use("/quiz", quizRouter);
+app.use("/exercise", exerciseRouter);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
