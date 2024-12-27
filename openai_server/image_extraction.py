@@ -136,17 +136,8 @@ def compare_answer():
         # Get input data from the request
         data = request.json
         user_answer = data.get("answer")
-        exercise_id = data.get("exerciseId")
+        ref_answer = data.get("ref_answer")
 
-        if not user_answer or not exercise_id:
-            return jsonify({"error": "User answer or exercise ID not provided."}), 400
-
-        # Fetch the reference answer from MongoDB
-        exercise = db.exercises.find_one({"_id": ObjectId(exercise_id)})
-        if not exercise:
-            return jsonify({"error": "Exercise not found."}), 404
-
-        ref_answer = exercise.get("ref_answer")
 
         # Generate feedback by comparing user answer with reference answer
         response = client.chat.completions.create(
