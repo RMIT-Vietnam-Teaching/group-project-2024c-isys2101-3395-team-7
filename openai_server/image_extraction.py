@@ -128,6 +128,70 @@ def correct_text():
     except Exception as e:
         # Handle exceptions
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/compare-answer', methods=['POST'])
+@token_required
+def compare_answer():
+    try:
+        # Get input data from the request
+        data = request.json
+        user_answer = data.get("answer")
+        exercise_id = data.get("exerciseId")
+
+        if not user_answer or not exercise_id:
+            return jsonify({"error": "User answer or exercise ID not provided."}), 400
+
+        # Fetch the reference answer from MongoDB
+        exercise = db.exercises.find_one({"_id": ObjectId(exercise_id)})
+        if not exercise:
+            return jsonify({"error": "Exercise not found."}), 404
+
+        ref_answer = exercise.get("ref_answer")
+
+        # Generate feedback by comparing user answer with reference answer
+        response = client.chat.completions.create(
+            model="gpt-4o",
+            messages=[
+                {"role": "system", "content": "You are an expert in Vietnamese spelling, grammar, and pronunciation analysis."},
+                {
+                    "role": "user",
+                    "content": f"""
+                    So sánh hai câu trả lời sau:
+                    - Câu trả lời tham chiếu: '{ref_answer}'
+                    - Câu trả lời của người dùng: '{user_answer}'
+                    
+                    Phân tích:
+                    1. Mức độ chính xác và tương đồng giữa câu trả lời của người dùng với câu tham chiếu.
+                    2. Chỉ ra lỗi sai trong câu trả lời của người dùng (nếu có), bao gồm giải thích ngắn gọn tại sao sai.
+                    3. Gợi ý cải thiện.
+
+                    Trả lời dưới dạng JSON với cấu trúc:
+                    {{
+                        "similarity_score": <percentage_similarity>,
+                        "feedback": [
+                            {{
+                                "mistake": "<user_mistake>",
+                                "correction": "<suggested_correction>",
+                                "description": "<explanation>"
+                            }},
+                            ...
+                        ]
+                    }}
+                    """
+                }
+            ],
+            temperature=0.0,
+        )
+
+        # Extract AI response
+        feedback = response.choices[0].message.content.strip()
+        usage = response.usage.to_dict()
+
+        return jsonify({"feedback": feedback, "usage": usage})
+
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 
 @app.after_request
