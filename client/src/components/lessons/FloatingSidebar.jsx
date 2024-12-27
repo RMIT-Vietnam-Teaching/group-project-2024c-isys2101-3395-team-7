@@ -5,8 +5,8 @@ import Link from "next/link";
 import ExerciseIcon from "@/components/icons/ExerciseIcon";
 import GoToTopIcon from "@/components/icons/GoToTopIcon";
 import GenerateIcon from "@/components/icons/GeneratIcon";
-import React, {useState} from "react";
-import {pushSuccess} from "@/components/Toast";
+import React, { useState } from "react";
+import { pushSuccess } from "@/components/Toast";
 import Button from "@/components/button";
 
 const iconWidth = 30, iconHeight = 30;
@@ -41,12 +41,12 @@ const FloatingSidebar = () => {
                 <div className="grid grid-cols-1">
                     {/* Move to Top */}
                     <div className={"z-10"}>
-                        <Tooltip text={"Go To Top"} position="right">
+                        <Tooltip text={"Go To Top"} position="left">
                             <a href="#1"
                             >
                                 <div
                                     className={`p-3 hover:bg-orange grid grid-cols-3 border-white border-t`}>
-                                    <GoToTopIcon width={iconWidth} height={iconHeight}/>
+                                    <GoToTopIcon width={iconWidth} height={iconHeight} />
                                 </div>
                             </a>
                         </Tooltip>
@@ -54,12 +54,12 @@ const FloatingSidebar = () => {
 
                     {/* Generate New Lessons */}
                     <div className={"z-10"}>
-                        <Tooltip text={"Generate New Lessons"} position="right">
+                        <Tooltip text={"Generate New Lessons"} position="left">
                             <div
                                 className={`p-3 hover:bg-orange grid grid-cols-3 border-t border-b border-white content-center items-center self-center`}
                                 onClick={handleGenerateClick}
                             >
-                                <GenerateIcon width={iconWidth} height={iconHeight}/>
+                                <GenerateIcon width={iconWidth} height={iconHeight} />
                             </div>
                         </Tooltip>
                     </div>
@@ -79,7 +79,7 @@ const FloatingSidebar = () => {
                                 <div className="flex justify-center ">
                                     <div className={"px-4"}>
                                         <Button
-                                            size = "lg"
+                                            size="lg"
                                             variant="primary"
                                             onClick={handleConfirm}
                                         >
@@ -88,7 +88,7 @@ const FloatingSidebar = () => {
                                     </div>
                                     <div className={"px-4"}>
                                         <Button
-                                            size = "lg"
+                                            size="lg"
                                             variant="outline-danger"
                                             onClick={handleCancel}
                                         >

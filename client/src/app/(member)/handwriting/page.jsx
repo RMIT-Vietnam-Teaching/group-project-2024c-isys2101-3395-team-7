@@ -38,7 +38,7 @@ const Handwriting = () => {
     }
   };
 
-  const handleSubmitImage = async (newFileUpload) => {
+  const handleSubmit = async (newFileUpload) => {
     try {
       var text = await handleTextScanning(newFileUpload);
       if (text !== null) {
@@ -147,9 +147,8 @@ const Handwriting = () => {
                 {"Star this answer"}
               </span>
             }
-            style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${
-              currState != "process" && "hidden"
-            }`}
+            style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${currState != "process" && "hidden"
+              }`}
             onClick={() => handleAddFavorite(currentRecord)}
           />
         </div>
@@ -163,7 +162,7 @@ const Handwriting = () => {
                 currState,
                 setCurrState,
                 imageUrl,
-                handleSubmitImage,
+                handleSubmit,
                 comments,
                 recognizedText,
                 correctText,

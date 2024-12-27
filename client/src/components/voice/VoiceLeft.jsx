@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 
 const VoiceLeft = ({
   state,
-  handleState,
   correctText,
   originalInput,
   rawText,
+  title,
+  question
 }) => {
   const [transcript, setTranscript] = useState(
     "Your speech will appear here..."
@@ -25,15 +26,19 @@ const VoiceLeft = ({
       <div className="mb-10 text-center md:border-b-0 border-b pb-5 h-full w-full">
         {state === "begin" && (
           <div className="h-full">
-            <h3 className="text-lg font-bold h-20 grid content-center">Try out Voice Detection & Vietnamese
-              Correction Service!</h3>
-            <div className="h-4/5 grid content-center">
-              <Image
+            <h3 className="text-lg font-bold h-20 grid content-center">
+              {title ? title : "Try out Voice Detection & Vietnamese Correction Service!"}</h3>
+            {question ? (
+              <div className="text-left w-full md:mx-20 md:my-10">{question}</div>
+            ) : (
+              <div className="h-4/5 grid content-center">
+                <Image
                   src="/voice-official-guide.png"
-                alt="Image guide"
-                width={900} height={400} className="w-full"
-              />
-            </div>
+                  alt="Image guide"
+                  width={900} height={400} className="w-full"
+                />
+              </div>
+            )}
           </div>
         )}
         {state === "process" && (

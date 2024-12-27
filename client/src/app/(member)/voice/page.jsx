@@ -40,7 +40,7 @@ const Voice = () => {
     }
   };
 
-  const handleSubmitFile = async (newFileUpload) => {
+  const handleSubmit = async (newFileUpload) => {
     try {
       setAudioUrl(URL.createObjectURL(newFileUpload));
       var text = await handleVoiceRecognize(newFileUpload);
@@ -157,9 +157,8 @@ const Voice = () => {
                 {"Star this answer"}
               </span>
             }
-            style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${
-              currState != "process" && "hidden"
-            }`}
+            style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${currState != "process" && "hidden"
+              }`}
             onClick={() => handleAddFavorite(currentRecord)}
           />
         </div>
@@ -175,7 +174,7 @@ const Voice = () => {
                 setCurrState,
                 audioUrl,
                 recognizedText,
-                handleSubmitFile,
+                handleSubmit,
                 comments,
                 correctText,
                 resultAudio,

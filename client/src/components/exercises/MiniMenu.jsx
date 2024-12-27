@@ -1,10 +1,10 @@
 "use client"
 
-import React, {useState} from "react";
-import {pushSuccess} from "@/components/Toast";
+import React, { useState } from "react";
+import { pushSuccess, pushWarning } from "@/components/Toast";
 import Button from "@/components/button";
 
-const MiniMenu = () => {
+const MiniMenu = ({ setState, setTotalExercises }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [newExerciseNumber, setNewExerciseNumber] = useState(1);
 
@@ -21,8 +21,10 @@ const MiniMenu = () => {
         console.log(`Generating ${newExerciseNumber} new exercises...`);
         setIsPopupOpen(false);
         // Reset newExerciseNumber after generation
-        setNewExerciseNumber(1);
+        setNewExerciseNumber(newExerciseNumber);
+        setTotalExercises(newExerciseNumber)
         pushSuccess("Generating new exercises");
+        setState("exercise")
     };
 
     const handleCancel = () => {
@@ -45,7 +47,9 @@ const MiniMenu = () => {
                 <div>
                     <Button
                         size="lg"
-                        variant="primary">
+                        variant="primary"
+                        onClick={() => setState("exercise")}
+                    >
                         Start Exercise
                     </Button>
                 </div>
@@ -59,13 +63,21 @@ const MiniMenu = () => {
                             type="number"
                             id="exerciseNumber"
                             value={newExerciseNumber}
-                            onChange={(e) => setNewExerciseNumber(Number(e.target.value))}
+                            onChange={(e) => {
+                                if (Number(e.target.value) > 10) {
+                                    setNewExerciseNumber(10)
+                                    pushWarning("The maximum number of question is 10")
+                                    return
+                                }
+                                setNewExerciseNumber(Number(e.target.value))
+                            }}
                             className="border border-gray-300 p-2 rounded mb-4"
+                            max={10}
                         />
                         <div className="flex justify-center ">
                             <div className={"px-4"}>
                                 <Button
-                                    size = "lg"
+                                    size="lg"
                                     variant="primary"
                                     onClick={handleConfirm}
                                 >
@@ -74,7 +86,7 @@ const MiniMenu = () => {
                             </div>
                             <div className={"px-4"}>
                                 <Button
-                                    size = "lg"
+                                    size="lg"
                                     variant="outline-danger"
                                     onClick={handleCancel}
                                 >

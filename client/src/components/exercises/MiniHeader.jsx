@@ -1,24 +1,37 @@
 "use client"
 
 import Tooltip from "@/components/tooltip";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import ReturnIcon from "@/components/icons/ReturnIcon";
 import NextIcon from "@/components/icons/NextIcon";
 
 const iconWidth = 30, iconHeight = 30;
 
-const MiniHeader = ({state}) => {
-    const [currentExercise, setCurrentExercise] = useState(NaN)
-    const [totalExercises, setTotalExercises] = useState(NaN)
+const MiniHeader = ({ state, currQuestion, setCurrQuestion, totalExercises }) => {
+    // const [totalExercises, setTotalExercises] = useState(5)
     const [currentView, setCurrentView] = useState(" ")
 
     const handleReturnClick = () => {
         setCurrentView("generateNew")
+        window?.location.reload();
         console.log("returning");
     }
 
+    const handlePreviousClick = () => {
+        if (currQuestion == 0) {
+            setCurrQuestion(totalExercises - 1)
+            return
+        }
+        setCurrQuestion(currQuestion - 1)
+        console.log("previous");
+    }
+
     const handleNextClick = () => {
-        setCurrentExercise(currentExercise + 1)
+        if (currQuestion == totalExercises - 1) {
+            setCurrQuestion(0)
+            return
+        }
+        setCurrQuestion(currQuestion + 1)
         console.log("next");
     }
 
@@ -31,43 +44,52 @@ const MiniHeader = ({state}) => {
                         <span>Exercises: {totalExercises}</span>
                     </div>
                     <div className={"flex items-center justify-center px-10"}>
-                        <span>Current Exercise: {currentExercise}</span>
+                        <span>Current Exercise: {state == "generateNew" ? 0 : currQuestion + 1}</span>
                     </div>
                 </div>
                 {/*    right*/}
-                {state === " "
+                {state === "exercise"
                     ? (
-                    <div className={"flex flex-1 justify-end"}>
-                        {/* Return*/}
-                        <div className={"z-10"}>
-                            <Tooltip text={"Return to Exercise Menu"} position="bottom">
-                                <div
-                                    onClick={handleReturnClick}
-                                    className={`p-3 focus:ring-1 content-center items-center self-center 
+                        <div className={"flex flex-1 justify-end"}>
+                            {/* Return*/}
+                            <div className={"z-10"}>
+                                <Tooltip text={"Return to Exercise Menu"} position="bottom">
+                                    <div
+                                        onClick={handleReturnClick}
+                                        className={`p-3 focus:ring-1 content-center items-center self-center 
                                  hover:scale-105 transition-transform duration-150`}
-                                >
-                                    <ReturnIcon width={iconWidth} height={iconHeight}/>
-                                </div>
-                            </Tooltip>
-                        </div>
-                        {/* Next Exercise*/}
-                        <div className={"z-10"}>
-                            <Tooltip text={"Next Exercise"} position="bottom">
-                                <div
-                                    onClick={handleNextClick}
-                                    className={`p-3 focus:ring-1 content-center items-center self-center 
+                                    >
+                                        <ReturnIcon width={iconWidth} height={iconHeight} />
+                                    </div>
+                                </Tooltip>
+                            </div>
+                            {/* Next Exercise*/}
+                            <div className={"z-10"}>
+                                <Tooltip text={"Previous Exercise"} position="bottom">
+                                    <div
+                                        onClick={handlePreviousClick}
+                                        className={`p-3 focus:ring-1 content-center items-center self-center 
                                  hover:scale-105 transition-transform duration-150`}
-                                >
-                                    <NextIcon width={iconWidth} height={iconHeight}/>
-                                </div>
-                            </Tooltip>
-                        </div>
+                                    >
+                                        <NextIcon width={iconWidth} height={iconHeight} rotate={true} />
+                                    </div>
+                                </Tooltip>
+                                <Tooltip text={"Next Exercise"} position="bottom">
+                                    <div
+                                        onClick={handleNextClick}
+                                        className={`p-3 focus:ring-1 content-center items-center self-center 
+                                 hover:scale-105 transition-transform duration-150`}
+                                    >
+                                        <NextIcon width={iconWidth} height={iconHeight} />
+                                    </div>
+                                </Tooltip>
+                            </div>
 
-                    </div>
-                ) : (
-                    <div className={"flex flex-1 justify-start"}>
-                    </div>
-                )}
+                        </div>
+                    ) : (
+                        <div className={"flex flex-1 justify-start"}>
+                        </div>
+                    )}
 
             </div>
         </>
