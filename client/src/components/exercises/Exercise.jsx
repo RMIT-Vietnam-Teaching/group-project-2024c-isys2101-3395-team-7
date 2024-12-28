@@ -15,7 +15,7 @@ import {
 } from '@/api';
 
 const Exercise = ({ currQuestion, exercises }) => {
-    const questionObj = exercises.questions[currQuestion];
+    const questionObj = exercises[currQuestion];
     const [currState, setCurrState] = useState("begin");
     const [imageUrl, setImageUrl] = useState(null);
     const [audioUrl, setAudioUrl] = useState(null);
@@ -38,7 +38,7 @@ const Exercise = ({ currQuestion, exercises }) => {
     }, [currQuestion]);
 
     const handleFileChange = (file) => {
-        if (questionObj.type === "handwriting") {
+        if (questionObj.type === "hand-writing") {
             if (file instanceof File) {
                 const reader = new FileReader();
                 reader.onload = () => {
@@ -46,7 +46,7 @@ const Exercise = ({ currQuestion, exercises }) => {
                 };
                 reader.readAsDataURL(file);
             }
-        } else if (questionObj.type === "voice") {
+        } else if (questionObj.type === "audio") {
             if (file instanceof File) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -61,11 +61,11 @@ const Exercise = ({ currQuestion, exercises }) => {
         if (recognizedTextData) {
             setRecognizedText(recognizedTextData.text ? recognizedTextData.text : recognizedTextData);
             // let correctTextData;
-            if (questionObj.type === "handwriting") {
+            if (questionObj.type === "hand-writing") {
                 const correctTextData = await correctRecognizedText(recognizedTextData);
                 setCorrectText(extractText(correctTextData, "corrected_text"));
                 setComments(extractText(correctTextData, "errors")); // Extract comments
-            } else if (questionObj.type === "voice") {
+            } else if (questionObj.type === "audio") {
                 const correctTextData = await correctRecognizedTextVoice(recognizedTextData);
                 const correctedText = extractText(correctTextData, "corrected_text");
                 setCorrectText(correctedText)
@@ -83,12 +83,12 @@ const Exercise = ({ currQuestion, exercises }) => {
         setLoading(true);
         try {
             let recognizedTextData;
-            if (questionObj.type === "handwriting") {
+            if (questionObj.type === "hand-writing") {
                 formData.append("image", file);
                 handleFileChange(formData.getAll("image")[0])
                 recognizedTextData = await recognizeHandwriting(formData);
                 await uploadImage(file)
-            } else if (questionObj.type === "voice") {
+            } else if (questionObj.type === "audio") {
                 setAudioUrl(URL.createObjectURL(file));
                 formData.append("audio", file);
                 handleFileChange(formData.getAll("file")[0]);
@@ -117,7 +117,7 @@ const Exercise = ({ currQuestion, exercises }) => {
                         props={{
                             currState,
                             setCurrState,
-                            title: exercises.title,
+                            title: `Question ${currQuestion + 1}`,
                             question: questionObj?.question,
                             correctText,
                             recognizedText,

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { pushSuccess, pushWarning } from "@/components/Toast";
 import Button from "@/components/button";
 
-const MiniMenu = ({ setState, setTotalExercises }) => {
+const MiniMenu = ({ setState, setTotalExercises, handleSelect }) => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     const [newExerciseNumber, setNewExerciseNumber] = useState(1);
 
@@ -14,15 +14,18 @@ const MiniMenu = ({ setState, setTotalExercises }) => {
 
     const handleStartExercise = () => {
         console.log("starting exercise")
+        // handleSelect("current")      // call passed in function
     }
 
     const handleConfirm = () => {
-        // Logic to generate new exercises based on newExerciseNumber
         console.log(`Generating ${newExerciseNumber} new exercises...`);
         setIsPopupOpen(false);
         // Reset newExerciseNumber after generation
         setNewExerciseNumber(newExerciseNumber);
         setTotalExercises(newExerciseNumber)
+
+        // handleSelect("new")      // call passed in function
+
         pushSuccess("Generating new exercises");
         setState("exercise")
     };
@@ -48,7 +51,10 @@ const MiniMenu = ({ setState, setTotalExercises }) => {
                     <Button
                         size="lg"
                         variant="primary"
-                        onClick={() => setState("exercise")}
+                        onClick={() => {
+                            handleStartExercise()
+                            setState("exercise")
+                        }}
                     >
                         Start Exercise
                     </Button>
@@ -64,15 +70,15 @@ const MiniMenu = ({ setState, setTotalExercises }) => {
                             id="exerciseNumber"
                             value={newExerciseNumber}
                             onChange={(e) => {
-                                if (Number(e.target.value) > 10) {
-                                    setNewExerciseNumber(10)
-                                    pushWarning("The maximum number of question is 10")
+                                if (Number(e.target.value) > 5) {
+                                    setNewExerciseNumber(5)
+                                    pushWarning("Please don't select more than 5 questions !!!")
                                     return
                                 }
                                 setNewExerciseNumber(Number(e.target.value))
                             }}
                             className="border border-gray-300 p-2 rounded mb-4"
-                            max={10}
+                            max={5}
                         />
                         <div className="flex justify-center ">
                             <div className={"px-4"}>

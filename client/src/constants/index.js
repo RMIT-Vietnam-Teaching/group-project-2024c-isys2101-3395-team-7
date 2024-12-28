@@ -1,110 +1,42 @@
-export const sampleExercise = {
+export const sampleQuestions = [
+  {
     "_id": {
-      "$oid": "6765c2b2e53e26ced0ed6296"
+      "$oid": "676eef28b585c5f5cb5f4788"
     },
-    "title": "Quiz: Numbers 1-10 in Vietnamese",
-    "questions": [
-      {
-        "question": "What is the Vietnamese word for the number 1?",
-        "options": [
-          "Một",
-          "Hai",
-          "Ba",
-          "Bốn"
-        ],
-        "type": "handwriting",
-        "refAnswer": "Một"
-      },
-      {
-        "question": "Which number corresponds to 'Hai'?",
-        "options": [
-          "1",
-          "2",
-          "3",
-          "4"
-        ],
-        "type": "voice",
-        "refAnswer": "2"
-      },
-      {
-        "question": "What is the Vietnamese word for the number 3?",
-        "options": [
-          "Một",
-          "Hai",
-          "Ba",
-          "Bốn"
-        ],
-        "type": "handwriting",
-        "refAnswer": "Ba"
-      },
-      {
-        "question": "What is the Vietnamese word for the number 4?",
-        "options": [
-          "Bốn",
-          "Năm",
-          "Sáu",
-          "Bảy"
-        ],
-        "type": "voice",
-        "refAnswer": "Bốn"
-      },
-      {
-        "question": "What is the Vietnamese word for the number 5?",
-        "options": [
-          "Năm",
-          "Sáu",
-          "Tám",
-          "Bảy"
-        ],
-        "type": "handwriting",
-        "refAnswer": "Năm"
-      },
-      {
-        "question": "What does 'Sáu' mean in Vietnamese?",
-        "options": [
-          "6",
-          "7",
-          "8",
-          "5"
-        ],
-        "type": "handwriting",
-        "refAnswer": "6"
-      },
-      {
-        "question": "What is the Vietnamese word for the number 7?",
-        "options": [
-          "Bảy",
-          "Chín",
-          "Mười",
-          "Tám"
-        ],
-        "type": "handwriting",
-        "refAnswer": "Bảy"
-      },
-      {
-        "question": "What is the Vietnamese word for the number 8?",
-        "options": [
-          "Tám",
-          "Chín",
-          "Mười",
-          "Ba"
-        ],
-        "type": "voice",
-        "refAnswer": "Tám"
-      },
-      {
-        "question": "What is the Vietnamese word for the number 10?",
-        "options": [
-          "Mười",
-          "Chín",
-          "Sáu",
-          "Bảy"
-        ],
-        "type": "handwriting",
-        "refAnswer": "Mười"
-      }
-    ],
-    "lesson_id": {
-      "$oid": "6765b57329fd1f6e5b98ad25"
-    }
+    "question": "Viết lại câu sau theo cách đúng chính tả: \"Con gà chạy quanh cái mạch.\"",
+    "ref_answer": "Con gà chạy quanh cái vạch.",
+    "type": "hand-writing"
+  },
+  {
+    "_id": {
+      "$oid": "676eef37b585c5f5cb5f478a"
+    },
+    "question": "Nghe và viết lại câu sau: \"Trường tôi nằm gần sông Hồng.\"",
+    "ref_answer": "Trường tôi nằm gần sông Hồng.",
+    "type": "audio"
+  },
+  {
+    "_id": {
+      "$oid": "676eef4ab585c5f5cb5f478e"
+    },
+    "question": "Nghe và ghi lại câu: \"Hôm nay trời rất đẹp, nắng ấm và gió nhẹ.\"",
+    "ref_answer": "Hôm nay trời rất đẹp, nắng ấm và gió nhẹ.",
+    "type": "audio"
+  },
+  {
+    "_id": {
+      "$oid": "676eef77b585c5f5cb5f4792"
+    },
+    "question": "Nghe và điền vào chỗ trống: \"Buổi sáng, em dậy sớm để ___ tập thể dục.\"",
+    "ref_answer": "đi",
+    "type": "audio"
+  },
+  {
+    "_id": {
+      "$oid": "676eef9eb585c5f5cb5f4798"
+    },
+    "question": "Viết lại câu sau cho đúng: \"Cây cầu dài nhứt Đông Nam Á nằm ở đâu?\"",
+    "ref_answer": "Cây cầu dài nhất Đông Nam Á nằm ở đâu?",
+    "type": "hand-writing"
   }
+]

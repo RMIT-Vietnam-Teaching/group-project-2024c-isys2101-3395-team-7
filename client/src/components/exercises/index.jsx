@@ -1,28 +1,34 @@
 "use client"
 
 import MiniHeader from "@/components/exercises/MiniHeader";
-import Button from "@/components/button";
 import React, { useState } from "react";
 import { pushSuccess } from "@/components/Toast";
 import MiniMenu from "@/components/exercises/MiniMenu";
 import Exercise from "@/components/exercises/Exercise";
 import CircularProgress from "@/components/CircularProgress";
-import { sampleExercise } from "@/constants";
+import { fetchCurrentExercises, generateNewExercises } from "@/api";
+
+import { sampleQuestions } from "@/constants";      // sample for data fetched from api
 
 export default function Exercises() {
-    const [currentView, setCurrentView] = useState("generateNew"); // Initialize state
+    const [currentView, setCurrentView] = useState("generateNew"); // initialize state
     const [currQuestion, setCurrQuestion] = useState(0);
-    const [totalExercises, setTotalExercises] = useState(0);
+    const [totalExercises, setTotalExercises] = useState(sampleQuestions?.length || 0);
     const [exercises, setExercises] = useState();       // exercise object fetched from api
     const [isLoading, setIsLoading] = useState(false);
 
-    const handleNewExercises = async () => {
-        setIsLoading(true); // Set isLoading to true before fetching data
+    const handleFetchExercises = async (type) => {
+        setIsLoading(true); // set isLoading to true before fetching data
 
-        // Simulate data fetching with a delay
-        await new Promise((resolve) => setTimeout(resolve, 1000));
+        let loadedExercises;
+        if (type === "new") {
+            loadedExercises = await generateNewExercises();
+        } else if (type === "current") {
+            loadedExercises = await fetchCurrentExercises();
+        }
+        setExercises(loadedExercises);
 
-        // After the delay, update the state
+        // update the state
         setCurrentView("exercise");
         setIsLoading(false);
     };
@@ -47,8 +53,8 @@ export default function Exercises() {
                     ) : (
                         <>
                             {currentView === "generateNew" ? (
-                                <MiniMenu setState={setCurrentView} setTotalExercises={setTotalExercises} />) : (
-                                <Exercise currQuestion={currQuestion} exercises={sampleExercise} />
+                                <MiniMenu setState={setCurrentView} setTotalExercises={setTotalExercises} handleSelect={handleFetchExercises} />) : (
+                                <Exercise currQuestion={currQuestion} exercises={sampleQuestions} />
                             )
                             }
                         </>

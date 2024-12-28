@@ -17,18 +17,8 @@ const MiniHeader = ({ state, currQuestion, setCurrQuestion, totalExercises }) =>
         console.log("returning");
     }
 
-    const handlePreviousClick = () => {
-        if (currQuestion == 0) {
-            setCurrQuestion(totalExercises - 1)
-            return
-        }
-        setCurrQuestion(currQuestion - 1)
-        console.log("previous");
-    }
-
     const handleNextClick = () => {
         if (currQuestion == totalExercises - 1) {
-            setCurrQuestion(0)
             return
         }
         setCurrQuestion(currQuestion + 1)
@@ -65,15 +55,6 @@ const MiniHeader = ({ state, currQuestion, setCurrQuestion, totalExercises }) =>
                             </div>
                             {/* Next Exercise*/}
                             <div className={"z-10"}>
-                                <Tooltip text={"Previous Exercise"} position="bottom">
-                                    <div
-                                        onClick={handlePreviousClick}
-                                        className={`p-3 focus:ring-1 content-center items-center self-center 
-                                 hover:scale-105 transition-transform duration-150`}
-                                    >
-                                        <NextIcon width={iconWidth} height={iconHeight} rotate={true} />
-                                    </div>
-                                </Tooltip>
                                 <Tooltip text={"Next Exercise"} position="bottom">
                                     <div
                                         onClick={handleNextClick}

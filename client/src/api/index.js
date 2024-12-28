@@ -382,3 +382,28 @@ export async function authMember(id, token) {
     throw error;
   }
 }
+
+
+// ============== Exercises ================= //
+
+export async function fetchCurrentExercises() {
+  try {
+
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
+
+export async function generateNewExercises() {
+  try {
+
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
