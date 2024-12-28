@@ -55,8 +55,8 @@ const Header = () => {
                                 onClick={() => setIsOpenMenu(!isOpenMenu)}
                                 className={`md:hidden flex px-5 items-start justify-start `}
                             >
-                                <MenuIcon width={iconWidth} height={iconHeight} />
-                                {/*<img src='/Menu.svg' alt={'Menu'} className={'h-16 w-10'} />*/}
+                                {/*<MenuIcon width={iconWidth} height={iconHeight} />*/}
+                                <img src='/Menu.svg' alt={'Menu'} className={'h-16 w-10'} />
                             </div>
                         </div>
                     </Tooltip>
@@ -65,8 +65,8 @@ const Header = () => {
                 {/*app logo*/}
                 <div className='basis-1/3 flex items-center justify-center'>
                     <Link href="/home">
-                         <ViegoLogoIcon width={iconWidth} height={iconHeight} />
-                        {/*<img src='/vietgo_logo.svg' alt={'vietgo-logo'} className={'h-16 w-16 min-h-12 min-w-8'} />*/}
+                        {/*<ViegoLogoIcon width={iconWidth} height={iconHeight} />*/}
+                        <img src='/vietgo_logo.svg' alt={'vietgo-logo'} className={'h-14 w-14 min-h-12 min-w-8'} />
                     </Link>
                 </div>
                 {/*right panel*/}
@@ -77,8 +77,8 @@ const Header = () => {
                             onClick={() => handleToggleState(setIsOpenHistory, isOpenHistory)}
                             className={`hover:bg-orange md:px-5 px-1 ${isOpenHistory ? 'bg-orange' : ''}`}>
                             <Tooltip text={"History"} position={"bottom"}>
-                                 <HistoryIcon width={iconWidth} height={iconHeight} />
-                                {/*<img src='/History.svg' alt="History Icon" className='h-16 w-10 min-h-10 min-w-6' />*/}
+                                {/*<HistoryIcon width={iconWidth} height={iconHeight} />*/}
+                                <img src='/History.svg' alt="History Icon" className='h-14 w-10 min-h-10 min-w-6' />
                             </Tooltip>
                         </button>
                         {/* Conditionally render History */}
@@ -88,8 +88,8 @@ const Header = () => {
                             onClick={() => handleToggleState(setIsOpenFavorite, isOpenFavorite)}
                             className={`hover:bg-orange md:px-5 px-1 ${isOpenFavorite ? 'bg-orange' : ''}`}>
                             <Tooltip text={"Favorite"} position={"bottom"}>
-                                 <FavoriteIcon width={iconWidth} height={iconHeight} />
-                                {/*<img src='/Bookmark_black.svg' alt="Favorite Icon" className='h-16 w-10 min-h-10 min-w-6' />*/}
+                                {/*<FavoriteIcon width={iconWidth} height={iconHeight} />*/}
+                                <img src='/Bookmark_black.svg' alt="Favorite Icon" className='h-14 w-10 min-h-10 min-w-6' />
                             </Tooltip>
                         </button>
                         {/* Conditionally render Favorite */}
@@ -98,18 +98,18 @@ const Header = () => {
                             onClick={() => handleToggleState(setIsOpenSetting, isOpenSetting)}
                             className={`hover:bg-orange md:px-5 px-1 ${isOpenSetting ? 'bg-orange' : ''}`}>
                             <Tooltip text={"Settings"} position={"bottom"}>
-                                 <SettingsIcon width={iconWidth} height={iconHeight} />
-                                {/*<img src='/Setting_fill.svg' alt="Setting Icon" className='h-16 w-10 min-h-10 min-w-6' />*/}
+                                {/*<SettingsIcon width={iconWidth} height={iconHeight} />*/}
+                                <img src='/Setting_fill.svg' alt="Setting Icon" className='h-14 w-10 min-h-10 min-w-6' />
                             </Tooltip>
                         </button>
                         {/*Drop down to show current setting*/}
                         {isOpenSetting && (
                             <div
-                                className="z-10 grid grid-cols-1 absolute top-9 right-0 mt-2 w-48 bg-pink shadow-lg border border-white divide-y divide-white"
+                                className="z-10 grid grid-cols-1 absolute top-14 mt-1.5 right-0 w-48 bg-pink shadow-lg border-t border-t-0.5 border-t-white divide-y divide-white"
                             >
-                                <ul className="py-1">
+                                <ul className="">
                                     <li>
-                                        <div className="flex items-center px-5 py-2 hover:bg-orange">
+                                        <div className="flex items-center px-5 py-3 hover:bg-orange">
                                             <ToggleSwitch isChecked={isEnglish} onChange={toggleLanguage} />
                                             <span className={'px-5'}>{isEnglish ? 'ENG' : 'VIE'}</span>
                                         </div>
@@ -125,19 +125,19 @@ const Header = () => {
                             onClick={() => handleToggleState(setIsOpenProfile, isOpenProfile)}
                             className={`hover:bg-orange md:px-2 px-1 ${isOpenProfile ? 'bg-orange' : ''}`}>
                             <Tooltip text={"Profile"} position={"bottom"}>
-                                 <UserProfileIcon width={iconWidth} height={iconHeight} />
-                                {/*<img src='/User_circle.svg' alt="User" className='h-16 w-10 min-h-10 min-w-6' />*/}
+                                {/*<UserProfileIcon width={iconWidth} height={iconHeight} />*/}
+                                <img src='/User_circle.svg' alt="User" className='h-14 w-10 min-h-10 min-w-6' />
                             </Tooltip>
                         </button>
                         {/* Dropdown Menu */}
                         {isOpenProfile && (
                             <div
-                                className="z-10 grid grid-cols-1 absolute top-9 right-0 mt-2 w-48 bg-pink shadow-lg border border-white divide-y divide-white"
+                                className="z-10 grid grid-cols-1 absolute top-14 right-0 mt-1.5 w-48 bg-pink shadow-lg border border-white divide-y divide-white"
                             >
-                                <ul className="py-1">
+                                <ul className="">
                                     <li>
                                         <button
-                                            className="block px-5 py-2 text-black hover:bg-orange w-full text-left "
+                                            className="block px-5 py-3 text-black hover:bg-orange w-full text-left "
                                             onClick={() => router.push(`/profile/${member.id}`)}
                                         >
                                             View Profile
@@ -146,7 +146,7 @@ const Header = () => {
                                     <span className="absolute left-0 border-t border-black w-full"></span>
                                     <li>
                                         <button
-                                            className="block px-5 py-2 text-black hover:bg-orange w-full text-left"
+                                            className="block px-5 py-3 text-black hover:bg-orange w-full text-left"
                                             onClick={() => removeAuth()}
                                         >
                                             Logout

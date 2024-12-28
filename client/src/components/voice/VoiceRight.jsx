@@ -12,13 +12,13 @@ import Tooltip from "@/components/tooltip";
 
 const VoiceRight = ({
   state,
-  handleState,
   handleForm,
   comments,
   rawText,
   correctedText,
   resultAudio,
   testAudio,
+  isExercise = false
 }) => {
   const errors = [];
   const [selectedFile, setSelectedFile] = useState(null);
@@ -138,7 +138,7 @@ const VoiceRight = ({
             )}
           </form>
           <p className="flex justify-center text-gray-600 text-center">
-            Try out our wonderful service now!
+            {isExercise ? "Upload your answer here!" : "Try out our wonderful service now!"}
           </p>
         </div>
       )}

@@ -6,6 +6,7 @@ import VoiceIcon from "./icons/VoiceIcon"
 import LessonIcon from "./icons/LessonIcon"
 import { usePathname } from "next/navigation";
 import Tooltip from "@/components/tooltip";
+import ExerciseIcon from "@/components/icons/ExerciseIcon";
 
 const iconWidth = 30, iconHeight = 30;
 
@@ -32,8 +33,9 @@ const NavBar = ({ isOpen, setIsOpen }) => {
                             <Link href="/home"
                                   onClick={() => window.location.replace("/home")}
                             >
-                                <div className={`p-3 hover:bg-orange grid grid-cols-3 ${pathname === '/home' ? 'bg-orange' : ''}`}>
-                                    <GuidelineIcon width={iconWidth} height={iconHeight} />
+                                <div
+                                    className={`p-3 hover:bg-orange grid grid-cols-3 ${pathname === '/home' ? 'bg-orange' : ''}`}>
+                                    <GuidelineIcon width={iconWidth} height={iconHeight}/>
                                     <div className="md:hidden col-span-2">Home</div>
                                 </div>
                             </Link>
@@ -42,10 +44,11 @@ const NavBar = ({ isOpen, setIsOpen }) => {
                     <div>
                         <Tooltip text={"Handwriting Detection and Correction"} position="right">
                             <Link href="/handwriting"
-                                onClick={() => window.location.replace("/handwriting")}
+                                  onClick={() => window.location.replace("/handwriting")}
                             >
-                                <div className={`p-3 hover:bg-orange border border-x-0 border-black grid grid-cols-3 ${pathname === '/handwriting' ? 'bg-orange' : ''}`}>
-                                    <HandwritingIcon width={iconWidth} height={iconHeight} />
+                                <div
+                                    className={`p-3 hover:bg-orange border border-x-0 border-black grid grid-cols-3 ${pathname === '/handwriting' ? 'bg-orange' : ''}`}>
+                                    <HandwritingIcon width={iconWidth} height={iconHeight}/>
                                     <div className="md:hidden col-span-2">Handwriting Correction</div>
                                 </div>
                             </Link>
@@ -54,23 +57,38 @@ const NavBar = ({ isOpen, setIsOpen }) => {
                     <div>
                         <Tooltip text={"Voice Detection and Correction"} position="right">
                             <Link href="/voice"
-                            onClick={() => window.location.replace("/voice")}
+                                  onClick={() => window.location.replace("/voice")}
                             >
-                                <div className={`p-3 hover:bg-orange border-b border-black grid grid-cols-3 ${pathname === '/voice' ? 'bg-orange' : ''}`}>
-                                    <VoiceIcon width={iconWidth} height={iconHeight} />
+                                <div
+                                    className={`p-3 hover:bg-orange border-b border-black grid grid-cols-3 ${pathname === '/voice' ? 'bg-orange' : ''}`}>
+                                    <VoiceIcon width={iconWidth} height={iconHeight}/>
                                     <div className="md:hidden col-span-2">Voice Correction</div>
                                 </div>
                             </Link>
                         </Tooltip>
-                        </div>
+                    </div>
                     <div>
-                        <Tooltip text={"Quiz"} position="right">
-                            <Link href="/home"
-                                onClick={() => window.location.replace("/home")}
+                        <Tooltip text={"Lessons"} position="right">
+                            <Link href="/lessons"
+                                  onClick={() => window.location.replace("/lessons")}
                             >
-                                <div className={`p-3 hover:bg-orange grid grid-cols-3 ${pathname === '#' ? 'bg-orange' : ''}`}>
-                                    <LessonIcon width={iconWidth} height={iconHeight} />
+                                <div
+                                    className={`p-3 hover:bg-orange border-b border-black grid grid-cols-3 ${pathname === '#' ? 'bg-orange' : ''}`}>
+                                    <LessonIcon width={iconWidth} height={iconHeight}/>
                                     <div className="md:hidden col-span-2">Your Lessons</div>
+                                </div>
+                            </Link>
+                        </Tooltip>
+                    </div>
+                    <div>
+                        <Tooltip text={"Exercises"} position="right">
+                            <Link href="/exercises"
+                                  onClick={() => window.location.replace("/exercises")}
+                            >
+                                <div
+                                    className={`p-3 hover:bg-orange grid grid-cols-3 ${pathname === '#' ? 'bg-orange' : ''}`}>
+                                    <ExerciseIcon width={iconWidth} height={iconHeight}/>
+                                    <div className="md:hidden col-span-2">Your Exercises</div>
                                 </div>
                             </Link>
                         </Tooltip>

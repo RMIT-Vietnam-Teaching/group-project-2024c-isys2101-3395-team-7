@@ -20,8 +20,8 @@ export const HeaderProvider = ({ children }) => {
         // const hist = res.slice(-3);
 
         // setFavData(fav);
-        setHistoryData(res.slice(-3));
-        const fav = res.filter((item) => item.favorite).slice(-3);
+        Array.isArray(res) ? setHistoryData(res.slice(-3)) : setHistoryData([]);
+        const fav = Array.isArray(res) ? res.filter((item) => item.favorite).slice(-3) : [];
         setFavData(fav);
       }
     } catch (error) {

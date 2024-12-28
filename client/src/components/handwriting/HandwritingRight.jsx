@@ -6,11 +6,11 @@ import { pushError, pushWarning } from "../Toast";
 
 const HandwritingRight = ({
   state,
-  handleState,
   handleForm,
   comments,
   rawText,
   correctText,
+  isExercise
 }) => {
   const errors = [];
   const [selectedFile, setSelectedFile] = useState(null);
@@ -61,7 +61,6 @@ const HandwritingRight = ({
                 onChange={handleFileChange}
                 className="hidden"
               />
-              <pushError message={"Invalid file type!"} />
               <div className="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange">
                 {selectedFile ? "Choose another file" : "Browse your file"}
               </div>
@@ -74,7 +73,9 @@ const HandwritingRight = ({
               />
             )}
           </form>
-          <p className="text-gray-600">Try out our wonderful service now!</p>
+          <p className="text-gray-600">
+            {isExercise ? "Input your answer here!" : "Try out our wonderful service now!"}
+          </p>
         </div>
       )}
 
