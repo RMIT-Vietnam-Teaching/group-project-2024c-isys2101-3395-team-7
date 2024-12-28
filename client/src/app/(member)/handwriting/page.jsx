@@ -24,7 +24,7 @@ const Handwriting = () => {
   const [imageUrl, setImageUrl] = useState(null);
   const [loading, setLoading] = useState(false); // State to manage loading status
   const [currentRecord, setCurrentRecord] = useState(null);
-  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState([]);
   const { updateHeaderData } = useHeader();
 
   const handleFileChange = (file) => {
@@ -40,10 +40,12 @@ const Handwriting = () => {
 
   const handleSubmit = async (newFileUpload) => {
     try {
-      var text = await handleTextScanning(newFileUpload);
+      var res = await handleTextScanning(newFileUpload);
+      var text = extractText(res, "corrected_text");
+      var cmt = extractText(res, "errors");
       if (text !== null) {
         var imageId = await handleUploadImage(newFileUpload);
-        await handleRecordHistory(imageId, "handwriting", text);
+        await handleRecordHistory(imageId, "handwriting", text, cmt);
         await updateHeaderData(); // fetch data again on header
       } else console.log("correctText is null");
     } catch (error) {
@@ -51,7 +53,7 @@ const Handwriting = () => {
     }
   };
 
-  const handleRecordHistory = async (image, type, answer) => {
+  const handleRecordHistory = async (image, type, answer, comment) => {
     console.log("handleRecordHistory");
     const formData = new FormData();
     // Change this to current username when authentication is implemented
@@ -61,6 +63,7 @@ const Handwriting = () => {
     formData.append("favorite", "false");
     formData.append("imageId", image);
     formData.append("answer", answer);
+    formData.append("comment", JSON.stringify(comment));
 
     try {
       const res = await recordHistory(formData);
@@ -96,7 +99,7 @@ const Handwriting = () => {
         setRecognizedText(resTextRecognize);
         console.log("has response");
         const resCorrect = await correctRecognizedText(resTextRecognize);
-        setComments(extractText(resCorrect, "errors"));
+        setComment(extractText(resCorrect, "errors"));
         if (resCorrect) {
           const correctedText = extractText(resCorrect, "corrected_text");
           // after get correct text
