@@ -12,6 +12,7 @@ import {
   createAiVoice,
   uploadImage,
   uploadAudio,
+  compareHandwritingAnswer,
 } from "@/api";
 
 const Exercise = ({ currQuestion, exercises }) => {
@@ -38,7 +39,7 @@ const Exercise = ({ currQuestion, exercises }) => {
   }, [currQuestion]);
 
   const handleFileChange = (file) => {
-    if (questionObj.type === "hand-writing") {
+    if (questionObj.type === "handwriting") {
       if (file instanceof File) {
         const reader = new FileReader();
         reader.onload = () => {
@@ -57,31 +58,31 @@ const Exercise = ({ currQuestion, exercises }) => {
     }
   };
 
-  const handleCorrectText = async (recognizedTextData) => {
-    if (recognizedTextData) {
-      setRecognizedText(
-        recognizedTextData.text ? recognizedTextData.text : recognizedTextData
-      );
-      // let correctTextData;
-      if (questionObj.type === "hand-writing") {
-        const correctTextData = await correctRecognizedText(recognizedTextData);
-        setCorrectText(extractText(correctTextData, "corrected_text"));
-        setComments(extractText(correctTextData, "errors")); // Extract comments
-      } else if (questionObj.type === "audio") {
-        const correctTextData = await correctRecognizedTextVoice(
-          recognizedTextData
-        );
-        const correctedText = extractText(correctTextData, "corrected_text");
-        setCorrectText(correctedText);
-        setComments(extractText(correctTextData, "errors")); // Extract comments
-        const resAudio = await createAiVoice(correctedText);
-        resAudio && setResultAudio(resAudio);
-      }
+  //   const handleCorrectText = async (recognizedTextData) => {
+  //     if (recognizedTextData) {
+  //       setRecognizedText(
+  //         recognizedTextData.text ? recognizedTextData.text : recognizedTextData
+  //       );
+  //       // let correctTextData;
+  //       if (questionObj.type === "hand-writing") {
+  //         const correctTextData = await correctRecognizedText(recognizedTextData);
+  //         setCorrectText(extractText(correctTextData, "corrected_text"));
+  //         setComments(extractText(correctTextData, "errors")); // Extract comments
+  //       } else if (questionObj.type === "audio") {
+  //         const correctTextData = await correctRecognizedTextVoice(
+  //           recognizedTextData
+  //         );
+  //         const correctedText = extractText(correctTextData, "corrected_text");
+  //         setCorrectText(correctedText);
+  //         setComments(extractText(correctTextData, "errors")); // Extract comments
+  //         const resAudio = await createAiVoice(correctedText);
+  //         resAudio && setResultAudio(resAudio);
+  //       }
 
-      setCurrState("process");
-    }
-    return null;
-  };
+  //       setCurrState("process");
+  //     }
+  //     return null;
+  //   };
 
   const handleSubmit = async (file) => {
     setLoading(true);
@@ -91,6 +92,20 @@ const Exercise = ({ currQuestion, exercises }) => {
         formData.append("image", file);
         handleFileChange(formData.getAll("image")[0]);
         recognizedTextData = await recognizeHandwriting(formData);
+
+        if (recognizedTextData) {
+          const correct = await compareHandwritingAnswer(
+            recognizedTextData,
+            questionObj.ref_answer
+          );
+
+          if (correct) {
+            console.log("Correct answer:", correct.feedback);
+            setComments(extractText(correct, "feedback"));
+            setCorrectText(questionObj.ref_answer);
+          }
+        }
+
         await uploadImage(file);
       } else if (questionObj.type === "audio") {
         setAudioUrl(URL.createObjectURL(file));
@@ -100,7 +115,7 @@ const Exercise = ({ currQuestion, exercises }) => {
         await uploadAudio(file);
       }
       pushSuccess("Successfully submitted!");
-      await handleCorrectText(recognizedTextData);
+      setCurrState("process");
     } catch (error) {
       console.error("Error during submission:", error);
     } finally {

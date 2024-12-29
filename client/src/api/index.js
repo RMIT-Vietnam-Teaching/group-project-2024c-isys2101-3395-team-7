@@ -543,3 +543,31 @@ export async function getExercises(keywords, exercises) {
     throw error;
   }
 }
+
+export async function compareHandwritingAnswer(answer, ref_answer) {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.post(
+      "https://viego-api.onrender.com/compare-answer",
+      { answer, ref_answer },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}

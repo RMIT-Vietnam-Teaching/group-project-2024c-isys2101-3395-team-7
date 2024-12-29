@@ -1,6 +1,10 @@
 export function extractText(response, content) {
   // Step 1: Get the `result` string and remove triple backticks
-  const rawResult = response.result;
+  let rawResult = response.result;
+  if (content === "feedback") {
+    rawResult = response.feedback;
+  }
+
   const jsonString = rawResult
     .replace(/```json\n|```/g, "")
     .split("\n\n")[0]
@@ -14,6 +18,8 @@ export function extractText(response, content) {
         return parsedData.corrected_text;
       case "errors":
         return parsedData.errors;
+      case "feedback":
+        return parsedData.feedback;
       default:
         return null;
     }
