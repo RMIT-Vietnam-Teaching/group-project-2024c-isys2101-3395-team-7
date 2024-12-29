@@ -372,6 +372,31 @@ export async function fetchRecords(username) {
   }
 }
 
+export async function fetchAllExercises() {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.get(
+      `https://viego-mongo-api.onrender.com/exercise`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 // ============== Authentication ================= //
 
 export async function login(formData) {
@@ -463,7 +488,7 @@ export async function fetchCurrentExercises() {
   }
 }
 
-export async function getKeywords(formData) {
+export async function getKeywords(records) {
   try {
     // Retrieve the token from localStorage
     const token = localStorage.getItem("authToken");
@@ -474,7 +499,7 @@ export async function getKeywords(formData) {
 
     const res = await axios.post(
       "https://viego-get-exercises.onrender.com/get-keywords",
-      formData,
+      { records },
       {
         headers: {
           "Content-Type": "application/json",
@@ -491,7 +516,7 @@ export async function getKeywords(formData) {
   }
 }
 
-export async function generateNewExercises() {
+export async function getExercises(keywords, exercises) {
   try {
     // Retrieve the token from localStorage
     const token = localStorage.getItem("authToken");
@@ -500,8 +525,9 @@ export async function generateNewExercises() {
       throw new Error("No auth token found in localStorage");
     }
 
-    const res = await axios.get(
+    const res = await axios.post(
       "https://viego-get-exercises.onrender.com/get-exercises",
+      { keywords, exercises },
       {
         headers: {
           "Content-Type": "application/json",

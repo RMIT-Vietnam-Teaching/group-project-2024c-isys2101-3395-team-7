@@ -160,8 +160,9 @@ const Voice = () => {
                 {"Star this answer"}
               </span>
             }
-            style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${currState != "process" && "hidden"
-              }`}
+            style={`mr-20 md:py-2 px-4 rounded inline md:text-base text-sm  ${
+              currState != "process" && "hidden"
+            }`}
             onClick={() => handleAddFavorite(currentRecord)}
           />
         </div>
@@ -178,7 +179,7 @@ const Voice = () => {
                 audioUrl,
                 recognizedText,
                 handleSubmit,
-                comments,
+                comment,
                 correctText,
                 resultAudio,
               }}
