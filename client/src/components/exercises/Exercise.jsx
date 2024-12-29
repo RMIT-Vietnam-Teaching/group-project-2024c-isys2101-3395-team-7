@@ -112,6 +112,24 @@ const Exercise = ({ currQuestion, exercises }) => {
         formData.append("audio", file);
         handleFileChange(formData.getAll("file")[0]);
         recognizedTextData = await recognizeVoice(formData);
+        if (recognizedTextData) {
+          setRecognizedText(recognizedTextData.text);
+          const correct = await compareHandwritingAnswer(
+            recognizedTextData,
+            questionObj.ref_answer
+          );
+
+          if (correct) {
+            console.log("Correct answer:", correct.feedback);
+            setComments(extractText(correct, "feedback"));
+            setCorrectText(questionObj.ref_answer);
+          }
+
+          const resAudio = await createAiVoice(questionObj.ref_answer);
+          if (resAudio) {
+            setResultAudio(resAudio);
+          }
+        }
         await uploadAudio(file);
       }
       pushSuccess("Successfully submitted!");
