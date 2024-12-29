@@ -451,12 +451,38 @@ export async function authMember(id, token) {
   }
 }
 
-
 // ============== Exercises ================= //
 
 export async function fetchCurrentExercises() {
   try {
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
 
+export async function getKeywords(formData) {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.post(
+      "https://viego-get-exercises.onrender.com/get-keywords",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
     console.log("API response:", res.data);
     return res.data;
   } catch (error) {
@@ -467,7 +493,23 @@ export async function fetchCurrentExercises() {
 
 export async function generateNewExercises() {
   try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
 
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.get(
+      "https://viego-get-exercises.onrender.com/get-exercises",
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
     console.log("API response:", res.data);
     return res.data;
   } catch (error) {
