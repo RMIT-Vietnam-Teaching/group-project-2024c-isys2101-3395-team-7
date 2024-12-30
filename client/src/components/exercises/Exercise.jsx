@@ -16,7 +16,7 @@ import {
 } from "@/api";
 
 const Exercise = ({ currQuestion, exercises }) => {
-  const questionObj = exercises[currQuestion];
+  const questionObj = exercises ? exercises[currQuestion] : null;
   const [currState, setCurrState] = useState("begin");
   const [imageUrl, setImageUrl] = useState(null);
   const [audioUrl, setAudioUrl] = useState(null);
@@ -88,7 +88,7 @@ const Exercise = ({ currQuestion, exercises }) => {
     setLoading(true);
     try {
       let recognizedTextData;
-      if (questionObj.type === "handwriting") {
+      if (questionObj?.type === "handwriting") {
         formData.append("image", file);
         handleFileChange(formData.getAll("image")[0]);
         recognizedTextData = await recognizeHandwriting(formData);
@@ -96,18 +96,18 @@ const Exercise = ({ currQuestion, exercises }) => {
         if (recognizedTextData) {
           const correct = await compareHandwritingAnswer(
             recognizedTextData,
-            questionObj.ref_answer
+            questionObj?.ref_answer
           );
 
           if (correct) {
             console.log("Correct answer:", correct.feedback);
             setComments(extractText(correct, "feedback"));
-            setCorrectText(questionObj.ref_answer);
+            setCorrectText(questionObj?.ref_answer);
           }
         }
 
         await uploadImage(file);
-      } else if (questionObj.type === "audio") {
+      } else if (questionObj?.type === "audio") {
         setAudioUrl(URL.createObjectURL(file));
         formData.append("audio", file);
         handleFileChange(formData.getAll("file")[0]);
@@ -116,16 +116,16 @@ const Exercise = ({ currQuestion, exercises }) => {
           setRecognizedText(recognizedTextData.text);
           const correct = await compareHandwritingAnswer(
             recognizedTextData,
-            questionObj.ref_answer
+            questionObj?.ref_answer
           );
 
           if (correct) {
             console.log("Correct answer:", correct.feedback);
             setComments(extractText(correct, "feedback"));
-            setCorrectText(questionObj.ref_answer);
+            setCorrectText(questionObj?.ref_answer);
           }
 
-          const resAudio = await createAiVoice(questionObj.ref_answer);
+          const resAudio = await createAiVoice(questionObj?.ref_answer);
           if (resAudio) {
             setResultAudio(resAudio);
           }
@@ -148,7 +148,7 @@ const Exercise = ({ currQuestion, exercises }) => {
           <Loading />
         ) : (
           <FeatureFrame
-            type={questionObj.type}
+            type={questionObj?.type}
             isExercise={true}
             props={{
               currState,
