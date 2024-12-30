@@ -6,11 +6,11 @@ import { pushError, pushWarning } from "../Toast";
 
 const HandwritingRight = ({
   state,
-  handleState,
   handleForm,
   comments,
   rawText,
   correctText,
+  isExercise
 }) => {
   const errors = [];
   const [selectedFile, setSelectedFile] = useState(null);
@@ -61,7 +61,6 @@ const HandwritingRight = ({
                 onChange={handleFileChange}
                 className="hidden"
               />
-              <pushError message={"Invalid file type!"} />
               <div className="py-2 px-4 my-3 rounded bg-black text-white hover:bg-orange">
                 {selectedFile ? "Choose another file" : "Browse your file"}
               </div>
@@ -74,7 +73,9 @@ const HandwritingRight = ({
               />
             )}
           </form>
-          <p className="text-gray-600">Try out our wonderful service now!</p>
+          <p className="text-gray-600">
+            {isExercise ? "Input your answer here!" : "Try out our wonderful service now!"}
+          </p>
         </div>
       )}
 
@@ -83,9 +84,9 @@ const HandwritingRight = ({
           <div className="w-full md:h-28 grid content-center md:pb-0 pb-5">
             <h3 className="text-lg font-bold text-center">Fixed / Bản sửa</h3>
           </div>
-          <span className="text-gray-700">
+          <span className="text-gray-700 h-full">
             {comments.length == 0
-              ? "Your audio is perfect! No mistakes found."
+              ? "Your handwriting is perfect! No mistakes found."
               : "Mistakes found in your handwriting:"}
             {comments.map((comment, index) => (
               <div key={index}>
@@ -103,7 +104,7 @@ const HandwritingRight = ({
             <div>
               <span className="font-bold text-left">Correct Text:</span>
               <textarea
-                className="block w-full p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
+                className="block w-full md:h-48 p-4 border border-gray-300 rounded-lg resize-y bg-gray-100 text-black overflow-y-auto"
                 value={correctText}
                 placeholder="Transcript Texts From Fixed Handwriting will be displayed here."
                 readOnly

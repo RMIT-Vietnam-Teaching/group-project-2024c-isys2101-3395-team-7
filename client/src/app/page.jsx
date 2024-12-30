@@ -1,18 +1,25 @@
 "use client"
+import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Logo from '@/components/Logo'
+import { useAuth } from '@/context/AuthContext'
 
 const landingpage = () => {
+    const { checkLoginInitial } = useAuth();
     const router = useRouter()
+
+    useEffect(() => {
+        checkLoginInitial();
+    }, [router]);
 
     return (
         <>
             <div className="min-h-screen bg-black ">
-                <header className="flex h-18 justify-between items-center px-8 py-4 border-b border-white">
+                <header className="flex justify-between items-center px-8 py-4 border-b border-white">
                     {/* Logo */}
                     <div className="text-3xl font-bold italic">
                         {/* <img src="/client/public/vietgo_logo.svg" alt="logo" className={'h-18 w-18'} /> */}
-                        <Logo width={50} height={50} />
+                        <Logo width={30} height={30} />
                     </div>
                     {/* Navigation */}
                     <nav className="flex space-x-4">
@@ -78,8 +85,12 @@ const landingpage = () => {
 
                     {/* Right Section */}
                     <div className={"flex justify-center items-center flex-2/5"}>
-                        {/*TODO: replace with the app image later*/}
-                        <img src={'placeholder.png'} alt={'placeholder_image'} className={'h-96 w-full'} />
+                        <img src={'viego-landing-page-illustration.png'} alt={'landing-page'}  className="object-contain"
+                             style={{
+                                 height: 'calc((100vh - 4.5rem) * 3/4)', // Dynamic height
+                                 width: 'auto', // Proportional width
+                             }}
+                             />
                     </div>
                 </main>
             </div>
