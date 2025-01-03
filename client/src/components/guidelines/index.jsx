@@ -12,24 +12,12 @@ export default function guidelines() {
                 {/* Welcome Section */}
                 <div className="mb-12">
                     <h2 className="text-3xl font-bold mb-2">Welcome to Viego</h2>
-                    <h3 className="text-xl font-semibold text-gray-700 mb-4">
-                        How to Use Viego as your Vietnamese language learning app
-                    </h3>
                     <p className="text-gray-600 leading-relaxed">
-                        Lorem ipsum dolor amet, consectetur adipiscing elit. Hac risus
-                        suspendisse consequat nisi primis taciti tempor. Convallis curae
-                        torquent convallis maximus fusce commodo. Pretium diam aenean
-                        mollis; habitasse magnis scelerisque. Dictum eros tempor rhoncus;
-                        blandit cubilia taciti. Magnis nascetur sociosqu ridiculus massa
-                        primis ullamcorper. Nulla primis himenaeos rutrum dui molestie
-                        magna. Sociosqu dis ac class magna, quis in. Consectetur consequat
-                        varius suscipit fames vestibulum; phasellus ligula blandit
-                        sollicitudin. Laoreet nisl consectetur vulputate morbi volutpat
-                        imperdiet! Pretium volutpat commodo consequat tristique proin; congue
-                        taciti. Fermentum sed hac; odio metus interdum ac. Arcu elit quis
-                        gravida leo vestibulum venenatis. Nunc aenean proin lobortis rutrum,
-                        magn is tortor. Ornare quam donec
+                        This section provides a brief introduction to the Viego platform, highlighting its purpose as a comprehensive tool for learning Vietnamese. It emphasizes the platform's user-friendly interface and its ability to cater to various learning styles.
                     </p>
+                    <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                        How to Use Viego as your Vietnamese language learning app in steps:
+                    </h3>
                 </div>
 
                 {/* Feature Section */}
@@ -37,38 +25,64 @@ export default function guidelines() {
                 {/* Reusable Collapsible Sections */}
                 {/*Handwriting Section*/}
                 <CollapsibleSection title="Use Handwriting Detection and Correction Feature">
+                    <p>
+                        Handwriting Detection and Correction will detect your handwriting work, process, and evaluate your work as well as give you reviews, feedbacks
+                    </p>
                     <p className="font-semibold text-pink">
                             STEP 1:
                     </p>
                     <p>
-                        Purus aenean efficitur sed. Ad sollicitudin enim consequat fringilla
-                        hendrerit. Porttitor orci sollicitudin eros laoreet torquent. Laoreet
-                        etiam nascetur fusce maximus hendrerit nibh.
+                        Upload your file with hand-writing in Vietnamese
                     </p>
                     <p className="font-semibold text-pink">
                             STEP 2:
                     </p>
                     <p>
-                        Imperdiet faucibus adipiscing venenatis habitant, sit ac facilisis
-                        vehicula. Libero fames tristique tincidunt curabitur fringilla
-                        maecenas donec.
+                        The system will be processing your prompt
+                    </p>
+                    <p className="font-semibold text-pink">
+                            STEP 3:
+                    </p>
+                    <p>
+                        The system will return the corrected version and point out the incorrect words, letters, dialects in wrong handwriting form.
                     </p>
                 </CollapsibleSection>
                 {/*Voice Section*/}
                 <CollapsibleSection title="Use Voice Detection and Correction Feature">
                     <p>
-                        The Vocabulary Building Feature helps users enhance their Vietnamese
-                        vocabulary using interactive exercises and flashcards.
+                        The Voice Detection and Correction Feature will
                     </p>
-                    <p>1. Select a category. 2. Practice new words. 3. Test your skills.</p>
+                    <p className="font-semibold text-pink">
+                        STEP 1:
+                    </p>
+                    <p>
+                        Upload your file with hand-writing in Vietnamese
+                    </p>
+                    <p className="font-semibold text-pink">
+                        STEP 2:
+                    </p>
+                    <p>
+                        The system will be processing your prompt
+                    </p>
+                    <p className="font-semibold text-pink">
+                        STEP 3:
+                    </p>
+                    <p>
+                        The system will...
+                    </p>
                 </CollapsibleSection>
                 {/*Quiz Section*/}
-                <CollapsibleSection title="Use Quiz Feature">
+                <CollapsibleSection title="Use Lessons Feature">
                     <p>
                         The Sentence Correction Tool analyzes your sentences and provides
                         grammar suggestions to improve writing skills.
                     </p>
-                    <p>1. Enter your sentence. 2. Receive corrections. 3. Learn why.</p>
+                </CollapsibleSection>
+                <CollapsibleSection title="Use Exercises Feature">
+                    <p>
+                        The Sentence Correction Tool analyzes your sentences and provides
+                        grammar suggestions to improve writing skills.
+                    </p>
                 </CollapsibleSection>
             </div>
         </>

@@ -72,6 +72,11 @@ const Header = () => {
                 {/*right panel*/}
                 <div className='basis-1/3 flex items-center justify-end'>
                     <div className='flex items-center justify-end pr-5 md:mx-2 h-full'>
+                        <button>
+                            <Tootltip text={"History & Favorite Management"} position={"bottom"}>
+                                <img src='/History.svg' alt="History Icon" className='h-14 w-10 min-h-10 min-w-6'/>
+                            </Tootltip>
+                        </button>
 
                         <button
                             onClick={() => handleToggleState(setIsOpenHistory, isOpenHistory)}
