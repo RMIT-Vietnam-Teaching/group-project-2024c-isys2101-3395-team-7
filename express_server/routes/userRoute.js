@@ -89,6 +89,32 @@ router.get("/:id", getUser, (req, res) => {
   res.send(res.user);
 });
 
+// Get new token
+router.post("/token/:id", async (req, res) => {
+  const { id } = req.params;
+  const { token } = req.body;
+
+  try {
+    const user = await User.findById(id);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const payload = jwt.verify(token, JWT_SECRET);
+    if (payload.userId !== user._id) {
+      return res.status(401).json({ message: "Invalid token" });
+    }
+
+    const newToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    res.json({ message: "Get new token successfully", newToken });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+});
+
 // Get all users
 router.get("/", async (req, res) => {
   try {
