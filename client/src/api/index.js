@@ -565,6 +565,35 @@ export async function getExercises(keywords, exercises) {
   }
 }
 
+export async function addCurrentExercises(id, exercises) {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.post(
+      `https://viego-mongo-api.onrender.com/user/exercises/${id}`,
+      exercises,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
+
 export async function compareHandwritingAnswer(answer, ref_answer) {
   try {
     // Retrieve the token from localStorage

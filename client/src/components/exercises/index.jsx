@@ -12,6 +12,7 @@ import {
   getKeywords,
   getExercises,
   fetchAllExercises,
+  addCurrentExercises,
 } from "@/api";
 
 import { sampleQuestions } from "@/constants"; // sample for data fetched from api
@@ -48,6 +49,10 @@ export default function Exercises() {
     );
 
     console.log("Filtered Exercises:", filteredExercises);
+    addCurrentExercises(
+      JSON.parse(localStorage.getItem("member")),
+      filteredExercises
+    );
     return filteredExercises;
   };
   const handleFetchExercises = async (type) => {
