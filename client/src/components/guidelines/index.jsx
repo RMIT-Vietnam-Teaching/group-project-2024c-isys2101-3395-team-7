@@ -3,38 +3,9 @@ import CollapsibleSection from "@/components/guidelines/CollasibleSection";
 import Image from 'next/image'
 import GoToTopButton from "@/components/guidelines/GoToTopButton";
 import { Link, Button, Element, Events, animateScroll as scroll, scrollSpy } from 'react-scroll';
-import React, {useEffect} from "react";
-import GoToTopIcon from "@/components/icons/GoToTopIcon";
+import React, { useEffect } from "react";
 
 export default function guidelines() {
-    useEffect(() => {
-
-        // Registering the 'begin' event and logging it to the console when triggered.
-        Events.scrollEvent.register('begin', (to, element) => {
-            console.log('begin', to, element);
-        });
-
-        // Registering the 'end' event and logging it to the console when triggered.
-        Events.scrollEvent.register('end', (to, element) => {
-            console.log('end', to, element);
-        });
-
-        // Updating scrollSpy when the component mounts.
-        scrollSpy.update();
-
-        // Returning a cleanup function to remove the registered events when the component unmounts.
-        return () => {
-            Events.scrollEvent.remove('begin');
-            Events.scrollEvent.remove('end');
-        };
-    }, []);
-
-    // Defining functions to perform different types of scrolling.
-    const scrollToTop = () => {
-        scroll.scrollToTop();
-    };
-
-
     return (
         <>
             <div className="container mx-auto px-6 py-8">
@@ -112,9 +83,9 @@ export default function guidelines() {
                         STEP 3:
                     </p>
                     <Image src={"/handwriting-feedback.png"}
-                           width={1776}
-                           height={873}
-                           alt={"Handwriting Feedback"}
+                        width={1776}
+                        height={873}
+                        alt={"Handwriting Feedback"}
                     />
                     <div className={"grid grid-cols-2 gap-4 justify-items-center"}>
                         <div className={""}>
@@ -239,7 +210,7 @@ export default function guidelines() {
                                 />
                             </div>
                         </div>
-                        </div>
+                    </div>
 
                 </CollapsibleSection>
                 {/*user activity section*/}
@@ -262,14 +233,8 @@ export default function guidelines() {
                         grammar suggestions to improve writing skills.
                     </p>
                 </CollapsibleSection>
-                <button
-                    className={`fixed bottom-10 right-10 bg-black text-white rounded-full p-4 shadow-md transform 
-                    } transition-transform duration-300 ease-in-out`}
-                    onClick={scrollToTop}
-                >
-                    <GoToTopIcon width={30} height={30}/>
-                </button>
-                {/*<GoToTopButton/>*/}
+
+                <GoToTopButton />
             </div>
         </>
     )

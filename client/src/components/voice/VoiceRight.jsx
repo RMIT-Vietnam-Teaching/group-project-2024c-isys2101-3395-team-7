@@ -66,7 +66,7 @@ const VoiceRight = ({
             <label className="grid appearance-none cursor-pointer hover:border-gray-400 focus:outline-none justify-items-center w-full">
               <div className={"top-1 w-full flex gap-4 justify-center"}>
                 <Tooltip text={"You can drag and drop a file here!"} position={"top"}>
-                  <div>
+                  <div className="w-full justify-items-end">
                     <DragDropIcon width={50} height={50} />
                   </div>
                 </Tooltip>

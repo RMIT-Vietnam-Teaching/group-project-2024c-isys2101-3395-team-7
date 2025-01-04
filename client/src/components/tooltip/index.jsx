@@ -28,17 +28,17 @@ const Tooltip = ({ text, children, position = 'top' }) => {
     };
 
     return (
-        <div style={{ position: 'relative', display: 'inline-block', width: 'fit-content', height: 'fit-content' }}>
+        <div className='relative inline-block w-full h-fit'>
             <div
                 onMouseEnter={handleMouseEnter}
                 onMouseLeave={handleMouseLeave}
-                style={{ width: 'fit-content', height: 'fit-content', display: "flex" }}
+                className='w-full h-fit flex'
             >
                 {children}
             </div>
             {showTooltip && (
                 <span
-                    className={`absolute text-s font-bold bg-black text-white border-orange border-solid shadow-lg border-2 p-2 rounded-lg whitespace-nowrap ${positionClasses[position]}`}
+                    className={`z-20 absolute text-s font-bold bg-black text-white border-orange border-solid shadow-lg border-2 p-2 rounded-lg whitespace-nowrap ${positionClasses[position]}`}
                 >
                     {text}
                     <div className={tailClasses[position]}></div>

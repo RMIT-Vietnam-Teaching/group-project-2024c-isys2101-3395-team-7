@@ -8,13 +8,6 @@ import { useRouter } from "next/navigation";
 import ToggleSwitch from "@/components/ToggleSwitch";
 import { useAuth } from "@/context/AuthContext";
 import Tooltip from "@/components/tooltip";
-import MenuIcon from "@/components/icons/MenuIcon";
-import ViegoLogoIcon from "@/components/icons/ViegoLogoIcon";
-import HistoryIcon from "@/components/icons/HistoryIcon";
-import FavoriteIcon from "@/components/icons/FavoriteIcon";
-import SettingsIcon from "@/components/icons/SettingsIcon";
-import UserProfileIcon from "@/components/icons/UserProfileIcon";
-
 
 const iconWidth = 30, iconHeight = 30;
 
@@ -44,8 +37,8 @@ const Header = () => {
     }
 
     return (
-        <>
-            <div className='bg-pink text-center border-b-1 border-white flex flex-row items-center justify-center'>
+        <div className="relative w-full mb-16">
+            <div className='fixed z-30 w-full bg-pink text-center border-b-1 border-white flex flex-row items-center justify-center'>
                 {/*menu icon*/}
                 <div className={`basis-1/3 items-start justify-start h-full w-4 left-0 pr-5`}>
                     <Tooltip text={"Menu"} position={"bottom"}>
@@ -76,7 +69,7 @@ const Header = () => {
                             onClick={() => router.push(`/activity`)}
                             className={`hover:bg-orange md:px-5 px-1 ${isOpenHistory ? 'bg-orange' : ''}`}>
                             <Tooltip text={"History & Favorite Management"} position={"bottom"}>
-                                <img src='/Folder_dublicate_duotone.svg' alt="User Activity Icon" className='h-14 w-10 min-h-10 min-w-6'/>
+                                <img src='/Folder_dublicate_duotone.svg' alt="User Activity Icon" className='h-14 w-10 min-h-10 min-w-6' />
                             </Tooltip>
                         </button>
 
@@ -169,7 +162,7 @@ const Header = () => {
             {isOpenMenu && <NavBar isOpen={isOpenMenu} setIsOpen={setIsOpenMenu} />}
 
 
-        </>
+        </div>
     )
 }
 
