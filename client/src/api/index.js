@@ -499,16 +499,6 @@ export async function checkTokenExpired(id, token) {
 
 // ============== Exercises ================= //
 
-export async function fetchCurrentExercises() {
-  try {
-    console.log("API response:", res.data);
-    return res.data;
-  } catch (error) {
-    console.error("Error during API call:", error);
-    throw error;
-  }
-}
-
 export async function getKeywords(records) {
   try {
     // Retrieve the token from localStorage
@@ -585,7 +575,33 @@ export async function addCurrentExercises(id, exercises) {
         withCredentials: true,
       }
     );
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
 
+export async function getCurrentExercises(id) {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.get(
+      `https://viego-mongo-api.onrender.com/user/exercises/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
     console.log("API response:", res.data);
     return res.data;
   } catch (error) {
