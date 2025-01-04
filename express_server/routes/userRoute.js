@@ -50,6 +50,7 @@ router.post("/signup", upload.none(), async (req, res) => {
       username: username,
       password: hashedPassword,
       dob: dob,
+      currentExercises: [],
     });
 
     await newUser.save();
@@ -97,6 +98,26 @@ router.post("/login", upload.none(), async (req, res) => {
 // Get user
 router.get("/:id", getUser, (req, res) => {
   res.send(res.user);
+});
+
+// Get current exercises list
+router.get("/exercises/:id", getUser, (req, res) => {
+  const user = res.user;
+  res.send(user.currentExercises);
+});
+
+// Add current exercise list
+router.post("/exercises/:id", getUser, async (req, res) => {
+  const user = res.user;
+  const exercises = req.body;
+
+  try {
+    user.currentExercises = exercises;
+    const updatedUser = await user.save();
+    res.json({ message: "Add exercise successfully", updatedUser });
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
 });
 
 /// Check token expired
