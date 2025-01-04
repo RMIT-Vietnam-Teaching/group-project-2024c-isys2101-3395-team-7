@@ -83,7 +83,7 @@ router.post("/login", upload.none(), async (req, res) => {
 
     // Generate JWT token
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "1d",
+      expiresIn: "7d",
     });
 
     res
@@ -99,8 +99,8 @@ router.get("/:id", getUser, (req, res) => {
   res.send(res.user);
 });
 
-// Get new token
-router.post("/token/:id", async (req, res) => {
+/// Check token expired
+router.post("/token_expired/:id", async (req, res) => {
   const { id } = req.params;
   const { token } = req.body;
 
@@ -110,16 +110,20 @@ router.post("/token/:id", async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const payload = jwt.verify(token, JWT_SECRET);
-    if (payload.userId !== user._id) {
-      return res.status(401).json({ message: "Invalid token" });
+    try {
+      // Verify the token
+      jwt.verify(token, JWT_SECRET);
+      // If no error is thrown, the token is valid
+      res.json({ message: "Token is valid", isExpired: false });
+    } catch (error) {
+      if (error.name === "TokenExpiredError") {
+        // If the error is a TokenExpiredError, return true for isExpired
+        res.json({ message: "Token has expired", isExpired: true });
+      } else {
+        // Other errors (e.g., invalid token)
+        res.status(401).json({ message: "Invalid token", isExpired: null });
+      }
     }
-
-    const newToken = jwt.sign({ userId: user._id }, JWT_SECRET, {
-      expiresIn: "1d",
-    });
-
-    res.json({ message: "Get new token successfully", newToken });
   } catch (error) {
     res.status(500).send(error.message);
   }
