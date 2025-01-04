@@ -7,9 +7,19 @@ const User = require("../models/user");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const multer = require("multer");
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
 const JWT_SECRET = process.env.JWT_SECRET;
+
+// Set up multer for file uploads (ensure formdata post is not empty)
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads/"); // Specify the directory where files will be saved
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname); // File naming convention
+  },
+});
+
+const upload = multer({ storage: storage });
 
 // Sign up
 router.post("/signup", upload.none(), async (req, res) => {
