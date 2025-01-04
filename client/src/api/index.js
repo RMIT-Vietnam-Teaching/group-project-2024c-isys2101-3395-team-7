@@ -476,6 +476,27 @@ export async function authMember(id, token) {
   }
 }
 
+export async function checkTokenExpired(id, token) {
+  try {
+    const res = await axios.post(
+      `https://viego-mongo-api.onrender.com/user/token_expired/${id}`,
+      { token },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
+
 // ============== Exercises ================= //
 
 export async function fetchCurrentExercises() {

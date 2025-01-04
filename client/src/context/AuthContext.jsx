@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useEffect, useState, useContext } from "react";
-import { logout, authMember } from "@/api";
+import { logout, authMember, checkTokenExpired } from "@/api";
 import { useRouter } from "next/navigation";
 import { pushSuccess, pushError } from "@/components/Toast";
 
@@ -18,16 +18,32 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState();
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedToken = localStorage.getItem(TOKEN_KEY) || null;
-      const storedMember = localStorage.getItem(MEMBER_KEY) || null;
+    async function checkToken() {
+      if (typeof window !== "undefined") {
+        const storedToken = localStorage.getItem(TOKEN_KEY) || null;
+        const storedMember = localStorage.getItem(MEMBER_KEY) || null;
 
-      if (storedToken) {
-        setToken(storedToken);
-        setIsLoggedIn(storedToken && storedMember);
-        setMemberId(JSON.parse(storedMember));
+        if (storedToken) {
+          const tokenCondition = await checkTokenExpired(
+            JSON.parse(storedMember),
+            storedToken
+          );
+          if (tokenCondition.isExpired === true) {
+            setIsLoggedIn(false);
+            setMember(null);
+            setToken(null);
+            localStorage.removeItem(MEMBER_KEY);
+            localStorage.removeItem(TOKEN_KEY);
+            router.push("/");
+          } else {
+            setToken(storedToken);
+            setIsLoggedIn(storedToken && storedMember);
+            setMemberId(JSON.parse(storedMember));
+          }
+        }
       }
     }
+    checkToken();
   }, [router]);
 
   const storeAuth = (member, token, username) => {
