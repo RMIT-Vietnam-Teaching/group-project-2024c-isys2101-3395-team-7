@@ -297,10 +297,10 @@ export default function guidelines() {
                         grammar suggestions to improve writing skills.
                     </p>
                     <Image
-                        src="/lessons-main-screen.png"
+                        src="/exercises-main-screen.png"
                         width={1776}
                         height={873}
-                        alt="Lessons Main Screen"
+                        alt="Exercises Main Screen"
                     />
                     <div className={"grid grid-cols-2 gap-4"}>
                         <div>
