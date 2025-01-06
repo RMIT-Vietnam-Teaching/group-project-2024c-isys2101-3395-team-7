@@ -309,10 +309,10 @@ export default function guidelines() {
                     <p>
                         This feature allows you to manage your history and favorite sections. You can:
                         <ul>
-                            <li>Switch between History and Favorite Tab.</li>
-                            <li>Filter: by Voice or Handwriting Feature.</li>
-                            <li>Add the item to favorite, the item will also appear in Favorite Tab.</li>
-                            <li>Delete the item permanently from both lists.</li>
+                            <li><strong>Switch</strong> between History and Favorite Tab.</li>
+                            <li><strong>Filter</strong>: by Voice or Handwriting Feature.</li>
+                            <li><strong>Add</strong> the item to favorite, the item will also appear in Favorite Tab.</li>
+                            <li><strong>Delete</strong> the item permanently from both lists.</li>
                         </ul>
                     </p>
                     <Image
@@ -332,7 +332,7 @@ export default function guidelines() {
                         </div>
                         <div>
                             <p>
-                                Clicking on the item will review the detail.
+                                Clicking on each item will allow you to review the item in detail.
                             </p>
                         </div>
                     </div>
@@ -340,8 +340,8 @@ export default function guidelines() {
                 {/*Lessons Section*/}
                 <CollapsibleSection title="Use Lessons Feature">
                     <p>
-                        The Sentence Correction Tool analyzes your sentences and provides
-                        grammar suggestions to improve writing skills.
+                        This feature allows users to look at lessons documented and reviewed by us, which are from easy to advance.
+
                     </p>
                     <Image
                         src="/lessons-main-screen.png"
@@ -351,9 +351,9 @@ export default function guidelines() {
                     />
                     <div className={"grid grid-cols-2 gap-4"}>
                         <div>
-
                             <p>
-                                pop up
+                                This pop-up window will allow you to generate new lessons.
+                                The maximum lessons generated is 10.
                             </p>
                         </div>
                         <div className={"grid justify-items-center"}>
