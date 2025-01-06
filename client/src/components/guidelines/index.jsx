@@ -2,8 +2,8 @@
 import CollapsibleSection from "@/components/guidelines/CollasibleSection";
 import Image from 'next/image'
 import GoToTopButton from "@/components/guidelines/GoToTopButton";
-import { Link, Button, Element, Events, animateScroll as scroll, scrollSpy } from 'react-scroll';
-import React, { useEffect } from "react";
+import {Link, Button, Element, Events, animateScroll as scroll, scrollSpy} from 'react-scroll';
+import React, {useEffect} from "react";
 
 export default function guidelines() {
     return (
@@ -27,22 +27,42 @@ export default function guidelines() {
                         How to Use Viego as your Vietnamese language learning app in steps:
                     </h3>
                 </div>
-
-                {/* Feature Section */}
-
-                {/* Reusable Collapsible Sections */}
                 {/*Handwriting Section*/}
                 <CollapsibleSection title="Use Handwriting Detection and Correction Feature">
-                    <p>
-                        Handwriting Detection and Correction will detect your handwriting work, process, and evaluate
-                        your work as well as give you reviews, feedbacks
-                    </p>
-                    <Image
-                        src="/handwriting-main-screen.png"
-                        width={1776}
-                        height={873}
-                        alt="Handwriting Main Screen"
-                    />
+                    <div>
+                        <p>
+                            This feature allows users to upload handwritten Vietnamese text and receive instant
+                            feedback, including:
+                        </p>
+                        <ul>
+                            <li>
+                                Recognition: The system will attempt to recognize the handwritten text and display it in
+                                digital format.
+                            </li>
+                            <li>
+                                Correction: The system will identify and suggest corrections for any misrecognized
+                                characters
+                            </li>
+
+                            <li>
+
+                                Review & Learning: Users can review the system's analysis, learn from the corrections,
+                                and resubmit their handwriting for further refinement.
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div>
+                        <Image
+                            src="/handwriting-main-screen.png"
+                            width={1776}
+                            height={873}
+                            alt="Handwriting Main Screen"
+                        />
+                        <p>
+
+                        </p>
+                    </div>
                     <div className={"grid grid-cols-2 gap-4"}>
                         <div>
                             <p className="font-semibold text-pink">
@@ -83,9 +103,9 @@ export default function guidelines() {
                         STEP 3:
                     </p>
                     <Image src={"/handwriting-feedback.png"}
-                        width={1776}
-                        height={873}
-                        alt={"Handwriting Feedback"}
+                           width={1776}
+                           height={873}
+                           alt={"Handwriting Feedback"}
                     />
                     <div className={"grid grid-cols-2 gap-4 justify-items-center"}>
                         <div className={""}>
@@ -216,8 +236,30 @@ export default function guidelines() {
                 {/*user activity section*/}
                 <CollapsibleSection title="Use Activity Record Feature">
                     <p>
-                        blah blah blah
+                        To re-view your history and favorite items storage, visit....
                     </p>
+                    <Image
+                        src="/user-activity-main-screen.png"
+                        width={1776}
+                        height={873}
+                        alt="Activity Main Screen"
+                    />
+                    <div className={"grid grid-rows-2 gap-4"}>
+                        <div className={"grid justify-items-center"}>
+                            <Image
+                                src="/user-activity-pop-up.png"
+                                width={1767}
+                                height={874}
+                                alt="pop-up activity screen"
+                            />
+                        </div>
+                        <div>
+
+                            <p>
+                                pop up
+                            </p>
+                        </div>
+                    </div>
                 </CollapsibleSection>
                 {/*Lessons Section*/}
                 <CollapsibleSection title="Use Lessons Feature">
@@ -225,6 +267,28 @@ export default function guidelines() {
                         The Sentence Correction Tool analyzes your sentences and provides
                         grammar suggestions to improve writing skills.
                     </p>
+                    <Image
+                        src="/lessons-main-screen.png"
+                        width={1776}
+                        height={873}
+                        alt="Lessons Main Screen"
+                    />
+                    <div className={"grid grid-cols-2 gap-4"}>
+                        <div>
+
+                            <p>
+                                pop up
+                            </p>
+                        </div>
+                        <div className={"grid justify-items-center"}>
+                            <Image
+                                src="/lessons-pop-up.png"
+                                width={368 * 2}
+                                height={189 * 2}
+                                alt="pop-up lesson screen"
+                            />
+                        </div>
+                    </div>
                 </CollapsibleSection>
                 {/*Exercises Section*/}
                 <CollapsibleSection title="Use Exercises Feature">
@@ -232,9 +296,46 @@ export default function guidelines() {
                         The Sentence Correction Tool analyzes your sentences and provides
                         grammar suggestions to improve writing skills.
                     </p>
+                    <Image
+                        src="/lessons-main-screen.png"
+                        width={1776}
+                        height={873}
+                        alt="Lessons Main Screen"
+                    />
+                    <div className={"grid grid-cols-2 gap-4"}>
+                        <div>
+
+                            <p>
+                                pop up
+                            </p>
+                        </div>
+                        <div className={"grid justify-items-center"}>
+                            <Image
+                                src="/exercises-pop-up.png"
+                                width={404}
+                                height={190}
+                                alt="pop-up exercise screen"
+                            />
+                        </div>
+                    </div>
+                    <div className={"grid grid-rows-2 gap-4"}>
+                        <div className={"grid justify-items-center"}>
+                            <Image
+                                src="/exercises-exercise.png"
+                                width={404}
+                                height={190}
+                                alt="exercise screen"
+                            />
+                        </div>
+                        <div>
+                            <p>
+                                pop up
+                            </p>
+                        </div>
+                    </div>
                 </CollapsibleSection>
 
-                <GoToTopButton />
+                <GoToTopButton/>
             </div>
         </>
     )
