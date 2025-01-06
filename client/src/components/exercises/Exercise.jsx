@@ -13,6 +13,7 @@ import {
   uploadImage,
   uploadAudio,
   compareHandwritingAnswer,
+  compareVoiceAnswer,
 } from "@/api";
 
 const Exercise = ({ currQuestion, exercises }) => {
@@ -114,7 +115,7 @@ const Exercise = ({ currQuestion, exercises }) => {
         recognizedTextData = await recognizeVoice(formData);
         if (recognizedTextData) {
           setRecognizedText(recognizedTextData.text);
-          const correct = await compareHandwritingAnswer(
+          const correct = await compareVoiceAnswer(
             recognizedTextData,
             questionObj?.ref_answer
           );
