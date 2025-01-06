@@ -19,22 +19,20 @@ export default function guidelines() {
                 <div className="mb-12">
                     <h2 className="text-3xl font-bold mb-2">Welcome to Viego</h2>
                     <p className="text-gray-600 leading-relaxed">
-                        This section provides a brief introduction to the Viego platform, highlighting its purpose as a
-                        comprehensive tool for learning Vietnamese. It emphasizes the platform's user-friendly interface
-                        and its ability to cater to various learning styles.
+                        Viego is your comprehensive platform for learning the Vietnamese language. Designed with user-friendliness in mind, Viego caters to diverse learning styles and offers a range of interactive features to help you on your language learning journey.
                     </p>
-                    <h3 className="text-xl font-semibold text-gray-700 mb-4">
+                    <h3 className="text-xl font-semibold text-gray-700 mb-4 pt-8">
                         How to Use Viego as your Vietnamese language learning app in steps:
                     </h3>
                 </div>
                 {/*Handwriting Section*/}
                 <CollapsibleSection title="Use Handwriting Detection and Correction Feature">
                     <div>
-                        <p>
+                        <p className={"pt-4"}>
                             This feature allows users to upload handwritten Vietnamese text and receive instant
                             feedback, including:
                         </p>
-                        <ul>
+                        <ul className={"pt-2"}>
                             <li>
                                 <strong>Recognition</strong>: The system will attempt to recognize the handwritten text and display it in
                                 digital format.
@@ -50,7 +48,7 @@ export default function guidelines() {
                             </li>
                         </ul>
                     </div>
-                    <div>
+                    <div className={"pt-8"}>
                         <Image
                             src="/handwriting-main-screen.png"
                             width={1776}
@@ -58,14 +56,13 @@ export default function guidelines() {
                             alt="Handwriting Main Screen"
                         />
                     </div>
-                    <div className={"grid grid-cols-2 gap-4"}>
-                        <div>
-                            <p className="font-semibold text-pink">
+                    <div className={"grid grid-cols-2 gap-4 pt-8"}>
+                        <div className={"border-t-2 border-black"}>
+                            <p className="font-semibold text-pink pt-8">
                                 STEP 1:
                             </p>
-                            <p>
                                 <strong>Browse your file</strong>: Choose the image containing your handwritten Vietnamese text. Supported file formats include:
-                                <ul>
+                                <ul  className={"pt-2"}>
                                     <li>
                                         JPEG (.jpg, .jpeg)
                                     </li>
@@ -79,9 +76,9 @@ export default function guidelines() {
                                     <strong>Choose another file</strong>: Choose another image.
                                 <br/>
                                     <strong>Submit file</strong>: Click the button to send the Image to our Service.
-                            </p>
+
                         </div>
-                        <div className={"grid justify-items-center"}>
+                        <div className={"grid justify-items-center pt-8"}>
                             <Image
                                 src="/handwriting-upload-screen.png"
                                 width={210 * 2}
@@ -91,8 +88,8 @@ export default function guidelines() {
                         </div>
                     </div>
                     <div className={"grid grid-cols-2 gap-4"}>
-                        <div>
-                            <strong className="font-semibold text-pink">
+                        <div className={"pt-8"}>
+                            <strong className="font-semibold text-pink border-black border-t-2">
                                 STEP 2:
                             </strong>
                             <p>
@@ -100,7 +97,7 @@ export default function guidelines() {
                                 This may take a few seconds or minutes depending on the complexity and size of the file.
                             </p>
                         </div>
-                        <div className={"grid justify-items-center"}>
+                        <div className={"grid justify-items-center pt-4"}>
                             <Image
                                 src="/handwriting-loading.png"
                                 width={1766}
@@ -128,7 +125,6 @@ export default function guidelines() {
                             />
                         </div>
                         <div>
-                            <p>
                                 On the left side: The system will display your uploaded file for better comparison.
                                 <ul>
                                     <li>
@@ -139,19 +135,16 @@ export default function guidelines() {
                                     </li>
                                 </ul>
 
-                            </p>
                         </div>
                     </div>
                     <div className={"grid grid-cols-2 gap-4 justify-items-center"}>
                         <div>
-                            <p>
                                 On the right side: The system will return the corrected version and point out the incorrect words, letters,
                                 dialects in wrong handwriting form:
                                 <ul>
                                     <li><strong>Feedback</strong>: Any incorrect grammars, spellings, or vocabularies will be noted and display here, alongside with suggestions, recommendations for improvements.</li>
                                     <li><strong>Recognized Text</strong>: The system's transcript of your handwriting.</li>
                                 </ul>
-                            </p>
                         </div>
                         <div className={""}>
                             <Image
@@ -165,7 +158,7 @@ export default function guidelines() {
                 </CollapsibleSection>
                 {/*Voice Section*/}
                 <CollapsibleSection title="Use Voice Detection and Correction Feature">
-                    <p>
+                    <div>
                         This feature allows users to upload recorded Vietnamese speech and receive instant
                         feedback, including:
                         <ul>
@@ -183,7 +176,7 @@ export default function guidelines() {
 
                             </li>
                         </ul>
-                    </p>
+                    </div>
                     <Image
                         src="/voice-main-screen.png"
                         width={1776}
@@ -266,18 +259,15 @@ export default function guidelines() {
                                 />
                             </div>
                             <div>
-                                <p>
                                     Left Section: Recorded Audio and Playback:
                                     <ul>
                                         <li><strong>Original Audio</strong>: This section will display a waveform visualization of the recorded audio. You can replay the audio</li>
                                         <li><strong>Transcribed Audio</strong>: This area will transcribe what you spoke in the file above.</li>
                                     </ul>
-                                </p>
                             </div>
                         </div>
                         <div className={"grid grid-cols-2 gap-4"}>
                             <div>
-                                <p>
                                     Right Section: Recording Controls and Feedback
                                     <ul>
                                         <li><strong>Corrected audio version with AI voice</strong>: This section will display a waveform visualization of the audio spoken by an AI voice. You can play this audio to listen to the corrected version spoken in corrected tone by the AI.</li>
@@ -290,7 +280,6 @@ export default function guidelines() {
                                             </li>
                                         <li><strong>Audio Transcript:</strong>: The system's transcript of your Original Audio.</li>
                                     </ul>
-                                </p>
                             </div>
                             <div className={"grid justify-items-center"}>
                                 <Image
@@ -305,8 +294,8 @@ export default function guidelines() {
 
                 </CollapsibleSection>
                 {/*user activity section*/}
-                <CollapsibleSection title="Use Activity Record Feature">
-                    <p>
+                <CollapsibleSection title="Use Activity Management Feature">
+                    <div>
                         This feature allows you to manage your history and favorite sections. You can:
                         <ul>
                             <li><strong>Switch</strong> between History and Favorite Tab.</li>
@@ -314,7 +303,7 @@ export default function guidelines() {
                             <li><strong>Add</strong> the item to favorite, the item will also appear in Favorite Tab.</li>
                             <li><strong>Delete</strong> the item permanently from both lists.</li>
                         </ul>
-                    </p>
+                    </div>
                     <Image
                         src="/user-activity-main-screen.png"
                         width={1776}
@@ -340,8 +329,9 @@ export default function guidelines() {
                 {/*Lessons Section*/}
                 <CollapsibleSection title="Use Lessons Feature">
                     <p>
-                        This feature allows users to look at lessons documented and reviewed by us, which are from easy to advance.
-
+                        This feature allows you to access a library of pre-designed lessons, ranging from beginner to advanced levels randomly.
+                        <br/>
+                        You will be able to use this feature like a book.
                     </p>
                     <Image
                         src="/lessons-main-screen.png"
@@ -353,7 +343,8 @@ export default function guidelines() {
                         <div>
                             <p>
                                 This pop-up window will allow you to generate new lessons.
-                                The maximum lessons generated is 10.
+                                <br/>
+                                You can generate new lessons with the minimum of 1 lessons and a maximum of 10 each time.
                             </p>
                         </div>
                         <div className={"grid justify-items-center"}>
@@ -369,7 +360,8 @@ export default function guidelines() {
                 {/*Exercises Section*/}
                 <CollapsibleSection title="Use Exercises Feature">
                     <p>
-                        This feature allows you to practice your existing knowledge by passing exercises.
+                        This feature allows you to practice your Vietnamese language skill through interactive exercises.
+
                     </p>
                     <Image
                         src="/exercises-main-screen.png"
@@ -379,9 +371,10 @@ export default function guidelines() {
                     />
                     <div className={"grid grid-cols-2 gap-4"}>
                         <div>
-
                             <p>
-                                pop up
+                                This pop-up window will allow you to generate new exercises.
+                                <br/>
+                                You can generate new exercises with the minimum of 1 lessons and a maximum of 10 each time.
                             </p>
                         </div>
                         <div className={"grid justify-items-center"}>
@@ -404,7 +397,13 @@ export default function guidelines() {
                         </div>
                         <div>
                             <p>
-                                pop up
+                                There are two types of questions: Handwriting & Voice.
+                                <br/>
+                                For Handwriting Question Type, You will need to upload the picture of your hand-written answer.
+                                <br/>
+                                For Voice Question Type, You will need to record your answer.
+                                <br/>
+                                Your answer will be processed and feedback immediately as you clicked on Next Exercise. Once you are on the next exercise, you cannot re-do your submitted answer.
                             </p>
                         </div>
                     </div>
