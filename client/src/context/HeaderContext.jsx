@@ -13,15 +13,9 @@ export const HeaderProvider = ({ children }) => {
       if (localStorage.getItem("authToken")) {
         const res = await fetchRecords(localStorage.getItem("username"));
 
-        // Get the 3 most recent favorite items
-        // const fav = res.filter((item) => item.favorite).slice(-3);
+        Array.isArray(res) ? setHistoryData(res) : setHistoryData([]);
 
-        // Get the 3 most recent items
-        // const hist = res.slice(-3);
-
-        // setFavData(fav);
-        Array.isArray(res) ? setHistoryData(res.slice(-3)) : setHistoryData([]);
-        const fav = Array.isArray(res) ? res.filter((item) => item.favorite).slice(-3) : [];
+        const fav = Array.isArray(res) ? res.filter((item) => item.favorite == true) : [];
         setFavData(fav);
       }
     } catch (error) {
