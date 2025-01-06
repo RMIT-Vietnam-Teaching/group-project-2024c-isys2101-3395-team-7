@@ -4,7 +4,12 @@ import React, { useState } from "react";
 import { pushSuccess, pushWarning } from "@/components/Toast";
 import Button from "@/components/button";
 
-const MiniMenu = ({ setState, setTotalExercises, handleSelect }) => {
+const MiniMenu = ({
+  currentExNum,
+  setState,
+  setTotalExercises,
+  handleSelect,
+}) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
   const [newExerciseNumber, setNewExerciseNumber] = useState(1);
 
@@ -14,7 +19,7 @@ const MiniMenu = ({ setState, setTotalExercises, handleSelect }) => {
 
   const handleStartExercise = () => {
     console.log("starting exercise");
-    // handleSelect("current")      // call passed in function
+    handleSelect("current"); // call passed in function
   };
 
   const handleConfirm = () => {

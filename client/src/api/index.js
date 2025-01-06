@@ -476,10 +476,19 @@ export async function authMember(id, token) {
   }
 }
 
-// ============== Exercises ================= //
-
-export async function fetchCurrentExercises() {
+export async function checkTokenExpired(id, token) {
   try {
+    const res = await axios.post(
+      `https://viego-mongo-api.onrender.com/user/token_expired/${id}`,
+      { token },
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        withCredentials: true,
+      }
+    );
+
     console.log("API response:", res.data);
     return res.data;
   } catch (error) {
@@ -487,6 +496,8 @@ export async function fetchCurrentExercises() {
     throw error;
   }
 }
+
+// ============== Exercises ================= //
 
 export async function getKeywords(records) {
   try {
@@ -544,6 +555,61 @@ export async function getExercises(keywords, exercises) {
   }
 }
 
+export async function addCurrentExercises(id, exercises) {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.post(
+      `https://viego-mongo-api.onrender.com/user/exercises/${id}`,
+      exercises,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
+
+export async function getCurrentExercises(id) {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.get(
+      `https://viego-mongo-api.onrender.com/user/exercises/${id}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
+
 export async function compareHandwritingAnswer(answer, ref_answer) {
   try {
     // Retrieve the token from localStorage
@@ -555,6 +621,34 @@ export async function compareHandwritingAnswer(answer, ref_answer) {
 
     const res = await axios.post(
       "https://viego-api.onrender.com/compare-answer",
+      { answer, ref_answer },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+    console.log("API response:", res.data);
+    return res.data;
+  } catch (error) {
+    console.error("Error during API call:", error);
+    throw error;
+  }
+}
+
+export async function compareVoiceAnswer(answer, ref_answer) {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.post(
+      "https://group-project-2024c-isys2101-3395-team-7-unfn.onrender.com/compare-answer",
       { answer, ref_answer },
       {
         headers: {
