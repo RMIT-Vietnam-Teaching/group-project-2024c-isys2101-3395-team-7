@@ -56,7 +56,7 @@ def recognize_handwriting():
             messages=[
                 {"role": "system", "content": "You are an expert in recognizing Vietnamese handwritten text."},
                 {"role": "user", "content": [
-                    {"type": "text", "text": "The image below contains Vietnamese handwritten text. Please read it, provide only the recognized text as output: \n\nBase64-encoded image:\n{base64_image}"},
+                    {"type": "text", "text": "The image below contains Vietnamese handwritten text. Please read it, provide only the recognized text as output, keep the raw text and do not correct it : \n\nBase64-encoded image:\n{base64_image}"},
                     {"type": "image_url", "image_url": {
                         "url": f"data:image/png;base64,{base64_image}"}
                     }

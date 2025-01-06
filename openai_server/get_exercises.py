@@ -86,10 +86,17 @@ def get_lessons():
                     Lessons:
                     {exercises}
 
-                    Match the keywords to the Vietnamese exercises and return the _id of the three most relevant exercises, return only the _id field in the JSON format with the following structure:
+                    Match the keywords to the Vietnamese exercises and return the _id of the ten most relevant exercises, return only the _id field in the JSON format with the following structure:
                     "<id number 1>",
                     "<id number 2>",
-                    "<id number 3>"
+                    "<id number 3>",
+                    "<id number 4>",
+                    "<id number 5>",
+                    "<id number 6>",
+                    "<id number 7>",
+                    "<id number 8>",
+                    "<id number 9>",
+                    "<id number 10>"
                 """
             }
         ],
