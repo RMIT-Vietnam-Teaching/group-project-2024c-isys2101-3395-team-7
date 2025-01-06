@@ -14,6 +14,7 @@ import {
   addCurrentExercises,
   getCurrentExercises,
 } from "@/api";
+import { TOTAL_EXERCISES } from "@/constants";
 
 import { sampleQuestions } from "@/constants"; // sample for data fetched from api
 
@@ -72,6 +73,7 @@ export default function Exercises() {
       loadedExercises = await generateNewExercises();
     } else if (type === "current") {
       loadedExercises = await fetchCurrentExercises();
+      setTotalExercises(localStorage.getItem(TOTAL_EXERCISES) || loadedExercises.length);
     }
     setExercises(loadedExercises);
 

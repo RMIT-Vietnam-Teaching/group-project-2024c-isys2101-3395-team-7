@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { pushSuccess, pushWarning } from "@/components/Toast";
 import Button from "@/components/button";
+import { TOTAL_EXERCISES } from "@/constants";
 
 const MiniMenu = ({
   currentExNum,
@@ -28,6 +29,7 @@ const MiniMenu = ({
     // Reset newExerciseNumber after generation
     setNewExerciseNumber(newExerciseNumber);
     setTotalExercises(newExerciseNumber);
+    localStorage.setItem(TOTAL_EXERCISES, newExerciseNumber);
 
     handleSelect("new"); // call passed in function
 
