@@ -40,3 +40,5 @@ export const sampleQuestions = [
     "type": "hand-writing"
   }
 ]
+
+export const TOTAL_EXERCISES = "totalExercises";
