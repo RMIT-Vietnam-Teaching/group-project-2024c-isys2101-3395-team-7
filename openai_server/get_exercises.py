@@ -47,11 +47,11 @@ def get_keywords():
                         {
                             "role": "user",
                             "content": f"""
-                            Extract key Vietnamese keywords from the following Vietnamese text to help find relevant Vietnamese language lessons.
+                            Extract key keywords from the following Vietnamese text to help find relevant Vietnamese language lessons.
                             Mistake: "{mistake}"
                             Description: "{description}"
 
-                            Return only the most relevant keywords, separated by commas.
+                            Return only the most relevant keywords, in English, separated by commas.
                             """
                         }
                     ],
