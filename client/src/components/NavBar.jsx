@@ -15,7 +15,7 @@ const NavBar = ({ isOpen, setIsOpen }) => {
     return (
         <div className={`fixed flex flex-1 left-0 z-10 md:h-full md:w-16 w-72 bg-pink content-center md:block ${isOpen ? 'block' : 'hidden'} border-t-1 border-white`}>
             <div className="grid grid-cols-1 w-full">
-                <div>
+                <div className={"border-black border-t"} style={{ marginTop: '4.35rem'}}>
                     <Tooltip text={"Guidelines"} position="right">
                         <Link className="w-full" href="/home"
                             onClick={() => window.location.replace("/home")}

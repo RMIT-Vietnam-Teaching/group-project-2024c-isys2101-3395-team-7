@@ -103,12 +103,12 @@ const Table = ({ data }) => {
             <div className="flex space-x-2">
               {item.answer && (
                 <>
-                  <div onClick={() => handleAddFavorite(item)}>
-                    <StarIcon isFilled={item.favorite} className="mr-1.25" />
-                  </div>
-                  <div onClick={() => handleDeleteConfirm(item)}>
-                    <CancelIcon width={20} height={20} />
-                  </div>
+                  {/*<div onClick={() => handleAddFavorite(item)}>*/}
+                  {/*  <StarIcon isFilled={item.favorite} className="mr-1.25" />*/}
+                  {/*</div>*/}
+                  {/*<div onClick={() => handleDeleteConfirm(item)}>*/}
+                  {/*  <CancelIcon width={20} height={20} />*/}
+                  {/*</div>*/}
                 </>
               )}
             </div>

@@ -73,26 +73,6 @@ const Header = () => {
                             </Tooltip>
                         </button>
 
-                        {/*<button*/}
-                        {/*    onClick={() => handleToggleState(setIsOpenHistory, isOpenHistory)}*/}
-                        {/*    className={`hover:bg-orange md:px-5 px-1 ${isOpenHistory ? 'bg-orange' : ''}`}>*/}
-                        {/*    <Tooltip text={"History"} position={"bottom"}>*/}
-                        {/*        /!*<HistoryIcon width={iconWidth} height={iconHeight} />*!/*/}
-                        {/*        <img src='/History.svg' alt="History Icon" className='h-14 w-10 min-h-10 min-w-6' />*/}
-                        {/*    </Tooltip>*/}
-                        {/*</button>*/}
-                        {/*/!* Conditionally render History *!/*/}
-
-                        {/*<button*/}
-                        {/*    onClick={() => handleToggleState(setIsOpenFavorite, isOpenFavorite)}*/}
-                        {/*    className={`hover:bg-orange md:px-5 px-1 ${isOpenFavorite ? 'bg-orange' : ''}`}>*/}
-                        {/*    <Tooltip text={"Favorite"} position={"bottom"}>*/}
-                        {/*        /!*<FavoriteIcon width={iconWidth} height={iconHeight} />*!/*/}
-                        {/*        <img src='/Bookmark_black.svg' alt="Favorite Icon" className='h-14 w-10 min-h-10 min-w-6' />*/}
-                        {/*    </Tooltip>*/}
-                        {/*</button>*/}
-                        {/*/!* Conditionally render Favorite *!/*/}
-
                         <button
                             onClick={() => handleToggleState(setIsOpenSetting, isOpenSetting)}
                             className={`hover:bg-orange md:px-5 px-1 ${isOpenSetting ? 'bg-orange' : ''}`}>

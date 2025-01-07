@@ -13,10 +13,6 @@ export default function ModalPopup({ open, handleClose, title, children, onAddFa
                     <div className="fixed inset-0 bg-black opacity-50" onClick={handleClose}></div>
                     <div className="bg-white rounded-lg shadow-lg py-4 w-2/3 mx-auto relative">
                         <h2 className="text-xl font-semibold mb-8">{title}</h2>
-                        <div
-                            className="h-full border border-black bg-gray-100 py-4 md:mx-20 mx-4 rounded-lg grid md:grid-cols-2 relative place-items-center">
-                            {children}
-                        </div>
                         <div className="flex flex-row justify-end mt-4 space-x-4 z-10 pr-4">
                             <div onClick={onAddFavorite}>
                                 <Tooltip text={"Click here to Add-To/Undo Favorite."} position={"top"}>
@@ -32,6 +28,10 @@ export default function ModalPopup({ open, handleClose, title, children, onAddFa
                                     />
                                 </Tooltip>
                             </div>
+                        </div>
+                        <div
+                            className="h-full border border-black bg-gray-100 py-4 md:mx-20 mx-4 rounded-lg grid md:grid-cols-2 relative place-items-center">
+                            {children}
                         </div>
                         <button
                             onClick={handleClose}
