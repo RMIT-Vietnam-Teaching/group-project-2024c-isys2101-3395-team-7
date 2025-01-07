@@ -17,7 +17,7 @@ const activitySearchTypes = [
   {
     id: 2,
     name: "Voice",
-    value: "voice",
+    value: "audio",
   },
   {
     id: 3,
@@ -149,7 +149,7 @@ export default function AccountActivity({ records, tab }) {
             >
               <option value="all">Select</option>
               <option value="handwriting">Handwriting</option>
-              <option value="voice">Voice</option>
+              <option value="audio">Voice</option>
             </select>
           </div>
         </div>
