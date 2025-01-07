@@ -50,7 +50,7 @@ const Sidebar = () => {
                                 <a
                                     onClick={() => handleHeadingClick(lesson.title)} // Use lesson title for click handler
                                     href={`#${lesson.id}`} // Create an ID-friendly href
-                                    className={`block flex-col place-self-center items-center place-content-center content-center hover:underline hover:border-white hover:text-orange pt-0 pl-6 border-gray-800 border-b h-6 ${clickedHeading === lesson.title ? "italic underline" : ""
+                                    className={`block flex-col place-self-center items-center place-content-center content-center hover:underline hover:border-white hover:text-orange pt-0 md:pl-6 border-gray-800 border-b h-6 ${clickedHeading === lesson.title ? "italic underline" : ""
                                         }`}
                                 >
                                     {lesson.title}

@@ -27,7 +27,7 @@ const MiniHeader = ({ state, currQuestion, setCurrQuestion, totalExercises }) =>
 
     return (
         <>
-            <div className={"flex flex-row w-full h-16 top border-black border-b justify-between"}>
+            <div className={"flex flex-row w-full h-16 top border-black border-b justify-between pt-4 flex-wrap"}>
                 {/*    left*/}
                 <div className={"flex flex-1 justify-start"}>
                     <div className={"flex items-center justify-center px-10"}>
