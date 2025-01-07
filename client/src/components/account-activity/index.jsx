@@ -29,6 +29,7 @@ const activitySearchTypes = [
 export default function AccountActivity({ records, tab }) {
   const [activeTab, setActiveTab] = useState(tab);
 
+
   useEffect(() => {
     setActiveTab(tab);
   }, [tab]);
@@ -39,25 +40,43 @@ export default function AccountActivity({ records, tab }) {
 
   const searchRef = useRef(null);
   const searchTypeRef = useRef(null);
-  const [selectedFilter, setSelectedFilter] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const { historyData } = useHeader();
+  const favoriteData = historyData.filter((item) => item.favorite);
+
   const handleChange = (event) => {
     const filter = event.target.value;
     setSelectedFilter(filter);
   };
+
+  const filterData = (data, filter) => {
+    if (filter === "" || filter === "all") {
+      return data; // Show all data if no filter is selected
+    } else {
+      return data.filter((item) => item.type === filter); // Filter by type
+    }
+  };
+
+// Filter history data based on selected filter
+  const filteredData = filterData(historyData, selectedFilter);
+// Filter favorite data
+  const filteredFavoriteData = filterData(favoriteData, selectedFilter);
+
   const handleResetFilter = () => {
     setFilter({ searchValue: "", searchType: activitySearchTypes[0], page: 1 });
+    setSelectedFilter(""); // Reset the selected filter in the dropdown
     if (searchRef.current) {
       searchRef.current.value = "";
     }
   };
   const handleOnChangeSearch = useCallback(
-    debounce((value) => {
-      setFilter((prev) => {
-        console.log("🚀 ~ debounce ~ prev:", prev);
-        return { ...prev, searchValue: value, page: 1 };
-      });
-    }, 300),
-    []
+      debounce((value) => {
+        setFilter((prev) => {
+          console.log("🚀 ~ debounce ~ prev:", prev);
+          return { ...prev, searchValue: value, page: 1 };
+        });
+      }, 300),
+      []
   );
 
   const handleDeleteConfirm = async (activityId) => {
@@ -85,9 +104,10 @@ export default function AccountActivity({ records, tab }) {
     searchValue: "",
   });
 
-  const { historyData } = useHeader();
+  useEffect(() => {
+    setSelectedFilter("all"); // Reset filter to All on tab change
+  }, [activeTab]);
 
-  const favoriteData = historyData.filter((item) => item.favorite);
 
   return (
     <>
@@ -127,7 +147,7 @@ export default function AccountActivity({ records, tab }) {
                 border: "1px solid #ccc",
               }}
             >
-              <option value="">Select</option>
+              <option value="all">Select</option>
               <option value="handwriting">Handwriting</option>
               <option value="voice">Voice</option>
             </select>
@@ -138,13 +158,21 @@ export default function AccountActivity({ records, tab }) {
         {activeTab === "history" && (
           <>
             <h2 className="mt-4 text-lg font-semibold">History</h2>
-            <Table data={historyData} />
+            {filteredData.length > 0 ? (
+                <Table data={filteredData} />
+            ) : (
+                <NoData message="No matching data found." />
+            )}
           </>
         )}
         {activeTab === "favorite" && (
           <>
             <h2 className="mt-4 text-lg font-semibold">Favorite</h2>
-            <Table data={favoriteData} />
+            {filteredFavoriteData.length > 0 ? (
+                <Table data={filteredFavoriteData} />
+            ) : (
+                <NoData message="No matching data found." />
+            )}
           </>
         )}
       </div>
