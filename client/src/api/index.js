@@ -687,3 +687,26 @@ export async function compareVoiceAnswer(answer, ref_answer) {
     throw error;
   }
 }
+
+// Get Lessons
+export async function getLessons() {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.get("https://viego-mongo-api.onrender.com/lesson", {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      withCredentials: true,
+    });
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
