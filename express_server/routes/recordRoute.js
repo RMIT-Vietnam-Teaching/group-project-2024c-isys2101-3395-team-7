@@ -71,7 +71,7 @@ router.patch(
   upload.none(),
   getRecord,
   async (req, res) => {
-    const { username, type, favorite, answer } = req.body;
+    const { username, type, favorite, answer, comment } = req.body;
 
     if (username != null) {
       res.record.username = username;
