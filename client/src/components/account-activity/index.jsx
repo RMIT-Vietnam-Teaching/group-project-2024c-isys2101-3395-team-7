@@ -4,7 +4,7 @@ import BasePaginationList from "@/components/pagination/BasePaginationList";
 import NoData from "@/components/pagination/NoData";
 import { debounce } from "next/dist/server/utils";
 import { pushError, pushSuccess } from "@/components/Toast";
-import { addFavorite } from "@/api";
+import { addFavorite, deleteRecord } from "@/api";
 import Table from "./Table";
 import { useHeader } from "@/context/HeaderContext";
 
@@ -28,7 +28,6 @@ const activitySearchTypes = [
 
 export default function AccountActivity({ records, tab }) {
   const [activeTab, setActiveTab] = useState(tab);
-
 
   useEffect(() => {
     setActiveTab(tab);
@@ -57,9 +56,9 @@ export default function AccountActivity({ records, tab }) {
     }
   };
 
-// Filter history data based on selected filter
+  // Filter history data based on selected filter
   const filteredData = filterData(historyData, selectedFilter);
-// Filter favorite data
+  // Filter favorite data
   const filteredFavoriteData = filterData(favoriteData, selectedFilter);
 
   const handleResetFilter = () => {
@@ -70,13 +69,13 @@ export default function AccountActivity({ records, tab }) {
     }
   };
   const handleOnChangeSearch = useCallback(
-      debounce((value) => {
-        setFilter((prev) => {
-          console.log("🚀 ~ debounce ~ prev:", prev);
-          return { ...prev, searchValue: value, page: 1 };
-        });
-      }, 300),
-      []
+    debounce((value) => {
+      setFilter((prev) => {
+        console.log("🚀 ~ debounce ~ prev:", prev);
+        return { ...prev, searchValue: value, page: 1 };
+      });
+    }, 300),
+    []
   );
 
   const handleDeleteConfirm = async (activityId) => {
@@ -107,7 +106,6 @@ export default function AccountActivity({ records, tab }) {
   useEffect(() => {
     setSelectedFilter("all"); // Reset filter to All on tab change
   }, [activeTab]);
-
 
   return (
     <>
@@ -159,9 +157,9 @@ export default function AccountActivity({ records, tab }) {
           <>
             <h2 className="mt-4 text-lg font-semibold">History</h2>
             {filteredData.length > 0 ? (
-                <Table data={filteredData} />
+              <Table data={filteredData} />
             ) : (
-                <NoData message="No matching data found." />
+              <NoData message="No matching data found." />
             )}
           </>
         )}
@@ -169,9 +167,9 @@ export default function AccountActivity({ records, tab }) {
           <>
             <h2 className="mt-4 text-lg font-semibold">Favorite</h2>
             {filteredFavoriteData.length > 0 ? (
-                <Table data={filteredFavoriteData} />
+              <Table data={filteredFavoriteData} />
             ) : (
-                <NoData message="No matching data found." />
+              <NoData message="No matching data found." />
             )}
           </>
         )}

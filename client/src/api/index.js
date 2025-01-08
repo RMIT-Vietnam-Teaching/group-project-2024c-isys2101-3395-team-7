@@ -346,6 +346,29 @@ export async function addFavorite(formData, id) {
   }
 }
 
+export async function deleteRecord(id) {
+  try {
+    // Retrieve the token from localStorage
+    const token = localStorage.getItem("authToken");
+    if (!token) {
+      throw new Error("No auth token found in localStorage");
+    }
+
+    const res = await axios.delete(
+      `https://viego-mongo-api.onrender.com/record/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        withCredentials: true,
+      }
+    );
+    return res.data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function fetchRecords(username) {
   try {
     // Retrieve the token from localStorage

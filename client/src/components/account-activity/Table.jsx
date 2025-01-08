@@ -4,7 +4,7 @@ import StarIcon from "@/components/icons/StarIcon";
 import CancelIcon from "@/components/icons/CancelIcon";
 import ModalPopup from "@/components/ModalPopup";
 import FeatureFrame from "../FeatureFrame";
-import { getImage, getAudio, addFavorite } from "@/api";
+import { getImage, getAudio, addFavorite, deleteRecord } from "@/api";
 
 const Table = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,9 +37,9 @@ const Table = ({ data }) => {
 
   const handleDeleteConfirm = async (item) => {
     try {
-      await deleteItem(item.id); // Call API to delete item
+      await deleteRecord(item._id); // Call API to delete item
       setTableData((prevData) =>
-        prevData.filter((dataItem) => dataItem.id !== item.id)
+        prevData.filter((dataItem) => dataItem.id !== item._id)
       );
     } catch (error) {
       console.error("Error deleting item:", error);
