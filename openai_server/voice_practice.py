@@ -79,6 +79,7 @@ def correct_text():
                     1. Chỉ ra lỗi ngữ pháp hoặc phát âm trong đoạn văn, bao gồm mô tả ngắn gọn tại sao nó sai.
                     2. Đưa ra đoạn văn đã được sửa chính xác hoàn toàn.
                     
+                    Phản hồi phần chỉ ra lỗi bằng tiếng Anh
                     Trả lời dưới dạng JSON với cấu trúc:
                     {{
                         "errors": [
@@ -135,6 +136,7 @@ def compare_answer():
                     2. Chỉ ra lỗi sai trong câu trả lời của người dùng (nếu có),  bao gồm giải thích ngắn gọn tại sao sai, tập trung vào các lỗi liên quan đến phát âm.
                     3. Gợi ý cải thiện.
 
+                    Phản hồi phần chỉ ra lỗi bằng tiếng Anh
                     Trả lời dưới dạng JSON với cấu trúc:
                     {{
                         "similarity_score": <percentage_similarity>,
