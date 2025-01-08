@@ -4,7 +4,7 @@ import StarIcon from "@/components/icons/StarIcon";
 import CancelIcon from "@/components/icons/CancelIcon";
 import ModalPopup from "@/components/ModalPopup";
 import FeatureFrame from "../FeatureFrame";
-import {getImage, getAudio, addFavorite} from "@/api";
+import { getImage, getAudio, addFavorite } from "@/api";
 
 const Table = ({ data }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -21,13 +21,14 @@ const Table = ({ data }) => {
   };
 
   const handleAddFavorite = async (item) => {
+    const formData = new FormData();
+    item.favorite
+      ? formData.append("favorite", "false")
+      : formData.append("favorite", "true");
     try {
-      const updatedItem = {...item, favorite: !item.favorite}; // Toggle favorite status
-      await addFavorite(updatedItem); // Send updated data to the backend
+      const res = await addFavorite(formData, item._id);
       setTableData((prevData) =>
-          prevData.map((dataItem) =>
-              dataItem.id === item.id ? updatedItem : dataItem
-          )
+        prevData.map((dataItem) => (dataItem.id === item._id ? res : dataItem))
       );
     } catch (error) {
       console.error("Error updating favorite:", error);
@@ -37,7 +38,9 @@ const Table = ({ data }) => {
   const handleDeleteConfirm = async (item) => {
     try {
       await deleteItem(item.id); // Call API to delete item
-      setTableData((prevData) => prevData.filter((dataItem) => dataItem.id !== item.id));
+      setTableData((prevData) =>
+        prevData.filter((dataItem) => dataItem.id !== item.id)
+      );
     } catch (error) {
       console.error("Error deleting item:", error);
     }
@@ -132,11 +135,14 @@ const Table = ({ data }) => {
         ))}
       </div>
 
-      <ModalPopup open={isModalOpen} handleClose={handleCloseModal}
-                  title={"Details"}
-                  onAddFavorite={() => handleAddFavorite(selectedItem)}
-                  onDelete={() => handleDeleteConfirm(selectedItem)}
-                  isFavorite={selectedItem?.favorite}>
+      <ModalPopup
+        open={isModalOpen}
+        handleClose={handleCloseModal}
+        title={"Details"}
+        onAddFavorite={() => handleAddFavorite(selectedItem)}
+        onDelete={() => handleDeleteConfirm(selectedItem)}
+        isFavorite={selectedItem?.favorite}
+      >
         <FeatureFrame type={selectedItem?.type} props={selectedItem} />
       </ModalPopup>
     </>

@@ -325,7 +325,6 @@ export async function addFavorite(formData, id) {
   try {
     // Retrieve the token from localStorage
     const token = localStorage.getItem("authToken");
-
     if (!token) {
       throw new Error("No auth token found in localStorage");
     }
