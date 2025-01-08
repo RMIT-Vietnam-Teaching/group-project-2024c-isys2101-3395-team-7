@@ -24,16 +24,13 @@ router.get("/:id", getLessonById, async (req, res) => {
 
 // Create lesson
 router.post("/", async (req, res) => {
-  const { tag, title, description, content, examples, notes } = req.body;
+  const { title, content, example } = req.body;
 
   try {
     const lesson = new Lesson({
-      tag: tag,
       title: title,
-      description: description,
       content: content,
-      examples: examples,
-      notes: notes,
+      example: example,
     });
 
     const newLesson = await lesson.save();
@@ -47,26 +44,18 @@ router.post("/", async (req, res) => {
 
 // Update one
 router.patch("/:id", getLessonById, async (req, res) => {
-  const { tag, title, description, content, examples } = req.body;
-
-  if (tag != null) {
-    res.lesson.tag = tag;
-  }
+  const { title, content, example } = req.body;
 
   if (title != null) {
     res.lesson.title = title;
-  }
-
-  if (description != null) {
-    res.lesson.description = description;
   }
 
   if (content != null) {
     res.lesson.content = content;
   }
 
-  if (examples != null) {
-    res.lesson.examples = examples;
+  if (example != null) {
+    res.lesson.example = example;
   }
 
   try {
