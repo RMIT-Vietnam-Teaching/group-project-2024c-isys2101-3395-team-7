@@ -7,7 +7,7 @@ import { pushError, pushSuccess } from "@/components/Toast";
 import { addFavorite, deleteRecord } from "@/api";
 import Table from "./Table";
 import { useHeader } from "@/context/HeaderContext";
-import {router} from "next/client";
+import { router } from "next/client";
 import CircularProgress from "@/components/CircularProgress";
 
 const activitySearchTypes = [
@@ -123,22 +123,20 @@ export default function AccountActivity({ records, tab }) {
   return (
     <>
       <div className="bg-[#ffe3e3] min-h-screen p-6">
-        {isLoading && <CircularProgress size="lg"/>} {/* Show spinner when loading */}
+        {isLoading && <CircularProgress size="lg" />} {/* Show spinner when loading */}
         <div className={"flex flex-row justify-between"}>
           {/* Tabs */}
           <div className="flex">
             <button
-              className={`px-4 py-2 rounded-t-lg text-white ${
-                activeTab === "history" ? "bg-pink" : "bg-black"
-              }`}
+              className={`px-4 py-2 rounded-t-lg text-white ${activeTab === "history" ? "bg-pink" : "bg-black"
+                }`}
               onClick={() => setActiveTab("history")}
             >
               History
             </button>
             <button
-              className={`px-4 py-2 rounded-t-lg text-white ${
-                activeTab === "favorite" ? "bg-pink " : "bg-black"
-              }`}
+              className={`px-4 py-2 rounded-t-lg text-white ${activeTab === "favorite" ? "bg-pink " : "bg-black"
+                }`}
               onClick={() => setActiveTab("favorite")}
             >
               Favorite
@@ -172,6 +170,7 @@ export default function AccountActivity({ records, tab }) {
             <h2 className="mt-4 text-lg font-semibold">History</h2>
             {filteredData.length > 0 ? (
               <Table data={filteredData}
+                type="history"
               />
             ) : (
               <NoData message="No matching data found." />
@@ -183,7 +182,9 @@ export default function AccountActivity({ records, tab }) {
             <h2 className="mt-4 text-lg font-semibold">Favorite</h2>
             {filteredFavoriteData.length > 0 ? (
               <Table data={filteredFavoriteData}
-                     setLoading={setIsLoading} />
+                setLoading={setIsLoading}
+                type="favorite"
+              />
             ) : (
               <NoData message="No matching data found." />
             )}

@@ -8,13 +8,13 @@ import { getImage, getAudio, addFavorite, deleteRecord } from "@/api";
 import { pushSuccess } from "@/components/Toast";
 import { router } from "next/client";
 
-const Table = ({ data, setLoading }) => {
+const Table = ({ data, setLoading, type }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [tableData, setTableData] = useState(data); // Manage local state for table data
-  const [isLoading, setIsLoading] = useState(setLoading || false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,6 +38,14 @@ const Table = ({ data, setLoading }) => {
       setTableData((prevData) =>
         prevData.map((dataItem) => (dataItem.id === item._id ? res : dataItem))
       );
+      if (type === "favorite" && item.favorite === false) {
+        pushSuccess("Remove from Favorite successfully.");
+        setTimeout(() => {
+          window.location.reload();
+        }, 3000);
+
+        return;
+      }
       pushSuccess(item.favorite ? "Add to Favorite successfully." : "Remove from Favorite successfully.");
     } catch (error) {
       console.error("Error updating favorite:", error);
@@ -54,6 +62,7 @@ const Table = ({ data, setLoading }) => {
         prevData.filter((dataItem) => dataItem.id !== item._id)
       );
       pushSuccess("History record deleted successfully.");
+      window.location.reload();
     } catch (error) {
       console.error("Error deleting item:", error);
     } finally {
