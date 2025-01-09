@@ -7,6 +7,8 @@ import { pushError, pushSuccess } from "@/components/Toast";
 import { addFavorite, deleteRecord } from "@/api";
 import Table from "./Table";
 import { useHeader } from "@/context/HeaderContext";
+import {router} from "next/client";
+import CircularProgress from "@/components/CircularProgress";
 
 const activitySearchTypes = [
   {
@@ -33,7 +35,8 @@ export default function AccountActivity({ records, tab }) {
     setActiveTab(tab);
   }, [tab]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [isSaved, setSave] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
 
@@ -79,10 +82,18 @@ export default function AccountActivity({ records, tab }) {
   );
 
   const handleDeleteConfirm = async (activityId) => {
-    console.log("handleDeleteConfirm", activityId);
+    setLoading(true);
+    try {
+      await deleteRecord(activityId);
+    } catch (error) {
+      console.error("Error deleting record:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAddFavorite = async (imageId) => {
+    setLoading(true)
     const formData = new FormData();
     !isSaved
       ? formData.append("favorite", "true")
@@ -94,6 +105,7 @@ export default function AccountActivity({ records, tab }) {
       console.error("Error adding favorite:", error);
     } finally {
       setSave(!isSaved);
+      setLoading(false)
     }
   };
 
@@ -107,9 +119,11 @@ export default function AccountActivity({ records, tab }) {
     setSelectedFilter("all"); // Reset filter to All on tab change
   }, [activeTab]);
 
+
   return (
     <>
       <div className="bg-[#ffe3e3] min-h-screen p-6">
+        {isLoading && <CircularProgress size="lg"/>} {/* Show spinner when loading */}
         <div className={"flex flex-row justify-between"}>
           {/* Tabs */}
           <div className="flex">
@@ -157,7 +171,8 @@ export default function AccountActivity({ records, tab }) {
           <>
             <h2 className="mt-4 text-lg font-semibold">History</h2>
             {filteredData.length > 0 ? (
-              <Table data={filteredData} />
+              <Table data={filteredData}
+              />
             ) : (
               <NoData message="No matching data found." />
             )}
@@ -167,7 +182,8 @@ export default function AccountActivity({ records, tab }) {
           <>
             <h2 className="mt-4 text-lg font-semibold">Favorite</h2>
             {filteredFavoriteData.length > 0 ? (
-              <Table data={filteredFavoriteData} />
+              <Table data={filteredFavoriteData}
+                     setLoading={setIsLoading} />
             ) : (
               <NoData message="No matching data found." />
             )}

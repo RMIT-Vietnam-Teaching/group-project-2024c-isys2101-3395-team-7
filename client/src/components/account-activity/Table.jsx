@@ -5,13 +5,16 @@ import CancelIcon from "@/components/icons/CancelIcon";
 import ModalPopup from "@/components/ModalPopup";
 import FeatureFrame from "../FeatureFrame";
 import { getImage, getAudio, addFavorite, deleteRecord } from "@/api";
+import {pushSuccess} from "@/components/Toast";
+import {router} from "next/client";
 
-const Table = ({ data }) => {
+const Table = ({ data , setLoading  }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [tableData, setTableData] = useState(data); // Manage local state for table data
+  const [isLoading, setIsLoading] = useState(setLoading)
 
   const itemsPerPage = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -21,6 +24,7 @@ const Table = ({ data }) => {
   };
 
   const handleAddFavorite = async (item) => {
+    setIsLoading(true);
     const formData = new FormData();
     item.favorite
       ? formData.append("favorite", "false")
@@ -30,19 +34,26 @@ const Table = ({ data }) => {
       setTableData((prevData) =>
         prevData.map((dataItem) => (dataItem.id === item._id ? res : dataItem))
       );
+      pushSuccess("Add to Favorite successfully.");
     } catch (error) {
       console.error("Error updating favorite:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleDeleteConfirm = async (item) => {
+    setIsLoading(true);
     try {
       await deleteRecord(item._id); // Call API to delete item
       setTableData((prevData) =>
         prevData.filter((dataItem) => dataItem.id !== item._id)
       );
+      pushSuccess("History record deleted successfully.");
     } catch (error) {
       console.error("Error deleting item:", error);
+    } finally {
+      setIsLoading(false);
     }
   };
 
