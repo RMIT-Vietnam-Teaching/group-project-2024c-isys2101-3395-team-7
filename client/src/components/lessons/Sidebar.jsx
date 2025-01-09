@@ -25,20 +25,20 @@ const Sidebar = ({ lessonsData }) => {
 
   return (
     <>
-      <div className="md:w-64 bg-black text-white h-screen pt-10 flex flex-col">
+      <div className="md:w-64 sm:w-16 bg-black text-white h-screen pt-10 flex flex-col">
         {isLoading ? (
           <div className="flex flex-col justify-center items-center h-full">
             <CircularProgress size="lg" />
             <span className="text-sm mt-2">Generating Lessons...</span>
           </div>
         ) : (
-          <ul className="space-y-4 border-t w-full border-white h-auto">
+          <ul className="text-pretty space-y-4 border-t w-full h-full border-white overflow-y-auto">
             {lessonsData.map((lesson, index) => (
-              <li key={index}>
+              <li key={index} className={"pt-2 pb-2"}>
                 <a
                   onClick={() => handleHeadingClick(lesson.title)} // Use lesson title for click handler
-                  href={`#${lesson.id}`} // Create an ID-friendly href
-                  className={`block flex-col place-self-center items-center place-content-center content-center hover:underline hover:border-white hover:text-orange pt-0 md:pl-6 border-gray-800 border-b h-6 ${
+                  href={`#${lesson._id}`} // Create an ID-friendly href
+                  className={`text-pretty block flex-col place-self-center items-center place-content-center content-center hover:underline  hover:text-orange pt-0 md:pl-6 h-6 ${
                     clickedHeading === lesson.title ? "italic underline" : ""
                   }`}
                 >
