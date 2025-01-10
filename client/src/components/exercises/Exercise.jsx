@@ -128,7 +128,7 @@ const Exercise = ({ currQuestion, exercises }) => {
 
           const resAudio = await createAiVoice(questionObj?.ref_answer);
           if (resAudio) {
-            setResultAudio(resAudio);
+            setResultAudio(URL.createObjectURL(resAudio));
           }
         }
         await uploadAudio(file);
