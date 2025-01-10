@@ -8,7 +8,7 @@ import React, {useEffect} from "react";
 export default function guidelines() {
     return (
         <>
-            <div className="container mx-auto px-6 py-8">
+            <div className="container mx-auto px-6 py-8 overflow-y-scroll">
                 {/* Title */}
                 <h1 className="text-4xl font-bold text-center mb-6">
                     User Guides on Viego - Vietnamese Language Learning Platform
