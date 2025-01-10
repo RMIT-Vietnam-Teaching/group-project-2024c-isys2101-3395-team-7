@@ -50,6 +50,7 @@ router.post("/", verifyToken, upload.none(), async (req, res) => {
     type: req.body.type,
     image_id: req.body.imageId,
     audio_id: req.body.audioId,
+    audio_ans_id: req.body.audioAnsId,
     favorite: req.body.favorite,
     time: req.body.time || Date.now(),
     answer: req.body.answer,
