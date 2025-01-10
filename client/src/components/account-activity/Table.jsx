@@ -108,7 +108,7 @@ const Table = ({ data, setLoading, type }) => {
 
   return (
     <>
-      <div className="mt-6 bg-pink text-white rounded-lg shadow-md">
+      <div className="overflow-y-auto mt-6 bg-pink text-white rounded-lg shadow-md">
         <div className="grid grid-cols-5 p-4 font-bold">
           <div>Corrected Text</div>
           <div>Transcribed Text</div>
@@ -171,16 +171,18 @@ const Table = ({ data, setLoading, type }) => {
         ))}
       </div>
 
-      <ModalPopup
-        open={isModalOpen}
-        handleClose={handleCloseModal}
-        title={"Details"}
-        onAddFavorite={() => handleAddFavorite(selectedItem)}
-        onDelete={() => handleDeleteConfirm(selectedItem)}
-        isFavorite={selectedItem?.favorite}
-      >
-        <FeatureFrame type={selectedItem?.type} props={selectedItem} />
-      </ModalPopup>
+      <div className={"overflow-y-auto"}>
+        <ModalPopup
+            open={isModalOpen}
+            handleClose={handleCloseModal}
+            title={"Details"}
+            onAddFavorite={() => handleAddFavorite(selectedItem)}
+            onDelete={() => handleDeleteConfirm(selectedItem)}
+            isFavorite={selectedItem?.favorite}
+        >
+          <FeatureFrame type={selectedItem?.type} props={selectedItem} />
+        </ModalPopup>
+      </div>
     </>
   );
 };

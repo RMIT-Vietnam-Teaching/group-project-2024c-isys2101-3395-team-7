@@ -175,7 +175,7 @@ const Voice = () => {
           />
         </div>
 
-        <div className="h-full border border-black bg-gray-100 py-4 md:mx-20 mx-8 rounded-lg grid md:grid-cols-2 relative place-items-center">
+        <div className="overflow-y-auto h-full border border-black bg-gray-100 py-4 md:mx-20 mx-8 rounded-lg grid md:grid-cols-2 relative place-items-center">
           {loading ? (
             <Loading />
           ) : (
