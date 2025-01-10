@@ -214,9 +214,8 @@ export async function createAiVoice(text) {
     );
     // Convert ArrayBuffer to a Blob
     const audioBlob = res.data;
-    const audioURL = URL.createObjectURL(audioBlob);
-    console.log("API response:", audioURL);
-    return audioURL;
+    console.log("API response:", audioBlob);
+    return audioBlob;
   } catch (error) {
     console.error("Error during API call:", error);
     throw error;

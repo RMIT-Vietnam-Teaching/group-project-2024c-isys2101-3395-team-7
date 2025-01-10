@@ -87,8 +87,8 @@ const Table = ({ data, setLoading, type }) => {
       setSelectedItem(item);
     } else if (item.type === "audio") {
       const audioUrl = await getAudio(item.audio_id[0].toString());
+      const resAudio = await getAudio(item.audio_ans_id[0].toString());
       item.audioUrl = audioUrl;
-      const resAudio = await createAiVoice(item.answer);
       item.resultAudio = resAudio;
       setSelectedItem(item);
     }
