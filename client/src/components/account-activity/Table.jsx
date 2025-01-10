@@ -4,7 +4,13 @@ import StarIcon from "@/components/icons/StarIcon";
 import CancelIcon from "@/components/icons/CancelIcon";
 import ModalPopup from "@/components/ModalPopup";
 import FeatureFrame from "../FeatureFrame";
-import { getImage, getAudio, addFavorite, deleteRecord } from "@/api";
+import {
+  getImage,
+  getAudio,
+  addFavorite,
+  deleteRecord,
+  createAiVoice,
+} from "@/api";
 import { pushSuccess } from "@/components/Toast";
 import { router } from "next/client";
 
@@ -27,12 +33,12 @@ const Table = ({ data, setLoading, type }) => {
     setIsLoading(true);
     const formData = new FormData();
     if (item.favorite === true) {
-      formData.append("favorite", "false")
+      formData.append("favorite", "false");
       item.favorite = false;
     } else {
-      formData.append("favorite", "true")
+      formData.append("favorite", "true");
       item.favorite = true;
-    };
+    }
     try {
       const res = await addFavorite(formData, item._id);
       setTableData((prevData) =>
@@ -46,7 +52,11 @@ const Table = ({ data, setLoading, type }) => {
 
         return;
       }
-      pushSuccess(item.favorite ? "Add to Favorite successfully." : "Remove from Favorite successfully.");
+      pushSuccess(
+        item.favorite
+          ? "Add to Favorite successfully."
+          : "Remove from Favorite successfully."
+      );
     } catch (error) {
       console.error("Error updating favorite:", error);
     } finally {
@@ -78,6 +88,8 @@ const Table = ({ data, setLoading, type }) => {
     } else if (item.type === "audio") {
       const audioUrl = await getAudio(item.audio_id[0].toString());
       item.audioUrl = audioUrl;
+      const resAudio = await createAiVoice(item.answer);
+      item.resultAudio = resAudio;
       setSelectedItem(item);
     }
   };
@@ -108,15 +120,16 @@ const Table = ({ data, setLoading, type }) => {
         {filledData.map((item, index) => (
           <div
             key={index}
-            className={`grid grid-cols-5 p-4 border-t border-pink ${item.answer
-              ? "bg-black hover:bg-orange hover:cursor-pointer hover:text-black"
-              : "bg-transparent"
-              }`}
+            className={`grid grid-cols-5 p-4 border-t border-pink ${
+              item.answer
+                ? "bg-black hover:bg-orange hover:cursor-pointer hover:text-black"
+                : "bg-transparent"
+            }`}
             onClick={
               item.answer
                 ? () => {
-                  handleAddUrl(item).then(() => handleOpenModal());
-                }
+                    handleAddUrl(item).then(() => handleOpenModal());
+                  }
                 : null
             }
           >
@@ -147,10 +160,11 @@ const Table = ({ data, setLoading, type }) => {
           <button
             key={index}
             onClick={() => handlePageChange(index + 1)}
-            className={`px-3 py-1 mx-1 rounded ${currentPage === index + 1
-              ? "bg-pink text-white p-3"
-              : "bg-[#D9D9D9] text-black"
-              }`}
+            className={`px-3 py-1 mx-1 rounded ${
+              currentPage === index + 1
+                ? "bg-pink text-white p-3"
+                : "bg-[#D9D9D9] text-black"
+            }`}
           >
             {index + 1}
           </button>

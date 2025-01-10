@@ -24,7 +24,7 @@ const Exercise = ({ currQuestion, exercises }) => {
   const [recognizedText, setRecognizedText] = useState("");
   const [correctText, setCorrectText] = useState(null);
   const [resultAudio, setResultAudio] = useState(null);
-  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState([]);
   const formData = new FormData();
   const [loading, setLoading] = useState(false);
 
@@ -36,7 +36,7 @@ const Exercise = ({ currQuestion, exercises }) => {
     setRecognizedText("");
     setCorrectText(null);
     setLoading(false);
-    setComments([]);
+    setComment([]);
   }, [currQuestion]);
 
   const handleFileChange = (file) => {
@@ -102,7 +102,7 @@ const Exercise = ({ currQuestion, exercises }) => {
 
           if (correct) {
             console.log("Correct answer:", correct.feedback);
-            setComments(extractText(correct, "feedback"));
+            setComment(extractText(correct, "feedback"));
             setCorrectText(questionObj?.ref_answer);
           }
         }
@@ -122,7 +122,7 @@ const Exercise = ({ currQuestion, exercises }) => {
 
           if (correct) {
             console.log("Correct answer:", correct.feedback);
-            setComments(extractText(correct, "feedback"));
+            setComment(extractText(correct, "feedback"));
             setCorrectText(questionObj?.ref_answer);
           }
 
@@ -162,7 +162,7 @@ const Exercise = ({ currQuestion, exercises }) => {
               handleFileChange,
               imageUrl,
               audioUrl,
-              comments,
+              comment,
               resultAudio,
             }}
           />
