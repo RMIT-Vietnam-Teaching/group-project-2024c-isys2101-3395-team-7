@@ -16,7 +16,7 @@ const layout = ({ children }) => {
                             <div className="relative md:w-16 h-full">
                                 <NavBar />
                             </div>
-                            <div className='flex-1 w-full md:overflow-hidden'>
+                            <div className='flex-1 w-full md:overflow-y-auto'>
                                 {children}
                             </div>
                         </div>
