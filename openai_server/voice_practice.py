@@ -1,12 +1,13 @@
 import os
 import base64
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_file, after_this_request, make_response
 from openai import OpenAI
 from dotenv import load_dotenv
 from PIL import Image
 from pillow_heif import register_heif_opener
 from flask_cors import CORS
-
+from pathlib import Path
+import io
 # Import the token_required decorator
 from Auth.auth import token_required
 
@@ -18,70 +19,43 @@ allowed_access_origins = ['http://localhost:3000', frontend_url]
 app = Flask(__name__)
 CORS(app)
 
-
 # Load the API key from an environment variable
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key) 
-MODEL = "gpt-4o"
 
-def encode_image(image_path):
-    """Encode an image file to a Base64 string."""
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode("utf-8")
-    
-def is_valid(file_path):
-    _, ext = os.path.splitext(file_path)
-    return ext.lower() not in ['.png', '.jpeg', '.gif', '.webp']
-
-@app.route('/recognize-handwriting', methods=['POST'])
-
+@app.route('/transcribe-audio', methods=['POST'])
 @token_required
-def recognize_handwriting():
+def transcribe_audio():
     try:
-        if 'image' not in request.files:
-            return jsonify({"error": "No image file provided."}), 400
+        # Check if an audio file is provided
+        if 'audio' not in request.files:
+            return jsonify({"error": "No audio file provided."}), 400
 
-        # Save the uploaded image temporarily
-        image = request.files['image']
-        temp_image_path = f"temp_{image.filename}"
-        image.save(temp_image_path)
-        
-        if is_valid(temp_image_path):
-            image = Image.open(temp_image_path)
-            image.convert("RGB").save(temp_image_path, "jpeg")
+        # Get the uploaded audio file
+        audio_file = request.files['audio']
 
-        # Encode the image to Base64
-        base64_image = encode_image(temp_image_path)
+        # Convert the file to a file-like object
+        audio_file_content = audio_file.read()
+        file_like_audio = io.BytesIO(audio_file_content)
+        file_like_audio.name = audio_file.filename  # Add a name attribute for context
 
-        # Send the Base64 image to OpenAI API
-        response = client.chat.completions.create(
-            model=MODEL,
-            messages=[
-                {"role": "system", "content": "You are an expert in recognizing Vietnamese handwritten text."},
-                {"role": "user", "content": [
-                    {"type": "text", "text": "The image below contains Vietnamese handwritten text. Please read it, provide only the recognized text as output, keep the raw text as written and do not correct its spelling or grammar : \n\nBase64-encoded image:\n{base64_image}"},
-                    {"type": "image_url", "image_url": {
-                        "url": f"data:image/png;base64,{base64_image}"}
-                    }
-                ]}
-            ],
-            temperature=0.0,
+        # Call the OpenAI API to transcribe the audio
+        transcription = client.audio.transcriptions.create(
+            model="whisper-1",
+            file=file_like_audio
         )
 
-        # Clean up temporary file
-        os.remove(temp_image_path)
+       # Convert the transcription object to a dictionary (or extract relevant fields)
+        transcription_dict = transcription.to_dict() if hasattr(transcription, 'to_dict') else transcription
 
-        # Extract recognized text and usage information
-        recognized_text = response.choices[0].message.content.strip()
-        usage = response.usage.to_dict()
-
-        return jsonify({"recognized_text": recognized_text, "usage": usage})
+        # Return the transcription result as JSON
+        return jsonify(transcription_dict)
 
     except Exception as e:
+        # Handle exceptions and return error response
         return jsonify({"error": str(e)}), 500
-    
-@app.route('/correct', methods=['POST'])
 
+@app.route('/correct-audio', methods=['POST'])
 @token_required
 def correct_text():
     try:
@@ -94,15 +68,15 @@ def correct_text():
 
         # Adjust prompt to identify grammar or pronunciation mistakes and correct them
         response = client.chat.completions.create(
-            model=MODEL,  # Replace with your specific model if needed
+            model="gpt-4o",
             messages=[
                 {"role": "system", "content": "You are an expert in Vietnamese spelling, grammar, and pronunciation analysis."},
                 {
                     "role": "user",
                     "content": f"""
-                    Đoạn văn sau được lấy từ hình ảnh: '{input_text}'.
+                    Đoạn văn sau được lấy từ giọng nói: '{input_text}'.
                     Hãy phân tích và:
-                    1. Chỉ ra lỗi ngữ pháp hoặc chính tả trong đoạn văn, bao gồm mô tả ngắn gọn tại sao nó sai.
+                    1. Chỉ ra lỗi ngữ pháp hoặc phát âm trong đoạn văn, bao gồm mô tả ngắn gọn tại sao nó sai.
                     2. Đưa ra đoạn văn đã được sửa chính xác hoàn toàn.
                     
                     Phản hồi phần chỉ ra lỗi bằng tiếng Anh
@@ -124,6 +98,7 @@ def correct_text():
             temperature=0.0,
         )
 
+        # Parse AI response
         ai_response = response.choices[0].message.content.strip()
         usage = response.usage.to_dict()
 
@@ -133,7 +108,7 @@ def correct_text():
     except Exception as e:
         # Handle exceptions
         return jsonify({"error": str(e)}), 500
-    
+
 @app.route('/compare-answer', methods=['POST'])
 @token_required
 def compare_answer():
@@ -158,7 +133,7 @@ def compare_answer():
                     
                     Phân tích:
                     1. Mức độ chính xác và tương đồng giữa câu trả lời của người dùng với câu tham chiếu.
-                    2. Chỉ ra lỗi sai trong câu trả lời của người dùng (nếu có), bao gồm giải thích ngắn gọn tại sao sai.
+                    2. Chỉ ra lỗi sai trong câu trả lời của người dùng (nếu có),  bao gồm giải thích ngắn gọn tại sao sai, tập trung vào các lỗi liên quan đến phát âm.
                     3. Gợi ý cải thiện.
 
                     Phản hồi phần chỉ ra lỗi bằng tiếng Anh
@@ -179,6 +154,7 @@ def compare_answer():
             ],
             temperature=0.0,
         )
+
         # Extract AI response
         feedback = response.choices[0].message.content.strip()
         usage = response.usage.to_dict()
@@ -194,6 +170,7 @@ def compare_answer():
 def after_request(response):
     # Allow access from a specific origin and include credentials
     origin = request.headers.get('Origin')
+    print(origin)
     if origin in allowed_access_origins:
         response.headers.add('Access-Control-Allow-Origin', origin)  
         response.headers.add('Access-Control-Allow-Credentials', 'true')  # Enable credentials support
@@ -202,6 +179,48 @@ def after_request(response):
     
     return response
 
+@app.route('/generate-speech', methods=['POST'])
+@token_required
+def generate_speech():
+    try:
+        # Check if the input text is provided in the request
+        input_text = request.json.get('text', None)
+        if not input_text:
+            return jsonify({"error": "No input text provided."}), 400
+
+        # Optional: Check if a specific voice is provided
+        voice = request.json.get('voice', 'alloy')  # Default to 'alloy'
+
+        # Generate the speech using the OpenAI API
+        speech_file_path = Path(__file__).parent / "speech.mp3"
+        with client.audio.speech.with_streaming_response.create(
+            model="tts-1",
+            voice=voice,
+            input=input_text,
+        ) as response:
+            response.stream_to_file(speech_file_path)
+        
+        # # Prepare the speech file for return
+        # Schedule file deletion after the response is sent
+        # @after_this_request
+        # def cleanup_file(response):
+        #     try:
+        #         if os.path.exists(speech_file_path):
+        #             os.remove(speech_file_path)
+        #     except Exception as e:
+        #         print(f"Error deleting file: {e}")
+        #     return response
+
+        return send_file(
+            speech_file_path,
+            mimetype="audio/mpeg",
+            as_attachment=False,
+            download_name="generated_speech.mp3",
+        )
+
+    except Exception as e:
+        # Handle exceptions and return an error response
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     port = int(os.getenv("PORT", 5000))  # Use the PORT environment variable if available

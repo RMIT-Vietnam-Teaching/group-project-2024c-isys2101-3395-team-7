@@ -1,0 +1,7 @@
+flask
+openai==1.55.3
+python-dotenv
+Pillow
+pillow_heif
+flask_cors
+pyjwt
