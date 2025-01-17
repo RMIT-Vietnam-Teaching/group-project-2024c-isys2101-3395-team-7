@@ -6,6 +6,7 @@ from dotenv import load_dotenv
 from PIL import Image
 from pillow_heif import register_heif_opener
 from flask_cors import CORS
+
 # Import the token_required decorator
 from Auth.auth import token_required
 
@@ -16,6 +17,7 @@ allowed_access_origins = ['http://localhost:3000', frontend_url]
 
 app = Flask(__name__)
 CORS(app)
+
 
 # Load the API key from an environment variable
 api_key = os.getenv("OPENAI_API_KEY")
@@ -32,6 +34,7 @@ def is_valid(file_path):
     return ext.lower() not in ['.png', '.jpeg', '.gif', '.webp']
 
 @app.route('/recognize-handwriting', methods=['POST'])
+
 @token_required
 def recognize_handwriting():
     try:
@@ -78,6 +81,7 @@ def recognize_handwriting():
         return jsonify({"error": str(e)}), 500
     
 @app.route('/correct', methods=['POST'])
+
 @token_required
 def correct_text():
     try:
@@ -175,7 +179,6 @@ def compare_answer():
             ],
             temperature=0.0,
         )
-
         # Extract AI response
         feedback = response.choices[0].message.content.strip()
         usage = response.usage.to_dict()
