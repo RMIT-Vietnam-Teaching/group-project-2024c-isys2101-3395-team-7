@@ -4,9 +4,11 @@ import BasePaginationList from "@/components/pagination/BasePaginationList";
 import NoData from "@/components/pagination/NoData";
 import { debounce } from "next/dist/server/utils";
 import { pushError, pushSuccess } from "@/components/Toast";
-import { addFavorite } from "@/api";
+import { addFavorite, deleteRecord } from "@/api";
 import Table from "./Table";
 import { useHeader } from "@/context/HeaderContext";
+import { router } from "next/client";
+import CircularProgress from "@/components/CircularProgress";
 
 const activitySearchTypes = [
   {
@@ -17,7 +19,7 @@ const activitySearchTypes = [
   {
     id: 2,
     name: "Voice",
-    value: "voice",
+    value: "audio",
   },
   {
     id: 3,
@@ -33,19 +35,38 @@ export default function AccountActivity({ records, tab }) {
     setActiveTab(tab);
   }, [tab]);
 
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [isSaved, setSave] = useState(false);
   const [currentRecord, setCurrentRecord] = useState(null);
 
   const searchRef = useRef(null);
   const searchTypeRef = useRef(null);
-  const [selectedFilter, setSelectedFilter] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("all");
+  const { historyData } = useHeader();
+  const favoriteData = historyData.filter((item) => item.favorite);
+
   const handleChange = (event) => {
     const filter = event.target.value;
     setSelectedFilter(filter);
   };
+
+  const filterData = (data, filter) => {
+    if (filter === "" || filter === "all") {
+      return data; // Show all data if no filter is selected
+    } else {
+      return data.filter((item) => item.type === filter); // Filter by type
+    }
+  };
+
+  // Filter history data based on selected filter
+  const filteredData = filterData(historyData, selectedFilter);
+  // Filter favorite data
+  const filteredFavoriteData = filterData(favoriteData, selectedFilter);
+
   const handleResetFilter = () => {
     setFilter({ searchValue: "", searchType: activitySearchTypes[0], page: 1 });
+    setSelectedFilter(""); // Reset the selected filter in the dropdown
     if (searchRef.current) {
       searchRef.current.value = "";
     }
@@ -61,10 +82,18 @@ export default function AccountActivity({ records, tab }) {
   );
 
   const handleDeleteConfirm = async (activityId) => {
-    console.log("handleDeleteConfirm", activityId);
+    setLoading(true);
+    try {
+      await deleteRecord(activityId);
+    } catch (error) {
+      console.error("Error deleting record:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleAddFavorite = async (imageId) => {
+    setLoading(true)
     const formData = new FormData();
     !isSaved
       ? formData.append("favorite", "true")
@@ -76,6 +105,7 @@ export default function AccountActivity({ records, tab }) {
       console.error("Error adding favorite:", error);
     } finally {
       setSave(!isSaved);
+      setLoading(false)
     }
   };
 
@@ -85,28 +115,28 @@ export default function AccountActivity({ records, tab }) {
     searchValue: "",
   });
 
-  const { historyData } = useHeader();
+  useEffect(() => {
+    setSelectedFilter("all"); // Reset filter to All on tab change
+  }, [activeTab]);
 
-  const favoriteData = historyData.filter((item) => item.favorite);
 
   return (
     <>
       <div className="bg-[#ffe3e3] min-h-screen p-6">
+        {isLoading && <CircularProgress size="lg" />} {/* Show spinner when loading */}
         <div className={"flex flex-row justify-between"}>
           {/* Tabs */}
           <div className="flex">
             <button
-              className={`px-4 py-2 rounded-t-lg text-white ${
-                activeTab === "history" ? "bg-pink" : "bg-black"
-              }`}
+              className={`px-4 py-2 rounded-t-lg text-white ${activeTab === "history" ? "bg-pink" : "bg-black"
+                }`}
               onClick={() => setActiveTab("history")}
             >
               History
             </button>
             <button
-              className={`px-4 py-2 rounded-t-lg text-white ${
-                activeTab === "favorite" ? "bg-pink " : "bg-black"
-              }`}
+              className={`px-4 py-2 rounded-t-lg text-white ${activeTab === "favorite" ? "bg-pink " : "bg-black"
+                }`}
               onClick={() => setActiveTab("favorite")}
             >
               Favorite
@@ -127,9 +157,9 @@ export default function AccountActivity({ records, tab }) {
                 border: "1px solid #ccc",
               }}
             >
-              <option value="">Select</option>
+              <option value="all">Select</option>
               <option value="handwriting">Handwriting</option>
-              <option value="voice">Voice</option>
+              <option value="audio">Voice</option>
             </select>
           </div>
         </div>
@@ -138,13 +168,26 @@ export default function AccountActivity({ records, tab }) {
         {activeTab === "history" && (
           <>
             <h2 className="mt-4 text-lg font-semibold">History</h2>
-            <Table data={historyData} />
+            {filteredData.length > 0 ? (
+              <Table data={filteredData}
+                type="history"
+              />
+            ) : (
+              <NoData message="No matching data found." />
+            )}
           </>
         )}
         {activeTab === "favorite" && (
           <>
             <h2 className="mt-4 text-lg font-semibold">Favorite</h2>
-            <Table data={favoriteData} />
+            {filteredFavoriteData.length > 0 ? (
+              <Table data={filteredFavoriteData}
+                setLoading={setIsLoading}
+                type="favorite"
+              />
+            ) : (
+              <NoData message="No matching data found." />
+            )}
           </>
         )}
       </div>

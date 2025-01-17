@@ -26,7 +26,9 @@ const FeatureFrame = ({ type, props, isExercise = false }) => {
           />
         )}
       </div>
-      {!isExercise && <div className="absolute border-l border-gray-300 py-8 h-3/4 md:block hidden" />}
+      {!isExercise && (
+        <div className="absolute border-l border-gray-300 py-8 h-3/4 md:block hidden" />
+      )}
 
       <div className="flex flex-col items-center relative h-full w-full px-8 min-h-60 overflow-y-auto">
         {type === "handwriting" ? (
@@ -34,7 +36,7 @@ const FeatureFrame = ({ type, props, isExercise = false }) => {
             state={props?.currState || "process"}
             handleState={props?.setCurrState}
             handleForm={props?.handleSubmit}
-            comments={props?.comments || []}
+            comments={props?.comment || []}
             rawText={props?.recognizedText || ""}
             correctText={props?.correctText || props?.answer || ""}
             isExercise={isExercise}
@@ -44,7 +46,7 @@ const FeatureFrame = ({ type, props, isExercise = false }) => {
             state={props?.currState || "process"}
             handleState={props?.setCurrState}
             handleForm={props?.handleSubmit}
-            comments={props?.comments || []}
+            comments={props?.comment || []}
             rawText={props?.recognizedText || ""}
             correctedText={props?.correctText || props?.answer || ""}
             resultAudio={props?.resultAudio} // replace with resultAudio after handle api response

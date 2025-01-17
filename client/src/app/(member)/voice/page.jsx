@@ -43,12 +43,13 @@ const Voice = () => {
   const handleSubmit = async (newFileUpload) => {
     try {
       setAudioUrl(URL.createObjectURL(newFileUpload));
-      var res = await handleVoiceRecognize(newFileUpload);
+      var [res, resAudio] = await handleVoiceRecognize(newFileUpload);
       var text = extractText(res, "corrected_text");
       var cmt = extractText(res, "errors");
       if (text !== null) {
         var audioId = await handleUploadFile(newFileUpload);
-        await handleRecordHistory(audioId, "audio", text, cmt);
+        var audio_answer = await handleUploadFile(resAudio);
+        await handleRecordHistory(audioId, audio_answer, "audio", text, cmt);
         await updateHeaderData(); // fetch data again on header
       } else console.log("correctText is null");
     } catch (error) {
@@ -56,7 +57,13 @@ const Voice = () => {
     }
   };
 
-  const handleRecordHistory = async (audio, type, answer, comment) => {
+  const handleRecordHistory = async (
+    audio,
+    audio_answer,
+    type,
+    answer,
+    comment
+  ) => {
     console.log("handleRecordHistory");
     const formData = new FormData();
     // Change this to current username when authentication is implemented
@@ -65,6 +72,7 @@ const Voice = () => {
     formData.append("type", type);
     formData.append("favorite", "false");
     formData.append("audioId", audio);
+    formData.append("audioAnsId", audio_answer);
     formData.append("answer", answer);
     formData.append("comment", JSON.stringify(comment));
 
@@ -112,9 +120,9 @@ const Voice = () => {
           // send correct text for ai voice reading
           const resAudio = await createAiVoice(correctedText);
           if (resAudio) {
-            setResultAudio(resAudio);
+            setResultAudio(URL.createObjectURL(resAudio));
             setCurrState("process");
-            return resCorrect;
+            return [resCorrect, resAudio];
           }
         }
       }
@@ -167,7 +175,7 @@ const Voice = () => {
           />
         </div>
 
-        <div className="h-full border border-black bg-gray-100 py-4 md:mx-20 mx-8 rounded-lg grid md:grid-cols-2 relative place-items-center">
+        <div className="overflow-y-auto h-full border border-black bg-gray-100 py-4 md:mx-20 mx-8 rounded-lg grid md:grid-cols-2 relative place-items-center">
           {loading ? (
             <Loading />
           ) : (

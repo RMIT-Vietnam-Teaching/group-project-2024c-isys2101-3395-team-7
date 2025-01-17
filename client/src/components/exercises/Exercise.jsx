@@ -13,6 +13,7 @@ import {
   uploadImage,
   uploadAudio,
   compareHandwritingAnswer,
+  compareVoiceAnswer,
 } from "@/api";
 
 const Exercise = ({ currQuestion, exercises }) => {
@@ -23,7 +24,7 @@ const Exercise = ({ currQuestion, exercises }) => {
   const [recognizedText, setRecognizedText] = useState("");
   const [correctText, setCorrectText] = useState(null);
   const [resultAudio, setResultAudio] = useState(null);
-  const [comments, setComments] = useState([]);
+  const [comment, setComment] = useState([]);
   const formData = new FormData();
   const [loading, setLoading] = useState(false);
 
@@ -35,7 +36,7 @@ const Exercise = ({ currQuestion, exercises }) => {
     setRecognizedText("");
     setCorrectText(null);
     setLoading(false);
-    setComments([]);
+    setComment([]);
   }, [currQuestion]);
 
   const handleFileChange = (file) => {
@@ -101,7 +102,7 @@ const Exercise = ({ currQuestion, exercises }) => {
 
           if (correct) {
             console.log("Correct answer:", correct.feedback);
-            setComments(extractText(correct, "feedback"));
+            setComment(extractText(correct, "feedback"));
             setCorrectText(questionObj?.ref_answer);
           }
         }
@@ -114,20 +115,20 @@ const Exercise = ({ currQuestion, exercises }) => {
         recognizedTextData = await recognizeVoice(formData);
         if (recognizedTextData) {
           setRecognizedText(recognizedTextData.text);
-          const correct = await compareHandwritingAnswer(
+          const correct = await compareVoiceAnswer(
             recognizedTextData,
             questionObj?.ref_answer
           );
 
           if (correct) {
             console.log("Correct answer:", correct.feedback);
-            setComments(extractText(correct, "feedback"));
+            setComment(extractText(correct, "feedback"));
             setCorrectText(questionObj?.ref_answer);
           }
 
           const resAudio = await createAiVoice(questionObj?.ref_answer);
           if (resAudio) {
-            setResultAudio(resAudio);
+            setResultAudio(URL.createObjectURL(resAudio));
           }
         }
         await uploadAudio(file);
@@ -161,7 +162,7 @@ const Exercise = ({ currQuestion, exercises }) => {
               handleFileChange,
               imageUrl,
               audioUrl,
-              comments,
+              comment,
               resultAudio,
             }}
           />

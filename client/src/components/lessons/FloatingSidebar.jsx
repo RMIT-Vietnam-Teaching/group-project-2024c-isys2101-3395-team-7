@@ -36,9 +36,9 @@ const FloatingSidebar = () => {
 
     return (
         <>
-            <div className={`flex flex-col relative h-screen w-16 bg-black content-center md:block border-t-2 border-white`}>
+            <div className={`flex flex-col justify-center items-center relative h-screen w-16 bg-black content-center md:block border-t-2 border-white`}>
 
-                <div className="grid grid-cols-1">
+                <div className="grid grid-cols-1 place-items-center">
                     {/* Move to Top */}
                     <div className={"z-10"}>
                         <Tooltip text={"Go To Top"} position="left">

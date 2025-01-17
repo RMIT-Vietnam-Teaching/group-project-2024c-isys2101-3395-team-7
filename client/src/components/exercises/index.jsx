@@ -7,12 +7,14 @@ import MiniMenu from "@/components/exercises/MiniMenu";
 import Exercise from "@/components/exercises/Exercise";
 import CircularProgress from "@/components/CircularProgress";
 import {
-  fetchCurrentExercises,
   fetchRecords,
   getKeywords,
   getExercises,
   fetchAllExercises,
+  addCurrentExercises,
+  getCurrentExercises,
 } from "@/api";
+import { TOTAL_EXERCISES } from "@/constants";
 
 import { sampleQuestions } from "@/constants"; // sample for data fetched from api
 
@@ -48,8 +50,21 @@ export default function Exercises() {
     );
 
     console.log("Filtered Exercises:", filteredExercises);
+    addCurrentExercises(
+      JSON.parse(localStorage.getItem("member")),
+      filteredExercises
+    );
     return filteredExercises;
   };
+
+  const fetchCurrentExercises = async () => {
+    const currentExercises = await getCurrentExercises(
+      JSON.parse(localStorage.getItem("member"))
+    );
+    setTotalExercises(currentExercises.length);
+    return currentExercises;
+  };
+
   const handleFetchExercises = async (type) => {
     setIsLoading(true); // set isLoading to true before fetching data
 
@@ -58,6 +73,7 @@ export default function Exercises() {
       loadedExercises = await generateNewExercises();
     } else if (type === "current") {
       loadedExercises = await fetchCurrentExercises();
+      setTotalExercises(localStorage.getItem(TOTAL_EXERCISES) || loadedExercises.length);
     }
     setExercises(loadedExercises);
 
